@@ -1,0 +1,302 @@
+{
+  "corridor": "Кокшетау-1 ↔ Астана Нурлы Жол через Астана-1",
+  "geometry_length_km": 311.821,
+  "station_count": 13,
+  "section_count": 12,
+  "operational_exactness": false,
+  "traffic_source": "synthetic",
+  "gaps": [
+    {
+      "object": "KOKSHETAU_1",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "RAZYEZD_17",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "ZHAMANTUZ",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "BURABAY",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "ZHASYL",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "MAKINKA",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "ELTAY",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "AKKOL",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "SHORTANDY",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "TONKERIS",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "RAZYEZD_39",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "ASTANA_1",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "NURLY_ZHOL",
+      "field": "usable_station_tracks",
+      "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+    },
+    {
+      "object": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_ZHAMANTUZ__BURABAY",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_BURABAY__ZHASYL",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_ZHASYL__MAKINKA",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_MAKINKA__ELTAY",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_ELTAY__AKKOL",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_AKKOL__SHORTANDY",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_SHORTANDY__TONKERIS",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_TONKERIS__RAZYEZD_39",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_RAZYEZD_39__ASTANA_1",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    },
+    {
+      "object": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "field": "operating_track_configuration",
+      "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+    }
+  ],
+  "stations": [
+    {
+      "id": "KOKSHETAU_1",
+      "name": "Кокшетау-1",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "RAZYEZD_17",
+      "name": "Разъезд № 17",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "ZHAMANTUZ",
+      "name": "Джемантуз",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "BURABAY",
+      "name": "Курорт Бурабай (Курорт Боровое)",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "ZHASYL",
+      "name": "Жасыл",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "MAKINKA",
+      "name": "Макинка",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "ELTAY",
+      "name": "Ельтай",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "AKKOL",
+      "name": "Акколь",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "SHORTANDY",
+      "name": "Шортанды",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "TONKERIS",
+      "name": "Тонкерис",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "RAZYEZD_39",
+      "name": "Разъезд № 39 (Өндіріс)",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "ASTANA_1",
+      "name": "Астана-1",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    },
+    {
+      "id": "NURLY_ZHOL",
+      "name": "Астана Нурлы Жол",
+      "simulation_tracks": 2,
+      "operating_track_count": null,
+      "capacity_status": "assumed_for_simulation"
+    }
+  ],
+  "sections": [
+    {
+      "id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_ZHAMANTUZ__BURABAY",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_BURABAY__ZHASYL",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_ZHASYL__MAKINKA",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_MAKINKA__ELTAY",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_ELTAY__AKKOL",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_AKKOL__SHORTANDY",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_SHORTANDY__TONKERIS",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_TONKERIS__RAZYEZD_39",
+      "mapped_main_tracks": 2,
+      "simulation_tracks": 2,
+      "status": "observed_in_osm_samples"
+    },
+    {
+      "id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "mapped_main_tracks": null,
+      "simulation_tracks": 2,
+      "status": "assumed"
+    },
+    {
+      "id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "mapped_main_tracks": 4,
+      "simulation_tracks": 2,
+      "status": "assumed"
+    }
+  ]
+}

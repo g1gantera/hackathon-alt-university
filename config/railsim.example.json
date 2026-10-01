@@ -1,0 +1,196 @@
+{
+  "calibration_status": "illustrative",
+  "note": "Все вероятности, коэффициенты сопротивления, длительности, режимы блокировки и цены — учебные допущения; config.py источника не заполнен. Износ и аварийность КТЖ не измерены. Нулевые затраты на происшествия означают, что их денежный ущерб не оценён. Произвольная процентная экономия энергии и рекуперация отключены.",
+  "parameters": {
+    "SIM_DAYS": 1,
+    "DRAIN_HOURS": 24,
+    "N_RUNS": 3,
+    "RANDOM_SEED": 42,
+    "PLOT_HOURS": 24,
+    "BLOCK_SECTION_KM": 5.0,
+    "PASSENGER_DWELL_H": 0.016666666666666666,
+    "LOCO_WEAR": 0.5,
+    "LOCO_FAILURE_BASE_PER_1000KM": 0.1,
+    "LOCO_WEAR_SENSITIVITY": 1.5,
+    "LOCO_RESCUE_H": 1.0,
+    "PREDICTIVE_MAINT_REDUCTION": {
+      "baseline": 0.0,
+      "auto": 0.25
+    },
+    "DEFECTIVE_WAGON_SHARE": 0.02,
+    "WAGON_DEFECT_RATE_PER_1000KM": 0.1,
+    "WAGON_DETECTION_PROB": {
+      "baseline": 0.4,
+      "auto": 0.85
+    },
+    "WAGON_SETOUT_H": 0.5,
+    "HAZARDS": {
+      "rail_defect": {
+        "rate_per_100km_day": 0.2,
+        "mean_duration_h": 1.0,
+        "undetected_discovery_h": 2.0,
+        "pass_incident_prob": 0.02,
+        "closure": true,
+        "speed_factor": 1.0
+      },
+      "theft": {
+        "rate_per_100km_day": 0.15,
+        "mean_duration_h": 0.75,
+        "undetected_discovery_h": 2.0,
+        "pass_incident_prob": 0.02,
+        "closure": true,
+        "speed_factor": 1.0
+      },
+      "flood": {
+        "rate_per_100km_day": 0.15,
+        "mean_duration_h": 2.0,
+        "undetected_discovery_h": 1.0,
+        "pass_incident_prob": 0.02,
+        "closure": true,
+        "speed_factor": 1.0
+      },
+      "snow": {
+        "rate_per_100km_day": 0.3,
+        "mean_duration_h": 2.0,
+        "undetected_discovery_h": 0.5,
+        "pass_incident_prob": 0.001,
+        "closure": false,
+        "speed_factor": 0.6
+      },
+      "sand": {
+        "rate_per_100km_day": 0.1,
+        "mean_duration_h": 1.0,
+        "undetected_discovery_h": 0.5,
+        "pass_incident_prob": 0.001,
+        "closure": false,
+        "speed_factor": 0.7
+      },
+      "heat": {
+        "rate_per_100km_day": 0.25,
+        "mean_duration_h": 2.0,
+        "undetected_discovery_h": 0.5,
+        "pass_incident_prob": 0.005,
+        "closure": false,
+        "speed_factor": 0.65
+      }
+    },
+    "DETECTION_PROB": {
+      "baseline": {
+        "rail_defect": 0.25,
+        "theft": 0.25,
+        "flood": 0.25,
+        "snow": 0.25,
+        "sand": 0.25,
+        "heat": 0.25
+      },
+      "auto": {
+        "rail_defect": 0.85,
+        "theft": 0.85,
+        "flood": 0.85,
+        "snow": 0.85,
+        "sand": 0.85,
+        "heat": 0.85
+      }
+    },
+    "DERAIL_CLOSURE_H": 4.0,
+    "CROSSING_ACCIDENT_RATE_PER_YEAR": {
+      "guarded": 0.001,
+      "unguarded": 0.01
+    },
+    "CROSSING_CLOSURE_H": 1.0,
+    "PEOPLE_INCIDENT_RATE_PER_100KM_YEAR": 0.01,
+    "PEOPLE_CLOSURE_H": 0.5,
+    "CROSSING_REDUCTION": {
+      "baseline": 0.0,
+      "auto": 0.25
+    },
+    "PEOPLE_REDUCTION": {
+      "baseline": 0.0,
+      "auto": 0.25
+    },
+    "MAINT_INTERVAL_DAYS": 3,
+    "MAINT_DURATION_H": 0.5,
+    "MAINT_BASELINE_START_HOUR": 3,
+    "USE_BORDER": false,
+    "USE_PORT": false,
+    "USE_WAGON_MODULE": false,
+    "USE_CIS_EXCHANGE": false,
+    "RESISTANCE_A": 1.5,
+    "RESISTANCE_B": 0.01,
+    "RESISTANCE_C": 0.00035,
+    "ELECTRIC_EFFICIENCY": 0.88,
+    "DIESEL_EFFICIENCY": 0.35,
+    "DIESEL_KWH_PER_L": 9.8,
+    "ELECTRICITY_PRICE_KZT_KWH": 50.0,
+    "DIESEL_PRICE_KZT_L": 300.0,
+    "REGEN_USE_SHARE": {
+      "baseline": 0.0,
+      "auto": 0.0
+    },
+    "ECO_DRIVING_SAVING": {
+      "baseline": 0.0,
+      "auto": 0.0
+    },
+    "AUTO_FEATURES": {
+      "smart_dispatch": true,
+      "speed_advisory": true,
+      "hazard_monitoring": false,
+      "predictive_maintenance": false,
+      "wagon_detectors": false,
+      "crossing_safety": false,
+      "maintenance_windows": true,
+      "border_preannounce": false,
+      "port_slots": false,
+      "energy_optimization": false
+    },
+    "AUTO_WEIGHTS": {
+      "priority": 10.0,
+      "delay": 5.0,
+      "mass": 1.0,
+      "wait": 8.0
+    },
+    "AUTO_MAX_PLATOON": 3,
+    "ADVISORY_MAX_SLOWDOWN_SHARE": 0.15,
+    "COSTS_KZT": {
+      "derailment": 0.0,
+      "crossing_accident": 0.0,
+      "people_incident": 0.0,
+      "loco_failure": 0.0,
+      "wagon_setout": 0.0
+    },
+    "REGULATED_REVENUE_KZT_YEAR": 0.0,
+    "AUTO_SYSTEM_CAPEX_KZT": 0.0,
+    "AUTO_SYSTEM_OPEX_KZT_YEAR": 0.0
+  },
+  "segment_defaults": {
+    "grade_permille": 0.0,
+    "electrified": true,
+    "blocking": "semi_auto",
+    "wear": 0.5,
+    "flood_risk": 0.2,
+    "snow_risk": 1.0,
+    "sand_risk": 0.05,
+    "heat_risk": 0.3,
+    "theft_risk": 0.1,
+    "crossings_guarded": 0,
+    "crossings_unguarded": 0
+  },
+  "section_overrides": {},
+  "passenger_stops": [
+    "KOKSHETAU_1",
+    "BURABAY",
+    "MAKINKA",
+    "AKKOL",
+    "SHORTANDY",
+    "ASTANA_1",
+    "NURLY_ZHOL"
+  ],
+  "delay_cost_kzt_h": {
+    "passenger": 30000.0,
+    "freight": 10000.0
+  },
+  "wagons": {
+    "passenger": 10,
+    "freight": 50
+  }
+}

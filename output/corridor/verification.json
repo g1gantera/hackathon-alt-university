@@ -1,0 +1,207 @@
+{
+  "verified_plans": 60,
+  "load_rows_recomputed": 3000,
+  "frozen_movements_checked": 114,
+  "source_files_unchanged": 16,
+  "cases": [
+    {
+      "scenario": "normal",
+      "candidates": 3,
+      "elapsed_ms": 4112.012452000272,
+      "budget_exceeded": false,
+      "violations_before": {},
+      "violations_after": 0
+    },
+    {
+      "scenario": "main_track_closure",
+      "candidates": 3,
+      "elapsed_ms": 4374.935033000384,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "signal_failure",
+      "candidates": 3,
+      "elapsed_ms": 4147.309147000215,
+      "budget_exceeded": false,
+      "violations_before": {
+        "SIGNAL": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "station_track_closure",
+      "candidates": 3,
+      "elapsed_ms": 4244.05518399999,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "train_delay",
+      "candidates": 3,
+      "elapsed_ms": 4418.362927000089,
+      "budget_exceeded": false,
+      "violations_before": {
+        "TRAIN_DELAY": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "speed_restriction",
+      "candidates": 3,
+      "elapsed_ms": 4270.890374999908,
+      "budget_exceeded": false,
+      "violations_before": {
+        "PHYSICS": 8
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "single_track_operation",
+      "candidates": 3,
+      "elapsed_ms": 4207.710872000007,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "ten_incidents",
+      "candidates": 3,
+      "elapsed_ms": 4306.553412000085,
+      "budget_exceeded": false,
+      "violations_before": {
+        "SIGNAL": 5,
+        "CLOSURE": 5
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_rail_defect",
+      "candidates": 3,
+      "elapsed_ms": 4131.880788000217,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 2
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_theft",
+      "candidates": 3,
+      "elapsed_ms": 4220.265246000054,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 2
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_flood",
+      "candidates": 3,
+      "elapsed_ms": 4191.172176999771,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 4
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_snow",
+      "candidates": 3,
+      "elapsed_ms": 4142.515762999665,
+      "budget_exceeded": false,
+      "violations_before": {
+        "PHYSICS": 4
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_sand",
+      "candidates": 3,
+      "elapsed_ms": 4229.3669939999745,
+      "budget_exceeded": false,
+      "violations_before": {
+        "PHYSICS": 2
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_heat",
+      "candidates": 3,
+      "elapsed_ms": 4368.64724499992,
+      "budget_exceeded": false,
+      "violations_before": {
+        "PHYSICS": 4
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_loco_failure",
+      "candidates": 3,
+      "elapsed_ms": 4154.602196999804,
+      "budget_exceeded": false,
+      "violations_before": {
+        "SECTION_HOLD": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_wagon_defect",
+      "candidates": 3,
+      "elapsed_ms": 4180.48226899964,
+      "budget_exceeded": false,
+      "violations_before": {
+        "TRAIN_DELAY": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_crossing",
+      "candidates": 3,
+      "elapsed_ms": 4236.723827999867,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 2
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_people",
+      "candidates": 3,
+      "elapsed_ms": 4385.750442000244,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_maintenance",
+      "candidates": 3,
+      "elapsed_ms": 4162.768721999782,
+      "budget_exceeded": false,
+      "violations_before": {
+        "CLOSURE": 1
+      },
+      "violations_after": 0
+    },
+    {
+      "scenario": "railsim_derailment",
+      "candidates": 3,
+      "elapsed_ms": 4342.953684999884,
+      "budget_exceeded": false,
+      "violations_before": {
+        "SECTION_HOLD": 1
+      },
+      "violations_after": 0
+    }
+  ]
+}

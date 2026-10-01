@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+output/*
+!output/.gitkeep
+.env
+
+.directory
+.env.*
+!.env.example
