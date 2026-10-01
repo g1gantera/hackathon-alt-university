@@ -231,7 +231,8 @@ def actual_metrics(state, fleet, config, violations):
     now = state["sim_time_s"]
     weighted = sum(t["delay_s"] * t["priority"] for t in fleet)
     mean_weighted = weighted / sum(t["priority"] for t in fleet)
-    energy = sum(t["energy_kwh"] for t in fleet)
+    cancelled_energy = state["scenario"].get("metadata", {}).get("cancelled_energy_kwh", 0.0)
+    energy = sum(t["energy_kwh"] for t in fleet) + cancelled_energy
     arrived = [t for t in fleet if t["status"] == "completed"]
     on_time = (
         (
@@ -267,6 +268,7 @@ def actual_metrics(state, fleet, config, violations):
         "weighted_delay_s": weighted,
         "passenger_delay_s": sum(t["delay_s"] for t in fleet if t["type"] == "passenger"),
         "energy_kwh": energy,
+        "cancelled_energy_kwh": cancelled_energy,
         "completed_trips": len(arrived),
         "scheduled_trips": sum(t["due_s"] <= now for t in fleet),
         "completed_by_window": completed,

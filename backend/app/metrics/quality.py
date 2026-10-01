@@ -184,6 +184,11 @@ def calculate_metrics(
                 reference += (
                     train.auxiliary_power_w * len(train.route) * train.min_dwell_s / 3_600_000
                 )
+    # Cancelling a queued train removes future demand, not energy already consumed.
+    if energy is not None:
+        consumed = scenario.metadata.get("cancelled_energy_kwh", 0.0)
+        energy += consumed
+        reference += consumed
     conflict_count = sum(v.code == "RESOURCE_CONFLICT" for v in violations)
     applicable = not violations and energy is not None
     components = {

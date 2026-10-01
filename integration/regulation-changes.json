@@ -1,7 +1,7 @@
 {
   ".env.example": "Secure login by default; separate ingestion service settings.",
   ".gitignore": "Ignore persisted local metric configuration.",
-  "backend/app/metrics/quality.py": "Validated selectable metric formula and shared category/contribution calculation.",
+  "backend/app/metrics/quality.py": "Validated selectable metric formula and shared category/contribution calculation. Fleet cancellation keeps consumed energy in forecast and reference totals.",
   "backend/app/planning/baseline.py": "Reserve synthetic station throat routes.",
   "backend/app/planning/solver.py": "Enforce switch route mutual exclusion and clearance intervals.",
   "backend/app/scenarios.py": "Explicit synthetic station throat assumptions for the corridor.",
@@ -13,5 +13,6 @@
   "docker-compose.yml": "Secure default and persistent runtime metric settings.",
   "README.md": "Update run instructions, architecture and implemented metric behavior.",
   "backend/tests/test_integration.py": "Select demo authorization explicitly in the pre-existing native integration test.",
-  "Dockerfile": "Keep shared per-track display modules available in the frontend build stage; preserve the repository directory layout."
+  "Dockerfile": "Keep shared per-track display modules available in the frontend build stage; preserve the repository directory layout.",
+  "backend/app/live_logic.py": "User-requested train removal retains energy already consumed by cancelled off-network trains in actual metrics."
 }

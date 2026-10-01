@@ -270,6 +270,21 @@ async def control(action:str,request:Request):
         sim.state['running']=True
     elif action=='pause':
         sim.state['running']=False
+    elif action=='step':
+        if sim.replanning or sim.state['awaiting_plan']:
+            raise HTTPException(409,'Сначала примените допустимый план.')
+        try:
+            body=await request.json()
+        except ValueError:
+            raise HTTPException(422,'Ожидается JSON с длительностью шага.')
+        seconds=body.get('seconds',30) if isinstance(body,dict) else None
+        if isinstance(seconds,bool) or not isinstance(seconds,(int,float)) or not 1<=seconds<=60:
+            raise HTTPException(422,'Шаг должен быть от 1 до 60 секунд.')
+        sim.state['running']=True
+        try:
+            sim.tick(seconds)
+        finally:
+            sim.state['running']=False
     elif action=='reset':
         if sim.replanning:
             raise HTTPException(409,'Wait until calculation completes before reset')
@@ -561,6 +576,8 @@ async def websocket(ws:WebSocket):
 from .logic_api import router as logic_router
 
 app.include_router(logic_router)
+from .fleet_edit import router as fleet_router
+app.include_router(fleet_router)
 
 if (ROOT/'frontend/dist').exists():
     app.mount('/',StaticFiles(directory=ROOT/'frontend/dist',html=True),name='frontend')
