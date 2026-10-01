@@ -1,0 +1,1694 @@
+{
+  "id": "eco-1638eeca13",
+  "scenario_id": "kokshetau-nurly-zhol",
+  "state_version": 2,
+  "strategy": "eco",
+  "solver_status": "FEASIBLE",
+  "stops": [
+    {
+      "train_id": "SYN-P01",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-1",
+      "arrival_s": 0,
+      "departure_s": 60
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-2",
+      "arrival_s": 998,
+      "departure_s": 1058
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-2",
+      "arrival_s": 2065,
+      "departure_s": 2125
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "BURABAY",
+      "track_id": "SIM-2",
+      "arrival_s": 3840,
+      "departure_s": 6184
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-1",
+      "arrival_s": 7173,
+      "departure_s": 11899
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-2",
+      "arrival_s": 12956,
+      "departure_s": 14189
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "ELTAY",
+      "track_id": "SIM-1",
+      "arrival_s": 16419,
+      "departure_s": 16479
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "AKKOL",
+      "track_id": "SIM-2",
+      "arrival_s": 18679,
+      "departure_s": 18739
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-1",
+      "arrival_s": 20739,
+      "departure_s": 20799
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-1",
+      "arrival_s": 22668,
+      "departure_s": 22728
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-1",
+      "arrival_s": 24156,
+      "departure_s": 24216
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-1",
+      "arrival_s": 24602,
+      "departure_s": 24662
+    },
+    {
+      "train_id": "SYN-P01",
+      "station_id": "NURLY_ZHOL",
+      "track_id": "SIM-1",
+      "arrival_s": 25471,
+      "departure_s": 25531
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "NURLY_ZHOL",
+      "track_id": "SIM-1",
+      "arrival_s": 300,
+      "departure_s": 360
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-1",
+      "arrival_s": 1063,
+      "departure_s": 1123
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-2",
+      "arrival_s": 1509,
+      "departure_s": 1569
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-2",
+      "arrival_s": 2997,
+      "departure_s": 6962
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-1",
+      "arrival_s": 8831,
+      "departure_s": 9022
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "AKKOL",
+      "track_id": "SIM-1",
+      "arrival_s": 11022,
+      "departure_s": 11312
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "ELTAY",
+      "track_id": "SIM-1",
+      "arrival_s": 13512,
+      "departure_s": 13572
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-1",
+      "arrival_s": 15802,
+      "departure_s": 15862
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-2",
+      "arrival_s": 16919,
+      "departure_s": 16979
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "BURABAY",
+      "track_id": "SIM-1",
+      "arrival_s": 17968,
+      "departure_s": 18028
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-1",
+      "arrival_s": 19743,
+      "departure_s": 19803
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-2",
+      "arrival_s": 20810,
+      "departure_s": 20870
+    },
+    {
+      "train_id": "SYN-P02",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-1",
+      "arrival_s": 21949,
+      "departure_s": 22009
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-2",
+      "arrival_s": 4411,
+      "departure_s": 4531
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-2",
+      "arrival_s": 5977,
+      "departure_s": 6097
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-1",
+      "arrival_s": 7445,
+      "departure_s": 10776
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "BURABAY",
+      "track_id": "SIM-2",
+      "arrival_s": 13068,
+      "departure_s": 13188
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-1",
+      "arrival_s": 14514,
+      "departure_s": 15014
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-1",
+      "arrival_s": 16429,
+      "departure_s": 16549
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "ELTAY",
+      "track_id": "SIM-1",
+      "arrival_s": 19528,
+      "departure_s": 19648
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "AKKOL",
+      "track_id": "SIM-2",
+      "arrival_s": 22588,
+      "departure_s": 22708
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-2",
+      "arrival_s": 25382,
+      "departure_s": 25502
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-2",
+      "arrival_s": 28000,
+      "departure_s": 28120
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-2",
+      "arrival_s": 30029,
+      "departure_s": 30149
+    },
+    {
+      "train_id": "SYN-F03",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-2",
+      "arrival_s": 30669,
+      "departure_s": 30789
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "NURLY_ZHOL",
+      "track_id": "SIM-1",
+      "arrival_s": 1200,
+      "departure_s": 3099
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-2",
+      "arrival_s": 3908,
+      "departure_s": 4275
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-2",
+      "arrival_s": 4661,
+      "departure_s": 5033
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-1",
+      "arrival_s": 6461,
+      "departure_s": 8961
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-2",
+      "arrival_s": 10830,
+      "departure_s": 11152
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "AKKOL",
+      "track_id": "SIM-2",
+      "arrival_s": 13152,
+      "departure_s": 13642
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "ELTAY",
+      "track_id": "SIM-1",
+      "arrival_s": 15842,
+      "departure_s": 15932
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-2",
+      "arrival_s": 18162,
+      "departure_s": 18222
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-1",
+      "arrival_s": 19279,
+      "departure_s": 19339
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "BURABAY",
+      "track_id": "SIM-2",
+      "arrival_s": 20328,
+      "departure_s": 20388
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-1",
+      "arrival_s": 22103,
+      "departure_s": 22163
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-1",
+      "arrival_s": 23170,
+      "departure_s": 23230
+    },
+    {
+      "train_id": "SYN-P04",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-2",
+      "arrival_s": 24309,
+      "departure_s": 24369
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-1",
+      "arrival_s": 1800,
+      "departure_s": 2032
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-2",
+      "arrival_s": 3111,
+      "departure_s": 3324
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-2",
+      "arrival_s": 4331,
+      "departure_s": 7373
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "BURABAY",
+      "track_id": "SIM-2",
+      "arrival_s": 9088,
+      "departure_s": 9148
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-2",
+      "arrival_s": 10137,
+      "departure_s": 10197
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-2",
+      "arrival_s": 11254,
+      "departure_s": 11829
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "ELTAY",
+      "track_id": "SIM-2",
+      "arrival_s": 14059,
+      "departure_s": 14119
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "AKKOL",
+      "track_id": "SIM-2",
+      "arrival_s": 16319,
+      "departure_s": 16379
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-1",
+      "arrival_s": 18379,
+      "departure_s": 18439
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-2",
+      "arrival_s": 20308,
+      "departure_s": 20368
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-2",
+      "arrival_s": 21796,
+      "departure_s": 21856
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-2",
+      "arrival_s": 22242,
+      "departure_s": 22302
+    },
+    {
+      "train_id": "SYN-P05",
+      "station_id": "NURLY_ZHOL",
+      "track_id": "SIM-2",
+      "arrival_s": 23111,
+      "departure_s": 23171
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "NURLY_ZHOL",
+      "track_id": "SIM-2",
+      "arrival_s": 2100,
+      "departure_s": 2160
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-2",
+      "arrival_s": 2969,
+      "departure_s": 3029
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-1",
+      "arrival_s": 3415,
+      "departure_s": 3475
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-1",
+      "arrival_s": 4903,
+      "departure_s": 4963
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-2",
+      "arrival_s": 6832,
+      "departure_s": 6892
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "AKKOL",
+      "track_id": "SIM-2",
+      "arrival_s": 8892,
+      "departure_s": 8952
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "ELTAY",
+      "track_id": "SIM-2",
+      "arrival_s": 11152,
+      "departure_s": 11212
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-1",
+      "arrival_s": 13442,
+      "departure_s": 13502
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-2",
+      "arrival_s": 14559,
+      "departure_s": 14619
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "BURABAY",
+      "track_id": "SIM-1",
+      "arrival_s": 15608,
+      "departure_s": 15668
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-1",
+      "arrival_s": 17383,
+      "departure_s": 17443
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-1",
+      "arrival_s": 18450,
+      "departure_s": 18510
+    },
+    {
+      "train_id": "SYN-P06",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-1",
+      "arrival_s": 19589,
+      "departure_s": 19649
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-1",
+      "arrival_s": 2700,
+      "departure_s": 3322
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-1",
+      "arrival_s": 4401,
+      "departure_s": 4461
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-1",
+      "arrival_s": 5468,
+      "departure_s": 5528
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "BURABAY",
+      "track_id": "SIM-1",
+      "arrival_s": 7243,
+      "departure_s": 7303
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-2",
+      "arrival_s": 8292,
+      "departure_s": 8352
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-2",
+      "arrival_s": 9409,
+      "departure_s": 9469
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "ELTAY",
+      "track_id": "SIM-2",
+      "arrival_s": 11699,
+      "departure_s": 11759
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "AKKOL",
+      "track_id": "SIM-1",
+      "arrival_s": 13959,
+      "departure_s": 14019
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-1",
+      "arrival_s": 16019,
+      "departure_s": 16079
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-2",
+      "arrival_s": 17948,
+      "departure_s": 18008
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-2",
+      "arrival_s": 19436,
+      "departure_s": 19496
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-1",
+      "arrival_s": 19882,
+      "departure_s": 19942
+    },
+    {
+      "train_id": "SYN-P07",
+      "station_id": "NURLY_ZHOL",
+      "track_id": "SIM-1",
+      "arrival_s": 20751,
+      "departure_s": 20811
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "ASTANA_1",
+      "track_id": "SIM-1",
+      "arrival_s": 3000,
+      "departure_s": 3545
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "RAZYEZD_39",
+      "track_id": "SIM-1",
+      "arrival_s": 4065,
+      "departure_s": 6591
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "TONKERIS",
+      "track_id": "SIM-2",
+      "arrival_s": 8500,
+      "departure_s": 10960
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "SHORTANDY",
+      "track_id": "SIM-1",
+      "arrival_s": 13458,
+      "departure_s": 13578
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "AKKOL",
+      "track_id": "SIM-1",
+      "arrival_s": 16252,
+      "departure_s": 16372
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "ELTAY",
+      "track_id": "SIM-2",
+      "arrival_s": 19312,
+      "departure_s": 19432
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "MAKINKA",
+      "track_id": "SIM-1",
+      "arrival_s": 22411,
+      "departure_s": 22531
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "ZHASYL",
+      "track_id": "SIM-2",
+      "arrival_s": 23946,
+      "departure_s": 24066
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "BURABAY",
+      "track_id": "SIM-1",
+      "arrival_s": 25392,
+      "departure_s": 25512
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "ZHAMANTUZ",
+      "track_id": "SIM-2",
+      "arrival_s": 27804,
+      "departure_s": 27924
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "RAZYEZD_17",
+      "track_id": "SIM-1",
+      "arrival_s": 29272,
+      "departure_s": 29392
+    },
+    {
+      "train_id": "SYN-F08",
+      "station_id": "KOKSHETAU_1",
+      "track_id": "SIM-2",
+      "arrival_s": 30838,
+      "departure_s": 30958
+    }
+  ],
+  "movements": [
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "1",
+      "origin": "KOKSHETAU_1",
+      "destination": "RAZYEZD_17",
+      "start_s": 60,
+      "end_s": 998,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_17",
+      "destination": "ZHAMANTUZ",
+      "start_s": 1058,
+      "end_s": 2065,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "1",
+      "origin": "ZHAMANTUZ",
+      "destination": "BURABAY",
+      "start_s": 2125,
+      "end_s": 3840,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "1",
+      "origin": "BURABAY",
+      "destination": "ZHASYL",
+      "start_s": 6184,
+      "end_s": 7173,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "1",
+      "origin": "ZHASYL",
+      "destination": "MAKINKA",
+      "start_s": 11899,
+      "end_s": 12956,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "1",
+      "origin": "MAKINKA",
+      "destination": "ELTAY",
+      "start_s": 14189,
+      "end_s": 16419,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "1",
+      "origin": "ELTAY",
+      "destination": "AKKOL",
+      "start_s": 16479,
+      "end_s": 18679,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "1",
+      "origin": "AKKOL",
+      "destination": "SHORTANDY",
+      "start_s": 18739,
+      "end_s": 20739,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "1",
+      "origin": "SHORTANDY",
+      "destination": "TONKERIS",
+      "start_s": 20799,
+      "end_s": 22668,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "1",
+      "origin": "TONKERIS",
+      "destination": "RAZYEZD_39",
+      "start_s": 22728,
+      "end_s": 24156,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_39",
+      "destination": "ASTANA_1",
+      "start_s": 24216,
+      "end_s": 24602,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P01",
+      "section_id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "main_track_id": "1",
+      "origin": "ASTANA_1",
+      "destination": "NURLY_ZHOL",
+      "start_s": 24662,
+      "end_s": 25471,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "main_track_id": "2",
+      "origin": "NURLY_ZHOL",
+      "destination": "ASTANA_1",
+      "start_s": 360,
+      "end_s": 1063,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "2",
+      "origin": "ASTANA_1",
+      "destination": "RAZYEZD_39",
+      "start_s": 1123,
+      "end_s": 1509,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_39",
+      "destination": "TONKERIS",
+      "start_s": 1569,
+      "end_s": 2997,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "2",
+      "origin": "TONKERIS",
+      "destination": "SHORTANDY",
+      "start_s": 6962,
+      "end_s": 8831,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "2",
+      "origin": "SHORTANDY",
+      "destination": "AKKOL",
+      "start_s": 9022,
+      "end_s": 11022,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "2",
+      "origin": "AKKOL",
+      "destination": "ELTAY",
+      "start_s": 11312,
+      "end_s": 13512,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "2",
+      "origin": "ELTAY",
+      "destination": "MAKINKA",
+      "start_s": 13572,
+      "end_s": 15802,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "2",
+      "origin": "MAKINKA",
+      "destination": "ZHASYL",
+      "start_s": 15862,
+      "end_s": 16919,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "2",
+      "origin": "ZHASYL",
+      "destination": "BURABAY",
+      "start_s": 16979,
+      "end_s": 17968,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "2",
+      "origin": "BURABAY",
+      "destination": "ZHAMANTUZ",
+      "start_s": 18028,
+      "end_s": 19743,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "2",
+      "origin": "ZHAMANTUZ",
+      "destination": "RAZYEZD_17",
+      "start_s": 19803,
+      "end_s": 20810,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P02",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_17",
+      "destination": "KOKSHETAU_1",
+      "start_s": 20870,
+      "end_s": 21949,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "1",
+      "origin": "KOKSHETAU_1",
+      "destination": "RAZYEZD_17",
+      "start_s": 4531,
+      "end_s": 5977,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_17",
+      "destination": "ZHAMANTUZ",
+      "start_s": 6097,
+      "end_s": 7445,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "1",
+      "origin": "ZHAMANTUZ",
+      "destination": "BURABAY",
+      "start_s": 10776,
+      "end_s": 13068,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "1",
+      "origin": "BURABAY",
+      "destination": "ZHASYL",
+      "start_s": 13188,
+      "end_s": 14514,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "1",
+      "origin": "ZHASYL",
+      "destination": "MAKINKA",
+      "start_s": 15014,
+      "end_s": 16429,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "1",
+      "origin": "MAKINKA",
+      "destination": "ELTAY",
+      "start_s": 16549,
+      "end_s": 19528,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "1",
+      "origin": "ELTAY",
+      "destination": "AKKOL",
+      "start_s": 19648,
+      "end_s": 22588,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "1",
+      "origin": "AKKOL",
+      "destination": "SHORTANDY",
+      "start_s": 22708,
+      "end_s": 25382,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "1",
+      "origin": "SHORTANDY",
+      "destination": "TONKERIS",
+      "start_s": 25502,
+      "end_s": 28000,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "1",
+      "origin": "TONKERIS",
+      "destination": "RAZYEZD_39",
+      "start_s": 28120,
+      "end_s": 30029,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F03",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_39",
+      "destination": "ASTANA_1",
+      "start_s": 30149,
+      "end_s": 30669,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "main_track_id": "2",
+      "origin": "NURLY_ZHOL",
+      "destination": "ASTANA_1",
+      "start_s": 3099,
+      "end_s": 3908,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "2",
+      "origin": "ASTANA_1",
+      "destination": "RAZYEZD_39",
+      "start_s": 4275,
+      "end_s": 4661,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_39",
+      "destination": "TONKERIS",
+      "start_s": 5033,
+      "end_s": 6461,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "2",
+      "origin": "TONKERIS",
+      "destination": "SHORTANDY",
+      "start_s": 8961,
+      "end_s": 10830,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "2",
+      "origin": "SHORTANDY",
+      "destination": "AKKOL",
+      "start_s": 11152,
+      "end_s": 13152,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "2",
+      "origin": "AKKOL",
+      "destination": "ELTAY",
+      "start_s": 13642,
+      "end_s": 15842,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "2",
+      "origin": "ELTAY",
+      "destination": "MAKINKA",
+      "start_s": 15932,
+      "end_s": 18162,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "2",
+      "origin": "MAKINKA",
+      "destination": "ZHASYL",
+      "start_s": 18222,
+      "end_s": 19279,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "2",
+      "origin": "ZHASYL",
+      "destination": "BURABAY",
+      "start_s": 19339,
+      "end_s": 20328,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "2",
+      "origin": "BURABAY",
+      "destination": "ZHAMANTUZ",
+      "start_s": 20388,
+      "end_s": 22103,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "2",
+      "origin": "ZHAMANTUZ",
+      "destination": "RAZYEZD_17",
+      "start_s": 22163,
+      "end_s": 23170,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P04",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_17",
+      "destination": "KOKSHETAU_1",
+      "start_s": 23230,
+      "end_s": 24309,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "1",
+      "origin": "KOKSHETAU_1",
+      "destination": "RAZYEZD_17",
+      "start_s": 2032,
+      "end_s": 3111,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_17",
+      "destination": "ZHAMANTUZ",
+      "start_s": 3324,
+      "end_s": 4331,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "1",
+      "origin": "ZHAMANTUZ",
+      "destination": "BURABAY",
+      "start_s": 7373,
+      "end_s": 9088,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "1",
+      "origin": "BURABAY",
+      "destination": "ZHASYL",
+      "start_s": 9148,
+      "end_s": 10137,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "1",
+      "origin": "ZHASYL",
+      "destination": "MAKINKA",
+      "start_s": 10197,
+      "end_s": 11254,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "1",
+      "origin": "MAKINKA",
+      "destination": "ELTAY",
+      "start_s": 11829,
+      "end_s": 14059,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "1",
+      "origin": "ELTAY",
+      "destination": "AKKOL",
+      "start_s": 14119,
+      "end_s": 16319,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "1",
+      "origin": "AKKOL",
+      "destination": "SHORTANDY",
+      "start_s": 16379,
+      "end_s": 18379,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "1",
+      "origin": "SHORTANDY",
+      "destination": "TONKERIS",
+      "start_s": 18439,
+      "end_s": 20308,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "1",
+      "origin": "TONKERIS",
+      "destination": "RAZYEZD_39",
+      "start_s": 20368,
+      "end_s": 21796,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_39",
+      "destination": "ASTANA_1",
+      "start_s": 21856,
+      "end_s": 22242,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P05",
+      "section_id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "main_track_id": "1",
+      "origin": "ASTANA_1",
+      "destination": "NURLY_ZHOL",
+      "start_s": 22302,
+      "end_s": 23111,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "main_track_id": "2",
+      "origin": "NURLY_ZHOL",
+      "destination": "ASTANA_1",
+      "start_s": 2160,
+      "end_s": 2969,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "2",
+      "origin": "ASTANA_1",
+      "destination": "RAZYEZD_39",
+      "start_s": 3029,
+      "end_s": 3415,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_39",
+      "destination": "TONKERIS",
+      "start_s": 3475,
+      "end_s": 4903,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "2",
+      "origin": "TONKERIS",
+      "destination": "SHORTANDY",
+      "start_s": 4963,
+      "end_s": 6832,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "2",
+      "origin": "SHORTANDY",
+      "destination": "AKKOL",
+      "start_s": 6892,
+      "end_s": 8892,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "2",
+      "origin": "AKKOL",
+      "destination": "ELTAY",
+      "start_s": 8952,
+      "end_s": 11152,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "2",
+      "origin": "ELTAY",
+      "destination": "MAKINKA",
+      "start_s": 11212,
+      "end_s": 13442,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "2",
+      "origin": "MAKINKA",
+      "destination": "ZHASYL",
+      "start_s": 13502,
+      "end_s": 14559,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "2",
+      "origin": "ZHASYL",
+      "destination": "BURABAY",
+      "start_s": 14619,
+      "end_s": 15608,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "2",
+      "origin": "BURABAY",
+      "destination": "ZHAMANTUZ",
+      "start_s": 15668,
+      "end_s": 17383,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "2",
+      "origin": "ZHAMANTUZ",
+      "destination": "RAZYEZD_17",
+      "start_s": 17443,
+      "end_s": 18450,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P06",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_17",
+      "destination": "KOKSHETAU_1",
+      "start_s": 18510,
+      "end_s": 19589,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "1",
+      "origin": "KOKSHETAU_1",
+      "destination": "RAZYEZD_17",
+      "start_s": 3322,
+      "end_s": 4401,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_17",
+      "destination": "ZHAMANTUZ",
+      "start_s": 4461,
+      "end_s": 5468,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "1",
+      "origin": "ZHAMANTUZ",
+      "destination": "BURABAY",
+      "start_s": 5528,
+      "end_s": 7243,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "1",
+      "origin": "BURABAY",
+      "destination": "ZHASYL",
+      "start_s": 7303,
+      "end_s": 8292,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "1",
+      "origin": "ZHASYL",
+      "destination": "MAKINKA",
+      "start_s": 8352,
+      "end_s": 9409,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "1",
+      "origin": "MAKINKA",
+      "destination": "ELTAY",
+      "start_s": 9469,
+      "end_s": 11699,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "1",
+      "origin": "ELTAY",
+      "destination": "AKKOL",
+      "start_s": 11759,
+      "end_s": 13959,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "1",
+      "origin": "AKKOL",
+      "destination": "SHORTANDY",
+      "start_s": 14019,
+      "end_s": 16019,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "1",
+      "origin": "SHORTANDY",
+      "destination": "TONKERIS",
+      "start_s": 16079,
+      "end_s": 17948,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "1",
+      "origin": "TONKERIS",
+      "destination": "RAZYEZD_39",
+      "start_s": 18008,
+      "end_s": 19436,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "1",
+      "origin": "RAZYEZD_39",
+      "destination": "ASTANA_1",
+      "start_s": 19496,
+      "end_s": 19882,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-P07",
+      "section_id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "main_track_id": "1",
+      "origin": "ASTANA_1",
+      "destination": "NURLY_ZHOL",
+      "start_s": 19942,
+      "end_s": 20751,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "main_track_id": "2",
+      "origin": "ASTANA_1",
+      "destination": "RAZYEZD_39",
+      "start_s": 3545,
+      "end_s": 4065,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_TONKERIS__RAZYEZD_39",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_39",
+      "destination": "TONKERIS",
+      "start_s": 6591,
+      "end_s": 8500,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_SHORTANDY__TONKERIS",
+      "main_track_id": "2",
+      "origin": "TONKERIS",
+      "destination": "SHORTANDY",
+      "start_s": 10960,
+      "end_s": 13458,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_AKKOL__SHORTANDY",
+      "main_track_id": "2",
+      "origin": "SHORTANDY",
+      "destination": "AKKOL",
+      "start_s": 13578,
+      "end_s": 16252,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_ELTAY__AKKOL",
+      "main_track_id": "2",
+      "origin": "AKKOL",
+      "destination": "ELTAY",
+      "start_s": 16372,
+      "end_s": 19312,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_MAKINKA__ELTAY",
+      "main_track_id": "2",
+      "origin": "ELTAY",
+      "destination": "MAKINKA",
+      "start_s": 19432,
+      "end_s": 22411,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_ZHASYL__MAKINKA",
+      "main_track_id": "2",
+      "origin": "MAKINKA",
+      "destination": "ZHASYL",
+      "start_s": 22531,
+      "end_s": 23946,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_BURABAY__ZHASYL",
+      "main_track_id": "2",
+      "origin": "ZHASYL",
+      "destination": "BURABAY",
+      "start_s": 24066,
+      "end_s": 25392,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_ZHAMANTUZ__BURABAY",
+      "main_track_id": "2",
+      "origin": "BURABAY",
+      "destination": "ZHAMANTUZ",
+      "start_s": 25512,
+      "end_s": 27804,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "main_track_id": "2",
+      "origin": "ZHAMANTUZ",
+      "destination": "RAZYEZD_17",
+      "start_s": 27924,
+      "end_s": 29272,
+      "hold_s": 0
+    },
+    {
+      "train_id": "SYN-F08",
+      "section_id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "main_track_id": "2",
+      "origin": "RAZYEZD_17",
+      "destination": "KOKSHETAU_1",
+      "start_s": 29392,
+      "end_s": 30838,
+      "hold_s": 0
+    }
+  ],
+  "objective_value": 11729344.0,
+  "elapsed_ms": 1191.376627000409,
+  "explanations": [
+    "SYN-P01: ожидание на BURABAY 2284 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P01: ожидание на ZHASYL 4666 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P01: ожидание на MAKINKA 1173 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P02: ожидание на TONKERIS 3905 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P02: ожидание на SHORTANDY 131 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P02: ожидание на AKKOL 230 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-F03: ожидание на ZHAMANTUZ 3211 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-F03: ожидание на ZHASYL 380 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-F03: допуск на участок через 3511 с после готовности; до допуска поезд находится вне моделируемого участка.",
+    "SYN-P04: ожидание на NURLY_ZHOL 1839 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P04: ожидание на ASTANA_1 307 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P04: ожидание на RAZYEZD_39 312 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P04: ожидание на TONKERIS 2440 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P04: ожидание на SHORTANDY 262 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P04: ожидание на AKKOL 430 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P04: ожидание на ELTAY 30 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P05: ожидание на KOKSHETAU_1 172 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P05: ожидание на RAZYEZD_17 153 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P05: ожидание на ZHAMANTUZ 2982 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P05: ожидание на MAKINKA 515 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-P07: ожидание на KOKSHETAU_1 562 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-F08: ожидание на ASTANA_1 425 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-F08: ожидание на RAZYEZD_39 2406 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "SYN-F08: ожидание на TONKERIS 2340 с сверх минимальной стоянки; план учитывает занятость ресурсов и ограничения отправления.",
+    "Для новых движений запас ходового времени 15%. Выигрыш энергии проверяется отдельно по профилям; минимум энергии не доказан."
+  ]
+}

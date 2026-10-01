@@ -1,0 +1,5 @@
+﻿scenario,strategy,kind,delay_s,passenger_delay_s,energy_kwh,quality_index,conflicts,applicable,changed_movements,elapsed_ms
+normal,fcfs,synthetic_forecast,5796,5796,18172.74,61.74,0,True,0,91.2
+normal,balanced,synthetic_forecast,1877,569,18126.204,70.98,0,True,0,445.2
+railsim_snow,balanced,synthetic_forecast,2770,764,17834.945,70.35,0,True,26,316.9
+railsim_loco_failure,balanced,synthetic_forecast,11236,6359,18203.2,57.51,0,True,17,709.6
