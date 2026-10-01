@@ -12,5 +12,6 @@
   "config/metrics.json": "Declare the default formula alongside all five weights.",
   "docker-compose.yml": "Secure default and persistent runtime metric settings.",
   "README.md": "Update run instructions, architecture and implemented metric behavior.",
-  "backend/tests/test_integration.py": "Select demo authorization explicitly in the pre-existing native integration test."
+  "backend/tests/test_integration.py": "Select demo authorization explicitly in the pre-existing native integration test.",
+  "Dockerfile": "Keep shared per-track display modules available in the frontend build stage; preserve the repository directory layout."
 }

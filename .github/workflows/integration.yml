@@ -39,12 +39,12 @@ jobs:
         run: |
           python -m pip install -r backend/requirements.lock.txt -e .
           npx --yes pnpm@11.25.0 --dir frontend install --frozen-lockfile
-      - name: Build unchanged frontend
+      - name: Build integrated frontend
         run: npx --yes pnpm@11.25.0 --dir frontend build
       - name: Check algorithms, contracts and source preservation
         run: |
           python -m pytest backend/tests tests integration/tests -q
-          node --test integration/tests/coordinates.test.mjs
+          node --test integration/tests/*.test.mjs
       - name: Check live shared simulation
         shell: bash
         run: |

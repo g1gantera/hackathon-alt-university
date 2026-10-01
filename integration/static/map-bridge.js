@@ -1,4 +1,4 @@
-import { createLocator } from './coordinates.mjs';
+import { createLocator, trackIndex } from './coordinates.mjs';
 
 // map and L are the original era map's existing Leaflet bindings.
 const panel = document.createElement('section');
@@ -68,11 +68,12 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
       : state.running ? 'Движение' : 'Пауза';
     clock.textContent = `${time} · ${status} · ${state.trains.length} поездов`;
     metrics.textContent = `Задержки: ${(state.metrics.total_delay_s / 60).toFixed(1)} мин · Энергия: ${state.metrics.energy_kwh.toFixed(1)} кВт·ч`;
-    const present = new Set(state.trains.map(train => train.id));
+    const present = new Set(state.trains.filter(train => train.on_network !== false).map(train => train.id));
     for (const [id, marker] of markers) if (!present.has(id)) { layers.removeLayer(marker); markers.delete(id); }
-    const stationOffsets = new Map();
     for (const train of state.trains) {
-      const [lon, lat] = locate(train);
+      const position = locate(train);
+      if (!position) continue;
+      const [lon, lat] = position;
       let marker = markers.get(train.id);
       if (!marker) {
         marker = L.circleMarker([lat, lon], { radius: 7, weight: 2, color: '#ffffff', fillOpacity: 1,
@@ -83,17 +84,19 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
         markers.set(train.id, marker);
       }
       marker.setLatLng([lat, lon]);
-      const count = train.station_id ? (stationOffsets.get(train.station_id) || 0) : 0;
-      if (train.station_id) stationOffsets.set(train.station_id, count + 1);
-      marker.getTooltip().options.offset = L.point(10, count * 21);
+      const lane = trackIndex(train, topology);
+      marker.getTooltip().options.direction = lane % 2 ? 'right' : 'left';
+      marker.getTooltip().options.offset = L.point(lane % 2 ? 10 : -10, lane % 2 ? 12 : -12);
       marker.getTooltip().update();
       const text = document.createElement('span');
-      text.textContent = `${train.number || train.id}: ${(train.speed_mps * 3.6).toFixed(1)} км/ч, задержка ${(train.delay_s / 60).toFixed(1)} мин`;
+      text.textContent = `${train.number || train.id}: путь ${train.station_track_id || train.main_track_id || '—'}, ${(train.speed_mps * 3.6).toFixed(1)} км/ч, задержка ${(train.delay_s / 60).toFixed(1)} мин. ${train.wait_reason || ''}`;
       marker.bindPopup(text);
     }
     for (const section of state.sections) {
-      sectionLayers.get(section.id)?.setStyle({ color: section.status === 'closed' ? '#de6856'
-        : section.status === 'signal_failure' ? '#e7a535' : section.status === 'occupied' ? '#148976' : '#36a4b2' });
+      for (const track of section.tracks || [{id: '1', status: section.status}]) {
+        sectionLayers.get(`${section.id}:${track.id}`)?.setStyle({ color: track.status === 'closed' ? '#de6856'
+          : track.status === 'signal_failure' ? '#e7a535' : '#253047' });
+      }
     }
     controls();
   }
@@ -121,8 +124,10 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
         topology = await api('/topology');
         locate = createLocator(topology);
         for (const section of topology.sections) {
-          sectionLayers.set(section.id, L.polyline(section.geometry.map(([lon, lat]) => [lat, lon]),
-            { weight: 4, color: '#36a4b2', opacity: .85 }).addTo(layers));
+          for (const track of section.main_tracks || [{id: '1'}]) {
+            sectionLayers.set(`${section.id}:${track.id}`, L.polyline((track.geometry || section.geometry).map(([lon, lat]) => [lat, lon]),
+              { weight: 2, color: '#253047', opacity: .7, dashArray: '4 3' }).addTo(layers));
+          }
         }
       }
       draw(await api('/state'));

@@ -1,8 +1,9 @@
 FROM node:22-alpine AS frontend
-WORKDIR /build
+WORKDIR /build/frontend
 COPY frontend/package.json frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml ./
 RUN corepack enable && pnpm install --frozen-lockfile
 COPY frontend/ ./
+COPY integration/static/ /build/integration/static/
 RUN pnpm build
 
 FROM python:3.12-slim
@@ -18,6 +19,6 @@ COPY config/ config/
 COPY data/corridor/ data/corridor/
 COPY scenarios/ scenarios/
 COPY data/kazakhstan_railways.geojson data/kazakhstan_railways.geojson
-COPY --from=frontend /build/dist frontend/dist
+COPY --from=frontend /build/frontend/dist frontend/dist
 EXPOSE 8000
 CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

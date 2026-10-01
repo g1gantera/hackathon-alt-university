@@ -22,6 +22,7 @@ from .planning.service import plan_alternatives
 from .schemas import Block, EntrySpeedLimit, Plan, Scenario
 from .scenarios import corridor_scenario, load_infrastructure, incident_scenario, INCIDENTS
 from .validation.plan import validate_plan as native_validate
+from .track_display import display_tracks, dispatch_state
 
 
 NATIVE_CONFIG = MetricConfig.load(ROOT/'config/metrics.json')
@@ -82,7 +83,8 @@ def project_plan(state, scenario, plan, profiles=None, forecast=None):
                           'release_s': move.end_s + clearance_s(train, sections[move.section_id])})
     return {'id': plan.id, 'label': {'baseline':'Исходный FCFS', 'balanced':'Сбалансированный',
             'passenger':'Приоритет пассажирских', 'eco':'Экономия энергии'}[plan.strategy],
-            'status': plan.solver_status.lower(), 'movements': movements, 'metrics': ui_metrics(forecast),
+            'status': plan.solver_status.lower(), 'movements': movements,
+            'stops': [s.model_dump() for s in plan.stops], 'metrics': ui_metrics(forecast),
             'calculation_s': plan.elapsed_ms/1000, 'within_budget': plan.elapsed_ms <= 5000,
             'reason': '; '.join(plan.explanations) or 'Пути, физика и ограничения проверены движком logic.',
             'violations': [], 'forecast': forecast.model_dump(),
@@ -134,7 +136,8 @@ def validate_plan(state, plan):
 
 def topology(scenario):
     infra = load_infrastructure()
-    geometry = json.loads((ROOT/'data/corridor/geometry.geojson').read_text(encoding='utf-8'))['features'][0]['geometry']['coordinates']
+    features = json.loads((ROOT/'data/corridor/geometry.geojson').read_text(encoding='utf-8'))['features']
+    geometry = features[0]['geometry']['coordinates']
     distances = [0.0]
     for a,b in zip(geometry, geometry[1:]):
         lon1,lat1,lon2,lat2 = map(math.radians, (*a[:2], *b[:2]))
@@ -154,7 +157,9 @@ def topology(scenario):
         sections.append({'id':s.id,'from_station':s.station_a,'to_station':s.station_b,
                          'length_m':s.length_m,'speed_limit_mps':s.max_speed_mps,
                          'geometry':points,'main_tracks':[t.model_dump() for t in s.main_tracks]})
+    display_tracks(stations, sections, scenario, infra, features)
     return {'stations':stations,'sections':sections,'length_m':infra['length_m'],
+            'track_geometry_note':'Номера путей и привязка к OSM условные; геометрия перегонных путей интерполирована. Пропускная способность задаётся моделью, не числом линий OSM.',
             'assumptions':scenario.metadata['assumptions'],'engine':'logic'}
 
 
@@ -289,6 +294,7 @@ class LogicSimulator:
                             station_id=m['destination'],speed_mps=0,position_m=self._position(m['destination']))
             stops = sorted((s for s in plan['_native']['stops'] if s['train_id']==train['id']),
                            key=lambda s:train['route'].index(s['station_id']))
+            item.update(dispatch_state(train, stops, moves, plan['movements'], now))
             item['energy_kwh'] += waiting_energy(train,stops,now)
             item['delay_s'] = max(0,min(now,moves[-1]['end_s'])-train['due_s'])
             item['eta_s'] = None if state['awaiting_plan'] else moves[-1]['end_s']
