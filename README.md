@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Rail network map (Kazakhstan, OSM 2026-10-01)
 
 | File | What |
@@ -22,3 +23,6 @@ Categories: `main`, `line` (running line with no usage tag), `branch`, `industri
 - The graph is undirected and does not encode which way a switch can be taken. Use the angle between consecutive edges (as `route()` in `map.html` does, ≤90° turn) so trains don't reverse through a switch.
 - `oneway` / `railway:preferred_direction` are kept in way tags where OSM has them (rare).
 - Gap healing joins a track end to another track only when it touches (≤1.5 m) or points at it (≤30 m, ≤35°), or when two main-line ends face each other ≤200 m apart.
+=======
+# hackathon-alt-university
+>>>>>>> origin/era
