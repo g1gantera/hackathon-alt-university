@@ -130,6 +130,8 @@ class Train(Model):
     # Known stationary hold within a future section; the path remains occupied.
     section_hold_s: dict[str, int] = Field(default_factory=dict)
     section_recovery_all_tracks: list[str] = Field(default_factory=list)
+    manual_station_tracks: dict[str, str] = Field(default_factory=dict)
+    manual_main_tracks: dict[str, str] = Field(default_factory=dict)
     # Earliest permitted departure at a route station, e.g. after a train delay.
     not_before_s: dict[str, int] = Field(default_factory=dict)
 
@@ -216,6 +218,16 @@ class Scenario(Model):
                     for a, b in zip(train.route, train.route[1:])
                 )
             }
+            for sid, tid in train.manual_station_tracks.items():
+                if sid not in train.route or not any(t.id == tid and t.length_m >= train.length_m for t in stations[sid].tracks):
+                    raise ValueError("Invalid manual station track")
+            for sid, tid in train.manual_main_tracks.items():
+                section = next((s for s in self.sections if s.id == sid), None)
+                if sid not in route_sections or section is None:
+                    raise ValueError("Manual main track lies outside route")
+                direction = "a_to_b" if train.route.index(section.station_a) < train.route.index(section.station_b) else "b_to_a"
+                if not any(t.id == tid and t.direction in ("both", direction) for t in section.main_tracks):
+                    raise ValueError("Manual main track does not permit this direction")
             if any(s not in route_sections for s in train.section_hold_s):
                 raise ValueError("Section hold lies outside the train route")
             if any(

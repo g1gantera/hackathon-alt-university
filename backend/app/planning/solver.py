@@ -15,6 +15,7 @@ from backend.app.planning.common import (
     committed_fields,
     merged_closures,
     section_for,
+    wear_cost,
 )
 from backend.app.schemas import Movement, Plan, PlanResult, Scenario, Stop
 from backend.app.validation.plan import validate_plan
@@ -110,9 +111,12 @@ def solve_plan(
             model.add(size == end - arrival)
             options = {}
             for track in station.tracks:
+                if station_id in train.manual_station_tracks and train.manual_station_tracks[station_id] != track.id:
+                    continue
                 if track.length_m < train.length_m:
                     continue
                 chosen = model.new_bool_var(f"track_{key}_{track.id}")
+                cost_terms.append(chosen * wear_cost(scenario, f"track:{station_id}:{track.id}"))
                 options[track.id] = chosen
                 interval = model.new_optional_interval_var(
                     arrival, size, end, chosen, f"occupancy_{key}_{track.id}"
@@ -210,9 +214,10 @@ def solve_plan(
                     seed_stops[train.id, destination].arrival_s + clearance_s(train, section),
                 )
             main_options = {}
-            for track in allowed_main_tracks(section, origin):
+            for track in allowed_main_tracks(section, origin, train):
                 resource = f"main_track:{section.id}:{track.id}"
                 chosen = model.new_bool_var(f"main_track_{key}_{track.id}")
+                cost_terms.append(chosen * wear_cost(scenario, resource))
                 main_options[track.id] = chosen
                 interval = model.new_optional_interval_var(
                     start,

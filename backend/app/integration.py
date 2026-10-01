@@ -304,7 +304,7 @@ class LogicSimulator:
         violations = self.plan_violations()
         actual = actual_metrics(state, fleet, config_for(state), violations)
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
-            'engine':'logic','decision_hold':state['awaiting_plan'] or self.replanning,
+            'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','decision_hold':state['awaiting_plan'] or self.replanning,
             'trains':fleet,'sections':sections,'stations':stations,'switches':switch_states(state), 'metrics':actual,
             'active_plan_id':plan['id'],'plan':self.active_public_plan(),'replanning':self.replanning}
 

@@ -11,7 +11,7 @@ import time
 import uuid
 
 from backend.app.advisory.speed import minimum_duration_s, section_at_entry
-from backend.app.planning.common import allowed_main_tracks, clearance_s, merged_closures, section_for
+from backend.app.planning.common import allowed_main_tracks, clearance_s, merged_closures, section_for, wear_cost
 from backend.app.schemas import Movement, Plan, PlanResult, Scenario, Stop
 from backend.app.validation.plan import validate_plan
 
@@ -79,6 +79,8 @@ def build_baseline(
                         pending.append((resource, event, end))
                 options = []
                 for track in station.tracks:
+                    if station_id in train.manual_station_tracks and train.manual_station_tracks[station_id] != track.id:
+                        continue
                     if track.length_m < train.length_m:
                         continue
                     resource = f"track:{station_id}:{track.id}"
@@ -89,8 +91,8 @@ def build_baseline(
                         and arrival < end
                         and start < departure + station.clearance_s
                     ]
-                    options.append((max(conflicts, default=0), track.id, resource))
-                track_shift, track_id, resource = min(options)
+                    options.append((max(conflicts, default=0), wear_cost(scenario, resource), track.id, resource))
+                track_shift, _, track_id, resource = min(options)
                 shift = max(shift, track_shift)
                 stops.append(
                     Stop(
@@ -118,7 +120,7 @@ def build_baseline(
                 )
                 release = end + clearance_s(train, section)
                 main_options = []
-                for main_track in allowed_main_tracks(section, station_id):
+                for main_track in allowed_main_tracks(section, station_id, train):
                     resource = f"main_track:{section.id}:{main_track.id}"
                     conflicts = [
                         b - departure
@@ -132,12 +134,12 @@ def build_baseline(
                         and block.resource in (resource, f"section:{section.id}")
                         and block.start_s <= departure < block.end_s
                     )
-                    main_options.append((max(conflicts, default=0), main_track.id, resource))
+                    main_options.append((max(conflicts, default=0), wear_cost(scenario, resource), main_track.id, resource))
                 if not main_options:
                     return result(
                         "UNKNOWN", message=f"No main track permits {station_id} → {destination}"
                     )
-                main_shift, main_track_id, resource = min(main_options)
+                main_shift, _, main_track_id, resource = min(main_options)
                 shift = max(shift, main_shift)
                 if section.id in train.section_recovery_all_tracks:
                     recovery_end = departure + train.section_hold_s[section.id]

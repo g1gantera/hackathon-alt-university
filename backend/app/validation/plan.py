@@ -43,6 +43,8 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
         track = next((t for t in station.tracks if t.id == stop.track_id), None)
         if track is None or track.length_m < train.length_m:
             add("TRACK", "Unknown track or insufficient track length", [train.id])
+        if stop.station_id in train.manual_station_tracks and stop.track_id != train.manual_station_tracks[stop.station_id]:
+            add("MANUAL_TRACK", "Station track differs from dispatcher assignment", [train.id])
         if stop.departure_s < stop.arrival_s + train.min_dwell_s:
             add("DWELL", "Minimum station dwell is violated", [train.id])
         if stop.departure_s < train.not_before_s.get(stop.station_id, 0):
@@ -93,6 +95,8 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
                 or move.end_s != stops[(train.id, destination)].arrival_s
             ):
                 add("CONTINUITY", "Movement and station times disagree", [train.id])
+            if section.id in train.manual_main_tracks and move.main_track_id != train.manual_main_tracks[section.id]:
+                add("MANUAL_TRACK", "Main track differs from dispatcher assignment", [train.id])
             if move.hold_s != train.section_hold_s.get(section.id, 0):
                 add(
                     "SECTION_HOLD", "Movement does not preserve the known recovery hold", [train.id]

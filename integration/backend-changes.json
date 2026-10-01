@@ -1,4 +1,4 @@
 {
-  "backend/app/integration.py": "Connect live movement, energy, metrics, constraints and settings to native logic; retain the existing frontend API fields. User-requested per-track rendering: expose native stops, station and main track IDs, admission/release state and derived wait reasons; include display-only OSM track bindings.",
-  "backend/app/main.py": "Expose native logic reports and ensure replanning catches incident changes; preserve shared auth, WebSocket and existing URLs. User-requested timeline step endpoint and atomic fleet router; existing role enforcement retained."
+  "backend/app/integration.py": "Connect live movement, energy, metrics, constraints and settings to native logic; retain the existing frontend API fields. User-requested per-track rendering: expose native stops, station and main track IDs, admission/release state and derived wait reasons; include display-only OSM track bindings. Expose synthetic track-condition data in live and historical snapshots.",
+  "backend/app/main.py": "Expose native logic reports and ensure replanning catches incident changes; preserve shared auth, WebSocket and existing URLs. User-requested timeline step endpoint and atomic fleet router; existing role enforcement retained. Dispatch policy and track-condition routes."
 }

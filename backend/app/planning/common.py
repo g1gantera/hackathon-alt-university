@@ -11,9 +11,10 @@ def clearance_s(train: Train, section: Section) -> int:
     return section.headway_s + math.ceil(train.length_m / section.tail_clearance_speed_mps)
 
 
-def allowed_main_tracks(section: Section, origin: str):
+def allowed_main_tracks(section: Section, origin: str, train: Train | None = None):
     direction = "a_to_b" if origin == section.station_a else "b_to_a"
-    return [track for track in section.main_tracks if track.direction in ("both", direction)]
+    return [track for track in section.main_tracks if track.direction in ("both", direction)
+            and (train is None or section.id not in train.manual_main_tracks or train.manual_main_tracks[section.id] == track.id)]
 
 
 def committed_fields(scenario: Scenario, previous: Plan | None):
@@ -59,3 +60,7 @@ def merged_closures(scenario: Scenario):
                 merged.append((start, end))
         resources[resource] = merged
     return resources
+
+
+def wear_cost(scenario, resource):
+    return round(scenario.metadata.get("track_wear", {}).get(resource, {}).get("wear_pct", 50))
