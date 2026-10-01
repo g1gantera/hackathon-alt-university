@@ -145,6 +145,16 @@ async def calculate(job_id, snapshot):
         for plan in result['plans']:
             plan['calculation_s']=result['elapsed_s']
             plan['within_budget']=result['within_budget']
+        if sim.state.get('control_mode') == 'automatic':
+            candidates=sorted(result['plans'], key=lambda p:p['metrics'].get('index') or 0, reverse=True)
+            for candidate in candidates:
+                if not validate_plan(sim.state,candidate):
+                    sim.state['active_plan']=candidate
+                    sim.state['awaiting_plan']=False
+                    sim.state['state_version']+=1
+                    sim.state['route_clearances']=[]
+                    emit('plan.applied',{'plan_id':candidate['id'],'automatic':True})
+                    break
         emit('replan.completed' if result['plans'] else 'replan.failed',{'job_id':job_id,**result,'plans':[public_plan(p) for p in result['plans']]})
     except Exception:
         logger.exception('Planning failed')
@@ -583,6 +593,10 @@ async def websocket(ws:WebSocket):
 
 from .logic_api import router as logic_router
 
+from .control_mode import router as control_router
+app.include_router(control_router)
+from .corridors import router as corridors_router
+app.include_router(corridors_router)
 app.include_router(logic_router)
 from .fleet_edit import router as fleet_router
 app.include_router(fleet_router)

@@ -1,4 +1,5 @@
 import { createLocator, trackIndex, connectorFeatures } from './coordinates.mjs';
+import {frameTime,poseAt} from './motion.mjs';
 
 // map and L are the original era map's existing Leaflet bindings.
 const panel = document.createElement('section');
@@ -31,7 +32,13 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
   const layers = L.layerGroup().addTo(map);
   const markers = new Map(), sectionLayers = new Map();
   let topology, locate, snapshot, socket, retry, role = 'viewer', stopped = false;
-  let transportConnected = false;
+  let transportConnected = false, motion=null, frame=0;
+  function animate(now){
+    if(stopped)return;
+    if(motion&&locate){const t=frameTime(motion.before,motion.after,motion.received,now,motion.duration);for(const train of motion.after.trains){const marker=markers.get(train.id);if(!marker)continue;const point=locate(poseAt(topology,motion.before,motion.after,train,t));if(point)marker.setLatLng([point[1],point[0]]);}}
+    frame=requestAnimationFrame(animate);
+  }
+  frame=requestAnimationFrame(animate);
 
   async function api(path, method = 'GET') {
     const response = await fetch('/api' + path, { method });
@@ -58,6 +65,8 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
 
   function draw(state) {
     if (snapshot?.epoch === state.epoch && state.state_version < snapshot.state_version) return;
+    const now=performance.now();
+    motion={before:snapshot||state,after:state,received:now,duration:motion?Math.max(16,now-motion.received):500};
     snapshot = state;
     panel.dataset.epoch = state.epoch;
     panel.dataset.planId = state.active_plan_id;
@@ -122,6 +131,7 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
       role = (await api('/auth/me')).role;
       if (!topology) {
         topology = await api('/topology');
+        panel.querySelector('h2').textContent=topology.name||'Кокшетау ↔ Нурлы Жол';
         locate = createLocator(topology);
         L.geoJSON(connectorFeatures(topology), {style:{color:"#9260ad",weight:3}}).addTo(layers);
         for (const section of topology.sections) {
@@ -137,6 +147,7 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
       socket.onmessage = event => {
         try {
           const message = JSON.parse(event.data);
+          if(message.type==='corridor.changed'){location.reload();return;}
           if (message.type === 'state.updated') draw(message.payload);
         } catch (error) { setConnected(false, error.message); socket.close(); }
       };
@@ -154,6 +165,7 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
   resize.observe(document.getElementById('map'));
   window.addEventListener('pagehide', () => {
     stopped = true;
+    cancelAnimationFrame(frame);
     clearTimeout(retry);
     resize.disconnect();
     socket?.close();

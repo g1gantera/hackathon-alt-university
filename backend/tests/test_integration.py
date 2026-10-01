@@ -11,6 +11,7 @@ def test_logic_live_state_profiles_and_decision_hold():
     sim = LogicSimulator()
     assert len(sim.state['topology']['stations']) == 13
     assert all(len(s['main_tracks']) == 2 for s in sim.state['topology']['sections'])
+    sim.state['control_mode'] = 'automatic'
     sim.state['running'] = True
     sim.tick(500)
     before = sim.snapshot()

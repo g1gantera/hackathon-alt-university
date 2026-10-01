@@ -4,7 +4,7 @@
   "backend/app/metrics/quality.py": "Validated selectable metric formula and shared category/contribution calculation. Fleet cancellation keeps consumed energy in forecast and reference totals.",
   "backend/app/planning/baseline.py": "Reserve synthetic station throat routes. User requested mandatory dispatcher track assignments and automatic wear-aware selection; independent validation preserved.",
   "backend/app/planning/solver.py": "Enforce switch route mutual exclusion and clearance intervals. User requested mandatory dispatcher track assignments and automatic wear-aware selection; independent validation preserved. User-requested explicit turnout geometry, model signals, dispatcher categories and persistent yield explanations.",
-  "backend/app/scenarios.py": "Explicit synthetic station throat assumptions for the corridor.",
+  "backend/app/scenarios.py": "Explicit synthetic station throat assumptions for the corridor. User requested smooth model-time rendering, manual route clearances, automatic plan application, removal prohibition, five priorities and selectable Akmola corridors; tests updated for explicit control mode.",
   "backend/app/schemas.py": "Typed switches and validation of switch closure resources. User requested mandatory dispatcher track assignments and automatic wear-aware selection; independent validation preserved. User-requested explicit turnout geometry, model signals, dispatcher categories and persistent yield explanations.",
   "backend/app/storage.py": "Asynchronous single history writer; explicit flush and shutdown.",
   "backend/app/validation/plan.py": "Independently check switch overlaps, closures and horizon. User requested mandatory dispatcher track assignments and automatic wear-aware selection; independent validation preserved.",
@@ -12,7 +12,7 @@
   "config/metrics.json": "Declare the default formula alongside all five weights.",
   "docker-compose.yml": "Secure default and persistent runtime metric settings.",
   "README.md": "Update run instructions, architecture and implemented metric behavior.",
-  "backend/tests/test_integration.py": "Select demo authorization explicitly in the pre-existing native integration test.",
+  "backend/tests/test_integration.py": "Select demo authorization explicitly in the pre-existing native integration test. User requested smooth model-time rendering, manual route clearances, automatic plan application, removal prohibition, five priorities and selectable Akmola corridors; tests updated for explicit control mode.",
   "Dockerfile": "Keep shared per-track display modules available in the frontend build stage; preserve the repository directory layout.",
   "backend/app/live_logic.py": "User-requested train removal retains energy already consumed by cancelled off-network trains in actual metrics.",
   "backend/app/planning/common.py": "User-requested manual track filtering and synthetic wear preference, including an uncertainty penalty for unknown condition."

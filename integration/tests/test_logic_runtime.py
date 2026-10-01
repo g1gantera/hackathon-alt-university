@@ -19,7 +19,9 @@ from integration.main import app
 
 @pytest.fixture(scope="module")
 def initial():
-    return LogicSimulator()
+    sim = LogicSimulator()
+    sim.state["control_mode"] = "automatic"
+    return sim
 
 
 @pytest.fixture
@@ -30,7 +32,7 @@ def sim(initial):
 def test_native_defaults_and_complete_trip_conservation(sim):
     expected = json.loads((main.ROOT / "config/metrics.json").read_text())
     assert config_for(sim.state).model_dump() == expected
-    assert {t.priority for t in scenario_for(sim.state).trains} == {1, 3}
+    assert {t.priority for t in scenario_for(sim.state).trains} == {20, 70}
     assert sim.snapshot()["metrics"]["energy_kwh"] == 0
     forecast = sim.state["active_plan"]["forecast"]
     sim.state["running"] = True
@@ -181,7 +183,7 @@ def test_speed_restriction_is_not_a_signal_failure_and_expiry_is_exclusive(sim):
 def test_settings_cannot_resurrect_invalid_plan(sim):
     sim.add_incident("closure", sim.state["scenario"]["sections"][0]["id"], 600)
     sim.update_settings(dict(sim.state["settings"], passenger_weight=20, freight_weight=0.1))
-    assert {t.priority for t in scenario_for(sim.state).trains} == {1, 20}
+    assert {t.priority for t in scenario_for(sim.state).trains} == {20, 70}
     assert Scenario.model_validate(scenario_for(sim.state).model_dump())
     assert not sim.active_public_plan()["applicable"]
     assert not sim.active_public_plan()["forecast"]["applicable"]

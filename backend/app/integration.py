@@ -14,6 +14,8 @@ import numpy as np
 from .switches import states as switch_states
 from .traffic_control import CATEGORIES, control_state, journal_events
 from .domain import ROOT
+from .control_mode import limit_time, authorized
+from .corridors import CORRIDORS
 from . import demo_planning, demo_validation
 from .metrics.quality import MetricConfig, calculate_metrics, profile_plan
 from .live_logic import prepare_profiles, sample_profile, waiting_energy, resource_states, actual_metrics
@@ -136,9 +138,10 @@ def validate_plan(state, plan):
 
 
 def topology(scenario):
-    infra = load_infrastructure()
+    corridor=scenario.metadata.get('corridor_key','kokshetau')
+    infra = load_infrastructure(CORRIDORS[corridor][1])
     features = json.loads((ROOT/'data/corridor/geometry.geojson').read_text(encoding='utf-8'))['features']
-    geometry = features[0]['geometry']['coordinates']
+    geometry = infra.get('geometry') or features[0]['geometry']['coordinates']
     distances = [0.0]
     for a,b in zip(geometry, geometry[1:]):
         lon1,lat1,lon2,lat2 = map(math.radians, (*a[:2], *b[:2]))
@@ -159,22 +162,26 @@ def topology(scenario):
                          'length_m':s.length_m,'speed_limit_mps':s.max_speed_mps,
                          'geometry':points,'main_tracks':[t.model_dump() for t in s.main_tracks]})
     display_tracks(stations, sections, scenario, infra, features)
-    return {'stations':stations,'sections':sections,'length_m':infra['length_m'],
+    return {'corridor_id':corridor,'name':infra['name'],'stations':stations,'sections':sections,'length_m':infra['length_m'],
             'track_geometry_note':'Номера путей и привязка к OSM условные; геометрия перегонных путей интерполирована. Пропускная способность задаётся моделью, не числом линий OSM.',
             'assumptions':scenario.metadata['assumptions'],'engine':'logic'}
 
 
 class LogicSimulator:
-    def __init__(self):
+    def __init__(self, corridor='kokshetau'):
+        self._corridor=corridor
         self.reset()
 
     def reset(self):
-        scenario = corridor_scenario()
+        scenario = corridor_scenario(CORRIDORS[self._corridor][1])
+        for train in scenario.trains:
+            train.dispatch_category=train.kind
+            train.priority=CATEGORIES[train.kind][1]
         result = build_baseline(scenario, time_budget_s=5)
         if result.plan is None:
             raise RuntimeError('No valid initial logic plan: ' + '; '.join(result.diagnostics))
         self.state = {'engine':'logic','scenario':scenario.model_dump(),'topology':topology(scenario),
-                      'sim_time_s':0,'state_version':0,'running':False,'speed':30,'incidents':[],
+                      'control_mode':'manual','route_clearances':[], 'sim_time_s':0,'state_version':0,'running':False,'speed':30,'incidents':[],
                       'settings':default_settings(),'epoch':str(uuid.uuid4()),
                       'constraint_version':0,'awaiting_plan':False, 'baseline_scenario':scenario.model_dump()}
         from .metric_settings import load_override
@@ -201,7 +208,7 @@ class LogicSimulator:
         plan = self.state['active_plan']
         end = max(max(m['release_s'] for m in plan['movements']),
                   max(s['departure_s'] for s in plan['_native']['stops']))
-        self.state['sim_time_s'] = min(end, self.state['sim_time_s']+seconds)
+        self.state['sim_time_s'] = min(end, limit_time(self.state, self.state['sim_time_s']+seconds))
         self.state['state_version'] += 1
         if self.state['sim_time_s'] >= end:
             self.state['running'] = False
@@ -306,8 +313,10 @@ class LogicSimulator:
         actual = actual_metrics(state, fleet, config_for(state), violations)
         switches = switch_states(state)
         signals, yields = control_state(state, fleet, switches, not violations and not state['awaiting_plan'] and not self.replanning)
+        manual_hold=any(now < m['start_s'] <= now+0.01 and not authorized(state,m) for m in plan['movements'])
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
-            'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','decision_hold':state['awaiting_plan'] or self.replanning,
+            'control_mode':state.get('control_mode','manual'), 'pending_departures':[dict(m, authorized=authorized(state,m)) for m in plan['movements'] if m['start_s']>now],
+            'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','manual_hold':manual_hold,'decision_hold':state['awaiting_plan'] or self.replanning or manual_hold,
             'trains':fleet,'sections':sections,'stations':stations,'switches':switches, 'signals':signals, 'dispatch_events':sorted({e['id']:e for e in journal_events(state, yields)+state.get('_dispatch_journal', [])}.values(), key=lambda e:e['sim_time_s'])[-500:], 'metrics':actual,
             'active_plan_id':plan['id'],'plan':self.active_public_plan(),'replanning':self.replanning}
 

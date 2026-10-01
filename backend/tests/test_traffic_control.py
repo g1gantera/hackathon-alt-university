@@ -42,6 +42,7 @@ def example():
     ]
     return dict(
         sim_time_s=20,
+        control_mode="automatic",
         scenario=dict(
             trains=trains,
             blocks=[],
@@ -49,6 +50,7 @@ def example():
                 dict(
                     id="AB",
                     station_a="A",
+                    length_m=1000,
                     station_b="B",
                     main_tracks=[dict(id="1", direction="a_to_b")],
                 )
@@ -155,7 +157,7 @@ def test_category_api_authorization_and_committed_route_preservation(tmp_path, m
         assert next(t for t in trains if t.id == body["train_id"]).priority == 100
         assert {t.priority for t in trains} == {20, 70, 100}
         state = client.get("/api/state").json()
-        assert state["signals"] and all(s["aspect"] == "red" for s in state["signals"])
+        assert state["signals"] and all(s["aspect"] == ("yellow" if s["type"] == "warning" else "red") for s in state["signals"])
 
 
 def test_publish_persists_yield_once_and_retains_after_replan(tmp_path, monkeypatch):

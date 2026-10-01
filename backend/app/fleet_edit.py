@@ -9,6 +9,7 @@ from typing import Literal
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field
 
+from .corridors import CORRIDORS
 from .integration import LogicSimulator, config_for, project_plan, scenario_for
 from .metrics.quality import calculate_metrics, profile_plan
 from .planning.baseline import build_baseline
@@ -25,6 +26,7 @@ class Addition(BaseModel):
     model_config = ConfigDict(extra="forbid")
     kind: Literal["passenger", "freight"]
     direction: Literal[1, -1]
+    dispatch_category: Literal["emergency", "passenger", "express_freight", "freight", "service"] | None = None
     ready_in_s: int = Field(default=120, ge=1, le=14400)
 
 
@@ -103,17 +105,21 @@ def prepare_edit(state, edit):
         (r["resource"], r["start_s"], r["end_s"])
         for r in reservations(retained_scenario.model_dump(), retained.model_dump())
     )
-    templates = corridor_scenario().trains
+    templates = corridor_scenario(CORRIDORS[state["topology"].get("corridor_id", "kokshetau")][1]).trains
     added = []
     for item in edit.add:
         template = next(t for t in templates if t.kind == item.kind).model_copy(deep=True)
         runtime = template.due_s - template.release_s
-        if item.direction == -1:
+        positions={s["id"]:s["position_m"] for s in state["topology"]["stations"]}
+        direction=1 if positions[template.route[-1]]>positions[template.route[0]] else -1
+        if item.direction != direction:
             template.route.reverse()
         template.id = f"USR-{'P' if item.kind == 'passenger' else 'F'}-{uuid.uuid4().hex[:6]}"
         template.release_s = math.ceil(now) + item.ready_in_s
         template.due_s = template.release_s + runtime
-        template.priority = max(1, round(state["settings"][item.kind + "_weight"]))
+        from .traffic_control import CATEGORIES
+        template.dispatch_category = item.dispatch_category or item.kind
+        template.priority = CATEGORIES[template.dispatch_category][1]
         added.append(template)
     if added:
         insertion = scenario.model_copy(deep=True)
@@ -179,6 +185,8 @@ async def edit_fleet(body: FleetEdit, request: Request):
     from . import main
 
     main.require(request)
+    if body.remove:
+        raise HTTPException(409, "Удаление поездов отключено. Завершённые рейсы сохраняются в составе и истории.")
     sim = main.sim
     if not isinstance(sim, LogicSimulator):
         raise HTTPException(409, "Изменение состава доступно для движка logic.")
@@ -209,4 +217,6 @@ async def edit_fleet(body: FleetEdit, request: Request):
         "simulation.changed", {"action": "fleet", "added": len(body.add), "removed": body.remove}
     )
     main.publish()
+    if sim.state.get("control_mode") == "automatic":
+        main.queue_replan()
     return sim.snapshot()

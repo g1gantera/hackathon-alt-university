@@ -13,7 +13,9 @@ from integration.main import app
 
 @pytest.fixture(scope="module")
 def initial():
-    return LogicSimulator()
+    sim = LogicSimulator()
+    sim.state["control_mode"] = "automatic"
+    return sim
 
 
 def test_batch_keeps_existing_movements_and_metrics_and_adds_both_directions(initial):
@@ -96,9 +98,11 @@ def test_permissions_step_and_atomic_fleet_route(tmp_path, monkeypatch):
         state = client.post("/api/simulation/step", json={"seconds": 30}).json()
         assert state["sim_time_s"] == 30 and not state["running"]
         assert client.post("/api/simulation/step", json={"seconds": -1}).status_code == 422
+        assert client.post("/api/fleet/batch", json=body).status_code == 409
+        body["remove"] = []
         changed = client.post("/api/fleet/batch", json=body)
         assert changed.status_code == 200, changed.text
-        assert len(changed.json()["trains"]) == 8
+        assert len(changed.json()["trains"]) == 9
         assert changed.json()["plan"]["forecast"]["applicable"]
         main.sim.state["awaiting_plan"] = True
         before = copy.deepcopy(main.sim.state)

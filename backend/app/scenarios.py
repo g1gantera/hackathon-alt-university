@@ -163,7 +163,7 @@ def corridor_scenario(
     for i in range(train_count):
         freight = i % 5 == 2
         # Freight terminates at Astana-1 rather than the Nurly Zhol passenger terminal.
-        train_route = route[: route.index("ASTANA_1") + 1] if freight else route[:]
+        train_route = [sid for sid in route if sid != "NURLY_ZHOL"] if freight else route[:]
         if i % 2:
             train_route.reverse()
         release = (i // 2) * departure_interval_s + (300 if i % 2 else 0)
@@ -195,7 +195,7 @@ def corridor_scenario(
         )
         train.due_s = release + running + (len(train_route) - 1) * train.min_dwell_s + 600
         trains.append(train)
-    horizon = max(86400, max(t.due_s for t in trains) + 28800)
+    horizon = max(172800 if "geometry" in infrastructure else 86400, max(t.due_s for t in trains) + 28800)
     return Scenario(
         id="kokshetau-nurly-zhol",
         horizon_s=horizon,
@@ -205,6 +205,7 @@ def corridor_scenario(
         trains=trains,
         metadata={
             "corridor": infrastructure["name"],
+            "corridor_key": infrastructure["id"] if "geometry" in infrastructure else "kokshetau",
             "geometry_length_m": infrastructure["length_m"],
             "terminal_ids": infrastructure["terminal_ids"],
             "traffic": {
@@ -228,7 +229,7 @@ def corridor_scenario(
                 "Номера и направления главных путей условные; количество сопоставлено с OSM",
                 "Каждый путь перегона эксклюзивен; автоблокировка внутри перегона не моделируется",
                 "Остановка на каждой моделируемой станции, скорость не выше 80 км/ч",
-                "Грузовые синтетические рейсы ограничены Астаной-1",
+                "Грузовые синтетические рейсы не заходят на пассажирский терминал Нурлы Жол",
                 "Запас до целевого конечного прибытия 10 минут, ровный профиль пути",
                 "Сопротивление Davis A+Bv+Cv² из railsim; коэффициенты учебные, рекуперация не задана",
             ],

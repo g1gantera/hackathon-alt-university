@@ -3,6 +3,8 @@
 No real signal inventory or infrastructure owner's operating rules are claimed.
 """
 
+from .control_mode import authorized as route_authorized
+
 CATEGORIES = {
     "emergency": ("Аварийный / особого назначения", 100),
     "passenger": ("Пассажирский", 70),
@@ -93,6 +95,19 @@ def control_state(state, fleet, switches, applicable):
             train["wait_reason"] = (
                 "Уступает " + ", ".join(train["waiting_for"]) + ": " + active[0]["reason"]
             )
+        next_move = next(
+            (
+                m
+                for m in state["active_plan"]["movements"]
+                if m["train_id"] == train["id"] and now < m["start_s"] <= now + 0.01
+            ),
+            None,
+        )
+        if next_move and not route_authorized(state, next_move):
+            train["wait_reason"] = (
+                "Ожидает разрешения диспетчера на отправление по назначенному маршруту"
+            )
+            train["waiting_for"] = []
     signals = []
     for section in state["scenario"]["sections"]:
         for track in section["main_tracks"]:
@@ -127,6 +142,7 @@ def control_state(state, fleet, switches, applicable):
                 green = bool(
                     applicable
                     and authorized
+                    and route_authorized(state, authorized)
                     and not blocked
                     and (
                         not lock
@@ -143,11 +159,56 @@ def control_state(state, fleet, switches, applicable):
                         aspect="green" if green else "red",
                         train_id=authorized["train_id"] if green else None,
                         synthetic=True,
+                        type="exit",
+                        offset_m=250,
                         reason="Разрешён проверенный маршрут назначенному поезду"
                         if green
                         else "Проезд запрещён: нет разрешённого отправления или маршрут ограничен",
                     )
                 )
+    # Entry and advance-warning heads are tied to an already reserved arrival.
+    # No intermediate block or shunting permissions are invented by these symbols.
+    for section in state["scenario"]["sections"]:
+        for track in section["main_tracks"]:
+            for origin, destination, direction in [
+                (section["station_a"], section["station_b"], "a_to_b"),
+                (section["station_b"], section["station_a"], "b_to_a"),
+            ]:
+                if track["direction"] not in ("both", direction):
+                    continue
+                move = next(
+                    (
+                        m
+                        for m in state["active_plan"]["movements"]
+                        if m["section_id"] == section["id"]
+                        and m["main_track_id"] == track["id"]
+                        and m["destination"] == destination
+                        and max(m["start_s"], m["end_s"] - 30) <= now < m["end_s"] + 15
+                    ),
+                    None,
+                )
+                green = bool(applicable and move and route_authorized(state, move))
+                for kind, offset in [("entry", 250), ("warning", 1000)]:
+                    signals.append(
+                        dict(
+                            id=f"{kind}:{section['id']}:{track['id']}:{destination}",
+                            type=kind,
+                            station_id=destination,
+                            section_id=section["id"],
+                            main_track_id=track["id"],
+                            offset_m=min(offset, section["length_m"] / 3),
+                            aspect="green" if green else "yellow" if kind == "warning" else "red",
+                            train_id=move["train_id"] if green else None,
+                            synthetic=True,
+                            reason=(
+                                "Приём по проверенному маршруту"
+                                if green
+                                else "Предупреждение: входной закрыт"
+                                if kind == "warning"
+                                else "Вход запрещён: нет разрешённого приёма"
+                            ),
+                        )
+                    )
     return signals, intervals
 
 
