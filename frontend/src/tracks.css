@@ -12,3 +12,5 @@
 
 .traffic-control{font:bold 12px system-ui;background:#fff;border:1px solid currentColor;border-radius:4px;padding:2px 4px;cursor:help}.traffic-control.red{color:#c83d36}.traffic-control.green{color:#15884b}.traffic-control.post{color:#715385;transform-origin:bottom; margin-bottom:24px}.dispatch-journal{padding:14px;margin:12px 0}.dispatch-journal h3{font-size:14px}.dispatch-journal>div{max-height:190px;overflow:auto}.dispatch-journal p{font-size:12px;line-height:1.5;border-bottom:1px solid #e5ecea;padding:7px}
 .traffic-control.signal-head{background:transparent;border:0;padding:0;line-height:0;filter:drop-shadow(0 1px 2px #fff)}.signal-head svg{display:block}.page-heading h1{font-size:26px!important}
+
+.track-load{padding:15px}.track-load h3{font-size:14px}.track-load p{font-size:11px;color:#718084;margin:8px 0;line-height:1.5}.track-load>div{max-height:220px;overflow:auto}.track-load section{margin:10px 0;font-size:11px}.track-load strong,.track-load span{display:block}.track-load progress{width:100%;accent-color:#178b78}.schematic{overflow-y:auto!important}.schematic svg{height:auto!important}

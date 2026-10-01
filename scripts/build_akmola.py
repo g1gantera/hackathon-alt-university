@@ -28,13 +28,21 @@ def main():
         ):
             continue
         if not all(
-            67 < vertices[v][0] < 74 and 50.8 < vertices[v][1] < 52.3 for v in (e["u"], e["v"])
+            66 < vertices[v][0] < 74 and 50.8 < vertices[v][1] < 53.7 for v in (e["u"], e["v"])
         ):
             continue
         graph.setdefault(e["u"], []).append((e["v"], e))
         graph.setdefault(e["v"], []).append((e["u"], e))
-    source = next(s for s in n["stations"] if s["osm_id"] == 13676555260)
-    for ident, osm in [("astana_atbasar", 4020137344), ("astana_ereymentau", 4025083260)]:
+    routes = [
+        ("astana1_ereymentau", 4020137343, 4025083260),
+        ("astana_atbasar", 13676555260, 4020137344),
+        ("astana_ereymentau", 13676555260, 4025083260),
+        ("atbasar_esil", 4020137344, 9037950278),
+        ("astana_burabay", 13676555260, 5810748819),
+        ("kokshetau_burabay", 4026381503, 5810748819),
+    ]
+    for ident, source_osm, osm in routes:
+        source = next(s for s in n["stations"] if s["osm_id"] == source_osm)
         target = next(s for s in n["stations"] if s["osm_id"] == osm)
 
         def snap(s):
@@ -78,9 +86,9 @@ def main():
             )
             points.extend(coords if not points else coords[1:])
             edge_ids.append(e["id"])
-            end = path_length + sum(distance(x,y) for x,y in zip(coords,coords[1:]))
-            edge_spans.append((path_length,end,n["ways"][e["way"]]["osm_id"]))
-            path_length=end
+            end = path_length + sum(distance(x, y) for x, y in zip(coords, coords[1:]))
+            edge_spans.append((path_length, end, n["ways"][e["way"]]["osm_id"]))
+            path_length = end
         lengths = [0]
         for x, y in zip(points, points[1:]):
             lengths.append(lengths[-1] + distance(x, y))
@@ -119,7 +127,7 @@ def main():
                 continue
             sid = (
                 "NURLY_ZHOL"
-                if s == source
+                if s["osm_id"] == 13676555260
                 else "ASTANA_1"
                 if s["osm_id"] == 4020137343
                 else "OSM_" + str(s["osm_id"])
@@ -127,7 +135,7 @@ def main():
             stations.append(
                 dict(
                     id=sid,
-                    name=s["name"],
+                    name=s["name"] or f"Станция OSM {s['osm_id']}",
                     osm_node_id=str(s["osm_id"]),
                     distance_m=dist,
                     coordinate=point,
@@ -148,7 +156,9 @@ def main():
                 length_m=y["distance_m"] - x["distance_m"],
                 model_main_track_count=1,
                 status="assumed_for_simulation",
-                osm_way_ids=sorted({way for a,b,way in edge_spans if a<y["distance_m"] and b>x["distance_m"]}),
+                osm_way_ids=sorted(
+                    {way for a, b, way in edge_spans if a < y["distance_m"] and b > x["distance_m"]}
+                ),
                 mapped_main_track_count=None,
             )
             for x, y in zip(stations, stations[1:])

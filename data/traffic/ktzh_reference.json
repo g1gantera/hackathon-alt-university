@@ -1,0 +1,18 @@
+{
+  "source_url": "https://bilet.railways.kz/post/schedule?_locale=ru",
+  "accessed_on": "2026-10-02",
+  "published_schedule_month": "2026-05",
+  "verified_for_current_date": false,
+  "scope": "Selected passenger route pairs and published frequency; not a complete working timetable",
+  "departure_times": "not provided in this source; synthesized in the simulation",
+  "freight": "not provided; synthesized independently",
+  "services": [
+    {"pair":"7507/7508","route":"Нурлы Жол — Кокшетау-1","weekdays":[0,1,2,3,4,5,6],"corridors":["kokshetau","astana_burabay","kokshetau_burabay"],"endpoints":["13676555260","4026381503"]},
+    {"pair":"6829/6830","route":"Астана-1 — Кокшетау-1","weekdays":[0,1,2,3,4,5,6],"corridors":["kokshetau","kokshetau_burabay"],"endpoints":["4020137343","4026381503"]},
+    {"pair":"887/888","route":"Нурлы Жол — Курорт Боровое","weekdays":[0,3,4,5,6],"corridors":["kokshetau","astana_burabay"],"endpoints":["13676555260","5810748819"]},
+    {"pair":"6803/6804","route":"Астана-1 — Атбасар","weekdays":[0,3,4,5,6],"corridors":["astana_atbasar"],"endpoints":["4020137343","4020137344"]},
+    {"pair":"6892/6891","route":"Жалтыр — Астана-1","weekdays":[0,1,2,3,4],"except_holidays":true,"corridors":["astana_atbasar"],"endpoint_names":["Жалтыр","Астана-1"]},
+    {"pair":"6831/6832","route":"Ерейментау — Астана-1","weekdays":[0,1,2,3,4,5,6],"corridors":["astana1_ereymentau"],"endpoints":["4025083260","4020137343"]},
+    {"pair":"6889/6890","route":"Атбасар — Есиль","weekdays":[0,1,2,3,4],"except_holidays":true,"corridors":["atbasar_esil"],"endpoints":["4020137344","9037950278"]}
+  ]
+}

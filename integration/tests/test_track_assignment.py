@@ -2,6 +2,7 @@
 
 import copy
 import math
+from itertools import combinations
 
 import pytest
 
@@ -57,11 +58,11 @@ def test_display_lanes_are_distinct_without_inventing_extra_capacity(initial):
     native = initial.state["scenario"]
     for station, model in zip(topology["stations"], native["stations"]):
         assert {t["id"] for t in station["track_layout"]} == {t["id"] for t in model["tracks"]}
-        a, b = [t["coordinate"] for t in station["track_layout"]]
-        separation = math.hypot(
-            (a[0] - b[0]) * 111195 * math.cos(math.radians(a[1])), (a[1] - b[1]) * 111195
-        )
-        assert separation > 2, (station["id"], separation)
+        for a, b in combinations([t["coordinate"] for t in station["track_layout"]], 2):
+            separation = math.hypot(
+                (a[0] - b[0]) * 111195 * math.cos(math.radians(a[1])), (a[1] - b[1]) * 111195
+            )
+            assert separation > 2, (station["id"], separation)
     for section in topology["sections"]:
         a, b = [t["geometry"] for t in section["main_tracks"]]
         assert len(a) == len(b) == len(section["geometry"])

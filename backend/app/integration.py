@@ -16,6 +16,8 @@ from .traffic_control import CATEGORIES, control_state, journal_events
 from .domain import ROOT
 from .control_mode import limit_time, authorized
 from .corridors import CORRIDORS
+from .station_capacity import expanded_stations
+from .traffic import daily_demand
 from . import demo_planning, demo_validation
 from .metrics.quality import MetricConfig, calculate_metrics, profile_plan
 from .live_logic import prepare_profiles, sample_profile, waiting_energy, resource_states, actual_metrics
@@ -168,12 +170,16 @@ def topology(scenario):
 
 
 class LogicSimulator:
-    def __init__(self, corridor='kokshetau'):
+    def __init__(self, corridor='kokshetau', traffic_profile='demo', service_date='2026-10-02'):
         self._corridor=corridor
+        self._traffic_profile=traffic_profile
+        self._service_date=service_date
         self.reset()
 
     def reset(self):
-        scenario = corridor_scenario(CORRIDORS[self._corridor][1])
+        scenario = expanded_stations(corridor_scenario(CORRIDORS[self._corridor][1]))
+        if self._traffic_profile=="reference_day":
+            scenario=daily_demand(scenario,self._service_date)
         for train in scenario.trains:
             train.dispatch_category=train.kind
             train.priority=CATEGORIES[train.kind][1]
@@ -316,7 +322,7 @@ class LogicSimulator:
         manual_hold=any(now < m['start_s'] <= now+0.01 and not authorized(state,m) for m in plan['movements'])
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
             'control_mode':state.get('control_mode','manual'), 'pending_departures':[dict(m, authorized=authorized(state,m)) for m in plan['movements'] if m['start_s']>now],
-            'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','manual_hold':manual_hold,'decision_hold':state['awaiting_plan'] or self.replanning or manual_hold,
+            'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','traffic':state['scenario'].get('metadata',{}).get('traffic',{}),'station_capacity':state['scenario'].get('metadata',{}).get('station_capacity',{}),'manual_hold':manual_hold,'decision_hold':state['awaiting_plan'] or self.replanning or manual_hold,
             'trains':fleet,'sections':sections,'stations':stations,'switches':switches, 'signals':signals, 'dispatch_events':sorted({e['id']:e for e in journal_events(state, yields)+state.get('_dispatch_journal', [])}.values(), key=lambda e:e['sim_time_s'])[-500:], 'metrics':actual,
             'active_plan_id':plan['id'],'plan':self.active_public_plan(),'replanning':self.replanning}
 
