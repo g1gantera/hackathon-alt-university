@@ -6,6 +6,7 @@ from .advisory import sample
 from .metrics import DEFAULT_SETTINGS, metrics
 from .planning import build_plans
 from .validation import validate_plan
+from .railway_map import train_map_data
 
 
 class Simulator:
@@ -81,6 +82,7 @@ class Simulator:
                 elif base['end_s']<now:
                     item['delay_s']=max(item['delay_s'],now-base['end_s'])
             item['eta_s'] = legs[-1]['end_s'] if not state['awaiting_plan'] else None
+            item.update(train_map_data(topo,item))
             fleet.append(item)
         sections = []
         for section in topo['sections']:

@@ -6,6 +6,34 @@ rail network is visible on the map; the simulation is limited to a connected
 
 ![Dispatcher dashboard](docs/dispatcher-preview.png)
 
+## Step 1: railway-section map
+
+The full Kazakhstan layer retains 23,280 OSM rail segments. The simulated section
+is Astana?Kokshetau: six named station anchors, five connected sections and eight
+mock trains. Stations and capacity are demo assumptions; this is not a live feed.
+
+- Click **? ????????** to focus on the section; **???? ?????????** restores the
+  nationwide view without removing its rail layer.
+- Click **?????????**: opposing trains move along the actual rail polyline.
+  Their circular marker centres stay on the line; arrows follow travel direction.
+  Green means passenger, amber means freight. Labels show waiting/moving/arrived.
+- Click a train marker or train list entry to select it and see its named route,
+  speed and status. Click a station to see its name, route distance and demo capacity.
+- Pause to inspect; use **? ? ????????** to restart after completing the route.
+- Rail data loads independently of external map tiles. If the nationwide dataset
+  fails to load, use **?????????** in the map caption.
+
+`backend/app/railway_map.py` is the map foundation for the next backend steps.
+`GET /api/map` returns station Points and railway LineStrings as GeoJSON.
+`GET /api/network` returns the unchanged nationwide lines. Existing `/api/state`
+and `/ws` snapshots now include train `coordinate` ([longitude, latitude]),
+`bearing_deg` (clockwise from north), `route_station_ids`, `route_name`,
+`origin_id`, `destination_id`, and `position_source=simulation`.
+The browser renders these backend coordinates rather than calculating a second
+position independently. Model distance is projected onto each rail polyline.
+This increment focuses on map presentation; later backend steps can replace the
+existing simulator behind this contract.
+
 ## Repository layout
 
 ```text

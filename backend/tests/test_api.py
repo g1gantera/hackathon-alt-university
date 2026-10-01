@@ -7,8 +7,13 @@ def test_api_history_csv_roles_and_stale_plan(tmp_path,monkeypatch):
     monkeypatch.setenv('DATABASE_URL',f'sqlite:///{tmp_path / "test.sqlite"}')
     with TestClient(main.app) as client:
         assert client.get('/api/topology').status_code==200
+        map_data=client.get('/api/map').json()
+        assert map_data['type']=='FeatureCollection'
+        assert len(map_data['features'])==11
         before=client.get('/api/state').json()
         assert len(before['trains'])==8
+        assert len(before['trains'][0]['coordinate'])==2
+        assert before['trains'][0]['route_name']
         assert client.post('/api/simulation/speed',json={'multiplier':15}).status_code==200
         assert client.get('/api/trains/T01/profile').json()['reachable']
         assert client.get('/api/report.csv').text.count('\n')==9

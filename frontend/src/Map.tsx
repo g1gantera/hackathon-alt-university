@@ -1,55 +1,87 @@
 import {useEffect,useRef,useState} from 'react';
-import maplibregl from 'maplibre-gl';
+import maplibregl, {type GeoJSONSourceSpecification} from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import type {Topology,Snapshot,Train} from './types';
+import type {Topology,Snapshot} from './types';
 import {useDispatch} from './store';
 
-function coordinate(train:Train,topology:Topology):[number,number]{
- const position=Math.max(0,Math.min(topology.length_m,train.position_m));
- const index=Math.max(0,topology.stations.findIndex(s=>s.position_m>=position)-1);
- const section=topology.sections[index];
- const fraction=Math.min(1,Math.max(0,(position-topology.stations[index].position_m)/section.length_m));
- const points=section.geometry;
- const lengths=[0];
- for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];const dx=(b[0]-a[0])*Math.cos((a[1]+b[1])*Math.PI/360);lengths.push(lengths[i-1]+Math.hypot(dx,b[1]-a[1]));}
- const target=fraction*lengths.at(-1)!;
- let i=lengths.findIndex(x=>x>=target);if(i<=0)return points[0];
- const ratio=(target-lengths[i-1])/(lengths[i]-lengths[i-1]||1);
- return [points[i-1][0]+ratio*(points[i][0]-points[i-1][0]),points[i-1][1]+ratio*(points[i][1]-points[i-1][1])];
+const trainStatus:Record<string,string>={waiting:'?? ???????',moving:'? ????????',completed:'??????'};
+let networkRequest:Promise<Extract<GeoJSONSourceSpecification['data'],{type:'FeatureCollection'}>>|null=null;
+function loadNetwork(){
+ if(!networkRequest)networkRequest=fetch('/api/network').then(r=>{if(!r.ok)throw Error('Network unavailable');return r.json();}).catch(error=>{networkRequest=null;throw error;});
+ return networkRequest;
 }
 
 export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapshot:Snapshot;allCountry:boolean}){
  const container=useRef<HTMLDivElement>(null),map=useRef<maplibregl.Map|null>(null);
  const markers=useRef(new Map<string,maplibregl.Marker>());
+ const retryNetwork=useRef<()=>void>(()=>{});
  const {selected,select}=useDispatch();
- const [ready,setReady]=useState(false),[networkState,setNetworkState]=useState('Загрузка сети Казахстана…');
+ const [ready,setReady]=useState(false),[networkError,setNetworkError]=useState(false),[networkState,setNetworkState]=useState('???????? ???? ???????????');
  useEffect(()=>{
   if(!container.current)return;
-  const m=new maplibregl.Map({container:container.current,style:{version:8,sources:{base:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,attribution:'© OpenStreetMap contributors'}},layers:[{id:'background',type:'background',paint:{'background-color':'#eef1eb'}},{id:'base',source:'base',type:'raster',paint:{'raster-saturation':-.85,'raster-opacity':.53}}]},center:[70.5,52.25],zoom:7.1,attributionControl:{compact:true}});
+  setReady(false);
+  const m=new maplibregl.Map({container:container.current,style:{version:8,sources:{base:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,attribution:'? OpenStreetMap contributors'}},layers:[{id:'background',type:'background',paint:{'background-color':'#eef1eb'}},{id:'base',source:'base',type:'raster',paint:{'raster-saturation':-.85,'raster-opacity':.53}}]},center:[70.5,52.25],zoom:7.1,attributionControl:{compact:true}});
   map.current=m;
   m.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
-  m.on('load',()=>{
+  // Rail data does not wait for external raster tiles to finish loading.
+  m.once('style.load',()=>{
    m.addSource('corridor',{type:'geojson',data:{type:'FeatureCollection',features:topology.sections.map(s=>({type:'Feature',properties:{id:s.id,status:'open'},geometry:{type:'LineString',coordinates:s.geometry}}))}});
-   m.addLayer({id:'corridor-halo',source:'corridor',type:'line',paint:{'line-color':'#ffffff','line-width':8}});
-   m.addLayer({id:'corridor',source:'corridor',type:'line',paint:{'line-color':['match',['get','status'],'closed','#dd6652','signal_failure','#d59831','occupied','#167466','#228b79'],'line-width':4}});
-   for(const station of topology.stations){const element=document.createElement('div');element.className='map-station';const dot=document.createElement('i');const label=document.createElement('span');label.textContent=station.name;element.append(dot,label);new maplibregl.Marker({element,anchor:'left'}).setLngLat(station.coordinate).addTo(m);}
-   fetch('/api/network').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{if(map.current!==m)return;m.addSource('network',{type:'geojson',data});m.addLayer({id:'network',source:'network',type:'line',paint:{'line-color':'#526e7d','line-width':['interpolate',['linear'],['zoom'],4,1,10,2,15,3],'line-opacity':.9}},'corridor-halo');setNetworkState(`${data.features.length.toLocaleString('ru')} сегментов · OpenStreetMap`);}).catch(()=>setNetworkState('Сеть не загрузилась — доступен маршрут демо'));
-   setReady(true);
+   m.addLayer({id:'corridor-halo',source:'corridor',type:'line',paint:{'line-color':'#ffffff','line-width':7}});
+   m.addLayer({id:'corridor',source:'corridor',type:'line',paint:{'line-color':['match',['get','status'],'closed','#dd6652','signal_failure','#d59831','occupied','#167466','#228b79'],'line-width':3}});
+   for(const station of topology.stations){
+    const element=document.createElement('button');element.type='button';element.className='map-station station-button';element.setAttribute('aria-label',`??????? ${station.name}`);
+    const dot=document.createElement('i'),label=document.createElement('span');label.textContent=station.name;element.append(dot,label);
+    const details=document.createElement('div');details.className='station-popup';
+    const title=document.createElement('strong'),description=document.createElement('p');title.textContent=station.name;description.textContent=`${(station.position_m/1000).toFixed(1)} ?? ? ${station.tracks} ????? ? ??????????. ??????????? ??????????? ????????.`;details.append(title,description);
+    new maplibregl.Marker({element,anchor:'left',offset:[-4,0]}).setLngLat(station.coordinate).setPopup(new maplibregl.Popup({offset:10}).setDOMContent(details)).addTo(m);
+   }
+   const requestNetwork=()=>{
+    setNetworkError(false);setNetworkState('???????? ???? ???????????');
+    loadNetwork().then(data=>{
+     if(map.current!==m)return;
+     if(!m.getSource('network')){
+      m.addSource('network',{type:'geojson',data});
+      m.addLayer({id:'network',source:'network',type:'line',paint:{'line-color':'#526e7d','line-width':['interpolate',['linear'],['zoom'],4,1,10,2,15,3],'line-opacity':.9}},'corridor-halo');
+     }
+     setNetworkState(`${data.features.length.toLocaleString('ru')} ????????? ? OpenStreetMap`);
+    }).catch(()=>{if(map.current===m){setNetworkError(true);setNetworkState('?? ??????? ????????? ???? ??????????');}});
+   };
+   retryNetwork.current=requestNetwork;requestNetwork();setReady(true);
   });
   const resize=new ResizeObserver(()=>m.resize());resize.observe(container.current);
   return()=>{resize.disconnect();markers.current.clear();m.remove();map.current=null;};
  },[topology]);
- useEffect(()=>{if(ready)map.current?.fitBounds(allCountry?[[46,40.3],[88,56]]:[[69.1,51.05],[71.8,53.5]],{padding:55,duration:700});},[ready,allCountry]);
+ useEffect(()=>{
+  if(!ready)return;
+  const bounds=new maplibregl.LngLatBounds();
+  if(allCountry){bounds.extend([46,40.3]);bounds.extend([88,56]);}
+  else topology.sections.forEach(s=>s.geometry.forEach(p=>bounds.extend(p)));
+  map.current?.fitBounds(bounds,{padding:55,duration:700});
+ },[ready,allCountry,topology]);
  useEffect(()=>{
   const m=map.current;if(!ready||!m)return;
   (m.getSource('corridor') as maplibregl.GeoJSONSource)?.setData({type:'FeatureCollection',features:topology.sections.map(s=>({type:'Feature',properties:{id:s.id,status:snapshot.sections.find(x=>x.id===s.id)?.status||'open'},geometry:{type:'LineString',coordinates:s.geometry}}))});
+  for(const [id,marker] of markers.current)if(!snapshot.trains.some(t=>t.id===id)){marker.remove();markers.current.delete(id);}
   snapshot.trains.forEach((train,index)=>{
    let marker=markers.current.get(train.id);
-   if(!marker){const element=document.createElement('button');element.addEventListener('click',()=>select(train.id));element.setAttribute('aria-label',`Поезд ${train.number}`);marker=new maplibregl.Marker({element,anchor:'right',offset:[-10,index%4*22-25]}).setLngLat(coordinate(train,topology)).addTo(m);markers.current.set(train.id,marker);}
-   marker.setOffset([-8,train.status==='waiting'||train.status==='completed'?Math.floor(index/2)*23-35:0]);marker.setLngLat(coordinate(train,topology));const element=marker.getElement();element.className=`maplibregl-marker maplibregl-marker-anchor-right map-train ${train.type} ${selected===train.id?'selected':''}`;element.textContent=`${train.direction>0?'↑':'↓'} ${train.number}`;element.title=`${(train.speed_mps*3.6).toFixed(0)} км/ч · +${(train.delay_s/60).toFixed(1)} мин`;
+   if(!marker){
+    const element=document.createElement('button');element.type='button';element.className='train-pin';element.addEventListener('click',()=>select(train.id));
+    const arrow=document.createElement('span');arrow.className='train-bearing';arrow.textContent='?';
+    const label=document.createElement('span');label.className='train-label';element.append(arrow,label);
+    marker=new maplibregl.Marker({element,anchor:'center',offset:[0,0]}).setLngLat(train.coordinate).addTo(m);markers.current.set(train.id,marker);
+   }
+   marker.setLngLat(train.coordinate);
+   const element=marker.getElement();element.classList.toggle('freight',train.type==='freight');element.classList.toggle('selected',selected===train.id);element.classList.toggle('stopped',train.status!=='moving');
+   const label=element.querySelector('.train-label') as HTMLElement;
+   label.textContent=`${train.number} ? ${trainStatus[train.status]||train.status}`;
+   label.style.top=`${train.status==='moving'?-12:(Math.floor(index/2)-1)*25}px`;
+   (element.querySelector('.train-bearing') as HTMLElement).style.transform=`rotate(${train.bearing_deg-m.getBearing()}deg)`;
+   element.title=`? ${train.number} ? ${train.route_name} ? ${trainStatus[train.status]} ? ${(train.speed_mps*3.6).toFixed(0)} ??/?`;
+   element.setAttribute('aria-label',element.title);
   });
  },[snapshot,ready,selected,topology,select]);
- return <div className="map-wrapper"><div ref={container} className="map-canvas"/><div className="map-caption"><span className="dot green"/>{networkState}</div><div className="map-distance"><strong>{(topology.length_m/1000).toFixed(1)}</strong><span>км маршрута</span></div></div>;
+ const selectedTrain=snapshot.trains.find(t=>t.id===selected);
+ return <div className="map-wrapper"><div ref={container} className="map-canvas"/><div className="map-caption"><span className="dot green"/>{networkState}{networkError&&<button onClick={()=>retryNetwork.current()}>?????????</button>}</div>{selectedTrain&&<div className="map-selected"><strong>? {selectedTrain.number} ? {trainStatus[selectedTrain.status]}</strong><span>{selectedTrain.route_name}</span><small>{(selectedTrain.speed_mps*3.6).toFixed(0)} ??/? ? ???????? ????????????</small></div>}<div className="map-distance"><strong>{(topology.length_m/1000).toFixed(1)}</strong><span>?? ????????</span></div></div>;
 }
 
 export function TrackDiagram({topology,snapshot}:{topology:Topology;snapshot:Snapshot}){

@@ -24,6 +24,7 @@ from .planning import build_plans, warm_worker
 from .simulator import Simulator
 from .storage import Store
 from .validation import validate_plan
+from .railway_map import infrastructure
 
 logger = logging.getLogger('dispatch')
 logging.basicConfig(level=logging.INFO,format='%(message)s')
@@ -211,6 +212,12 @@ async def get_topology(request:Request):
 async def network(request:Request):
     require(request,'viewer')
     return FileResponse(ROOT/'data/kazakhstan_railways.geojson',media_type='application/geo+json')
+
+
+@app.get('/api/map')
+async def map_infrastructure(request:Request):
+    require(request,'viewer')
+    return infrastructure(sim.state['topology'])
 
 
 @app.post('/api/simulation/{action}')
