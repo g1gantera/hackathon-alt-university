@@ -1,5 +1,6 @@
 """Run all 19 disturbances and 1x/2x/3x day demand; save auditable results."""
 
+import argparse
 import csv
 import html
 import json
@@ -24,13 +25,25 @@ CONFIG = MetricConfig.load(ROOT / "config/metrics.json")
 
 
 def run():
+    global OUT
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cross-load", action="store_true")
+    parser.add_argument("--budget", type=float, default=5)
+    parser.add_argument("--corridor")
+    parser.add_argument("--cases", help="Comma-separated subset for focused regression")
+    parser.add_argument("--output-dir")
+    args = parser.parse_args()
+    if args.output_dir:
+        OUT = Path(args.output_dir)
+        OUT.mkdir(parents=True, exist_ok=True)
     rows = []
 
     def save():
         result = {
             "date": "2026-10-02",
             "reference_month": "2026-05",
-            "solver_budget_s": 5,
+            "solver_budget_s": args.budget,
+            "cross_load": args.cross_load,
             "demand_note": "All departure times and freight volumes synthetic; passenger pairs from archived KTZ reference.",
             "summary": dict(Counter(r["status"] for r in rows)),
             "cases": rows,
@@ -72,11 +85,19 @@ def run():
         )
 
     for key, (_, path) in CORRIDORS.items():
-        base = expanded_stations(corridor_scenario(path))
+        if args.corridor and key != args.corridor:
+            continue
+        base = None if key == "akmola_network" else expanded_stations(corridor_scenario(path))
         for multiplier in (1, 2, 3):
-            scenario = daily_demand(base, multiplier=multiplier)
+            if key == "akmola_network":
+                from backend.app.regional import regional_scenario
+                from backend.app.regional_traffic import reference_demand
+
+                scenario = reference_demand(regional_scenario(), multiplier=multiplier)
+            else:
+                scenario = daily_demand(base, multiplier=multiplier)
             began = time.perf_counter()
-            baseline = build_baseline(scenario, time_budget_s=5)
+            baseline = build_baseline(scenario, time_budget_s=max(5, args.budget))
             if baseline.plan is None:
                 rows.append(
                     dict(
@@ -92,8 +113,10 @@ def run():
                 save()
                 continue
             workloads = [("daily_load", scenario, None)]
-            if multiplier == 1:
+            if multiplier == 1 or args.cross_load:
                 for kind in INCIDENTS:
+                    if args.cases and kind not in args.cases.split(","):
+                        continue
                     try:
                         workloads.append(
                             (kind, incident_scenario(scenario, baseline.plan, kind), baseline.plan)
@@ -103,15 +126,17 @@ def run():
                             dict(
                                 corridor=key,
                                 case=kind,
-                                multiplier=1,
+                                multiplier=multiplier,
                                 trains=len(scenario.trains),
                                 status="not_applicable",
                                 diagnostics=str(error),
                             )
                         )
             for kind, changed, previous in workloads:
+                if args.cases and kind not in args.cases.split(","):
+                    continue
                 started = time.perf_counter()
-                solved = solve_plan(changed, previous=previous, time_budget_s=5)
+                solved = solve_plan(changed, previous=previous, time_budget_s=args.budget)
                 plan = solved.plan
                 # A valid baseline may be retained for ordinary demand only.
                 retained = False

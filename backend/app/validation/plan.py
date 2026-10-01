@@ -112,7 +112,20 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
             )
             if end > scenario.horizon_s:
                 add("HORIZON", "Section release exceeds planning horizon", [train.id])
-            reservations.append((resource, move.start_s, end, train.id))
+            if section.block_length_m:
+                from backend.app.block_sections import reservations as block_reservations
+                try:
+                    reservations.extend(block_reservations(train,section,move))
+                except ValueError as error:
+                    add("BLOCK_TIMING",str(error),[train.id],resource)
+                for peer in plan.movements:
+                    if peer.train_id!=train.id and peer.section_id==section.id and peer.main_track_id==move.main_track_id and peer.origin!=move.origin and move.start_s < peer.end_s + section.headway_s + math.ceil(trains[peer.train_id].length_m/section.tail_clearance_speed_mps) and peer.start_s < end:
+                        add("OPPOSING", "Opposing routes overlap on a bidirectional line", [train.id,peer.train_id],resource)
+                for block in scenario.blocks:
+                    if block.kind=="closure" and block.resource==resource and move.start_s<block.end_s and block.start_s<end:
+                        add("CLOSURE", "Movement overlaps main track closure",[train.id],resource)
+            else:
+                reservations.append((resource, move.start_s, end, train.id))
             reservations.extend((r, move.start_s, end, train.id) for r in section.shared_resources)
             for block in scenario.blocks:
                 if (

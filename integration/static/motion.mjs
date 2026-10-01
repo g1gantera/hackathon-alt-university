@@ -16,9 +16,10 @@ export function poseAt(topology, before, after, train, time) {
   const start=sameOld?before.sim_time_s:move.start_s,end=sameNew?after.sim_time_s:move.end_s;
   const a=sameOld?old.position_m:origin.position_m,b=sameNew?train.position_m:destination.position_m;
   const fraction=Math.max(0,Math.min(1,(time-start)/(end-start||1)));
+  const section=topology.sections?.find(s=>s.id===move.section_id);
   return {...train,on_network:true,station_id:null,station_track_id:null,section_id:move.section_id,main_track_id:move.main_track_id,
     departure_track_id:stops.find(s=>s.station_id===move.origin)?.track_id,arrival_track_id:stops.find(s=>s.station_id===move.destination)?.track_id,
-    position_m:a+(b-a)*fraction};
+    direction:section?(section.from_station===move.origin?1:-1):(origin.position_m<destination.position_m?1:-1),position_m:a+(b-a)*fraction};
 }
 export function frameTime(before,after,received,now,duration,historical=false){
  if(historical||before.epoch!==after.epoch||before.active_plan_id!==after.active_plan_id||after.sim_time_s<=before.sim_time_s)return after.sim_time_s;

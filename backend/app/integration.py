@@ -106,9 +106,11 @@ def build_plans(state):
     started = time.perf_counter()
     scenario = scenario_for(state)
     # Reserve time within the live five-second target for API projection and IPC.
+    network=scenario.metadata.get('network',False)
+    budget=state.get('planning_budget_s',15 if network else 5)
     result = plan_alternatives(scenario, config_for(state),
                                previous=Plan.model_validate(state['active_plan']['_native']),
-                               strategies=('balanced', 'passenger', 'eco'), time_budget_s=3.2)
+                               strategies=('balanced',) if network else ('balanced', 'passenger', 'eco'), time_budget_s=max(1,budget-.8))
     plans = [project_plan(state, scenario, c.plan, c.profiles, c.metrics) for c in result.candidates]
     elapsed = time.perf_counter()-started
     return {'plans':plans, 'diagnostics':result.diagnostics, 'message':'; '.join(result.diagnostics),
@@ -140,6 +142,9 @@ def validate_plan(state, plan):
 
 
 def topology(scenario):
+    if scenario.metadata.get('network'):
+        from .regional import regional_topology
+        return regional_topology(scenario)
     corridor=scenario.metadata.get('corridor_key','kokshetau')
     infra = load_infrastructure(CORRIDORS[corridor][1])
     features = json.loads((ROOT/'data/corridor/geometry.geojson').read_text(encoding='utf-8'))['features']
@@ -177,8 +182,15 @@ class LogicSimulator:
         self.reset()
 
     def reset(self):
-        scenario = expanded_stations(corridor_scenario(CORRIDORS[self._corridor][1]))
-        if self._traffic_profile=="reference_day":
+        if self._corridor=="akmola_network":
+            from .regional import regional_scenario
+            scenario=regional_scenario(self._service_date)
+            if self._traffic_profile=="reference_day":
+                from .regional_traffic import reference_demand
+                scenario=reference_demand(scenario,self._service_date)
+        else:
+            scenario = expanded_stations(corridor_scenario(CORRIDORS[self._corridor][1]))
+        if self._traffic_profile=="reference_day" and self._corridor!="akmola_network":
             scenario=daily_demand(scenario,self._service_date)
         for train in scenario.trains:
             train.dispatch_category=train.kind
@@ -295,7 +307,10 @@ class LogicSimulator:
                     break
                 p = plan['_profiles'][f"{train['id']}:{m['section_id']}"]
                 position, speed, energy = sample_profile(p,now-m['start_s'])
-                item['position_m'] = self._position(m['origin'])+train['direction']*position
+                origin_pos,dest_pos=self._position(m['origin']),self._position(m['destination'])
+                item['position_m'] = origin_pos+(dest_pos-origin_pos)*position/max(1,p['points'][-1]['position_m'])
+                section=next(s for s in state['topology']['sections'] if s['id']==m['section_id'])
+                item['direction'] = 1 if section['from_station']==m['origin'] else -1
                 item['distance_travelled_m'] += position
                 item['speed_mps'] = speed
                 item['energy_kwh'] += energy
@@ -319,8 +334,12 @@ class LogicSimulator:
         actual = actual_metrics(state, fleet, config_for(state), violations)
         switches = switch_states(state)
         signals, yields = control_state(state, fleet, switches, not violations and not state['awaiting_plan'] and not self.replanning)
+        if state['scenario']['metadata'].get('network'):
+            from .block_sections import signal_states
+            signals.extend(signal_states(scenario_for(state),Plan.model_validate(plan['_native']),now,not violations and not state['awaiting_plan']))
         manual_hold=any(now < m['start_s'] <= now+0.01 and not authorized(state,m) for m in plan['movements'])
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
+            'planning_budget_s':state.get('planning_budget_s',15 if state['scenario']['metadata'].get('network') else 5),
             'control_mode':state.get('control_mode','manual'), 'pending_departures':[dict(m, authorized=authorized(state,m)) for m in plan['movements'] if m['start_s']>now],
             'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','traffic':state['scenario'].get('metadata',{}).get('traffic',{}),'station_capacity':state['scenario'].get('metadata',{}).get('station_capacity',{}),'manual_hold':manual_hold,'decision_hold':state['awaiting_plan'] or self.replanning or manual_hold,
             'trains':fleet,'sections':sections,'stations':stations,'switches':switches, 'signals':signals, 'dispatch_events':sorted({e['id']:e for e in journal_events(state, yields)+state.get('_dispatch_journal', [])}.values(), key=lambda e:e['sim_time_s'])[-500:], 'metrics':actual,

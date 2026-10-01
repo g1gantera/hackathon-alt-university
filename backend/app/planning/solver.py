@@ -35,8 +35,14 @@ def solve_plan(
     it is a soft wall-clock target, not a hard real-time guarantee.
     """
     started = time.perf_counter()
+    fallback = None
 
     def result(status, plan=None, diagnostics=()):
+        if status=="UNKNOWN" and plan is None and fallback is not None:
+            plan=fallback.model_copy(deep=True)
+            plan.strategy=strategy
+            plan.explanations.append("Лимит оптимизации исчерпан; возвращён независимо проверенный допустимый план без доказательства оптимальности.")
+            status="FEASIBLE"
         elapsed = (time.perf_counter() - started) * 1000
         if plan is not None:
             plan.elapsed_ms = elapsed
@@ -64,10 +70,17 @@ def solve_plan(
             or len(previous.movements) != len(expected_moves)
         ):
             return result("INVALID", diagnostics=["Previous plan does not cover the scenario"])
+    if previous and time_budget_s>.1:
+        checked=previous.model_copy(update={'state_version':scenario.state_version})
+        if not validate_plan(scenario,checked,previous):
+            fallback=checked
+        elif strategy=="balanced" and time_budget_s>.2:
+            from backend.app.planning.repair import repair_plan
+            fallback=repair_plan(scenario,previous,time_budget_s=min(3,time_budget_s*.5))
     model = cp_model.CpModel()
     # Seed CP-SAT with a checked constructive schedule; do not spend the whole
     # short budget searching for the first feasible assignment from scratch.
-    seed = previous
+    seed = fallback or previous
     if scenario.now_s == 0 and time_budget_s > 0.05:
         seed = build_baseline(
             scenario,
@@ -78,6 +91,7 @@ def solve_plan(
     seed_moves = {} if seed is None else {(m.train_id, m.origin): m for m in seed.movements}
     resources = defaultdict(list)
     section_intervals, recoveries = defaultdict(list), []
+    block_opponents=defaultdict(list)
     arrivals, departures, tracks, locked_moves = committed_fields(scenario, previous)
     station_map = {s.id: s for s in scenario.stations}
     stop_vars, move_vars = {}, []
@@ -225,7 +239,32 @@ def solve_plan(
                     chosen,
                     f"movement_{key}_{track.id}",
                 )
-                resources[resource].append(interval)
+                if section.block_length_m:
+                    from backend.app.block_sections import offsets
+                    variants={}
+                    for lo,hi,d in windows:
+                        dur=(locked_moves[key][1]-locked_moves[key][0]) if key in locked_moves else math.ceil(d*multiplier)+hold
+                        entry=locked_moves[key][0] if key in locked_moves else lo
+                        variants[dur]=offsets(train,section,origin,dur,entry)
+                    count=len(next(iter(variants.values())))
+                    for bi in range(count):
+                        rows=[(dur,*next((a,b) for idx,a,b in spans if idx==bi)) for dur,spans in variants.items()]
+                        lo_var=model.new_int_var(0,scenario.horizon_s,f"blo_{key}_{track.id}_{bi}")
+                        hi_var=model.new_int_var(0,scenario.horizon_s,f"bhi_{key}_{track.id}_{bi}")
+                        model.add_allowed_assignments([duration,lo_var,hi_var],rows)
+                        bs=model.new_int_var(0,scenario.horizon_s,f"bs_{key}_{track.id}_{bi}")
+                        be=model.new_int_var(0,scenario.horizon_s,f"be_{key}_{track.id}_{bi}")
+                        size=model.new_int_var(1,scenario.horizon_s,f"bz_{key}_{track.id}_{bi}")
+                        model.add(bs==start+lo_var);model.add(be==start+hi_var);model.add(size==hi_var-lo_var)
+                        resources[f"block:{section.id}:{track.id}:{bi}"].append(model.new_optional_interval_var(bs,size,be,chosen,f"block_interval_{key}_{track.id}_{bi}"))
+                    for peer_origin,peer_interval in block_opponents[resource]:
+                        if peer_origin!=origin:model.add_no_overlap([interval,peer_interval])
+                    block_opponents[resource].append((origin,interval))
+                    # Closures still prohibit the entire movement on the affected line.
+                    for a,b in merged_closures(scenario).get(resource,[]):
+                        model.add_no_overlap([interval,model.new_fixed_size_interval_var(a,b-a,f"line_closed_{key}_{track.id}_{a}")])
+                else:
+                    resources[resource].append(interval)
                 if key in locked_moves:
                     model.add(chosen == int(track.id == locked_moves[key][2]))
                 if key in seed_moves:

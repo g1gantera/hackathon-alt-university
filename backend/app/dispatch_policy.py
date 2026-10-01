@@ -252,3 +252,71 @@ async def save_category(body: CategoryChange, request: Request):
         raise HTTPException(409, str(error)) from error
     commit(sim, scenario, "category")
     return {"accepted": True}
+
+
+class PhysicsChange(BaseModel):
+    epoch: str
+    train_id: str
+    traction_power_w: float | None = Field(default=None, gt=0)
+    regenerative_efficiency: float = Field(default=0, ge=0, le=1)
+    grid_receptivity: float = Field(default=0, ge=0, le=1)
+    regenerative_power_w: float | None = Field(default=None, gt=0)
+
+
+@router.post("/physics")
+async def save_physics(body: PhysicsChange, request: Request):
+    sim=get_sim(request)
+    try:
+        scenario=checked_scenario(sim,body.epoch)
+        train=next((t for t in scenario.trains if t.id==body.train_id),None)
+        if train is None:raise ValueError("Неизвестный поезд")
+        if any(m['train_id']==train.id and m['start_s']<=scenario.now_s for m in sim.state['active_plan']['movements']):
+            raise ValueError("Физику уже отправленного поезда менять нельзя. Выберите будущий рейс.")
+        for key,value in body.model_dump(exclude={'epoch','train_id'}).items():setattr(train,key,value)
+        scenario.metadata.setdefault('physics_assumptions',{})[train.id]={'source':'dispatcher_simulation','parameters':body.model_dump(exclude={'epoch'})}
+        scenario=Scenario.model_validate(scenario.model_dump())
+    except ValueError as error:raise HTTPException(409,str(error)) from error
+    commit(sim,scenario,'physics')
+    return {'accepted':True}
+
+
+class PlanningBudget(BaseModel):
+    epoch: str
+    seconds: int = Field(ge=2,le=30)
+
+
+@router.post("/planning-budget")
+async def planning_budget(body: PlanningBudget, request: Request):
+    sim=get_sim(request)
+    try:checked_scenario(sim,body.epoch)
+    except ValueError as error:raise HTTPException(409,str(error)) from error
+    sim.state['planning_budget_s']=body.seconds
+    from . import main
+    main.emit('dispatch.policy_changed',{'kind':'planning_budget','seconds':body.seconds})
+    main.publish()
+    return {'accepted':True,'seconds':body.seconds,'note':'Мягкий бюджет; подготовка профилей и передача результата могут занять дополнительное время.'}
+
+
+class SectionPhysics(BaseModel):
+    epoch: str
+    section_id: str
+    grade_permille: float = Field(default=0,ge=-40,le=40)
+    curve_radius_m: float | None = Field(default=None,gt=0)
+    cant_mm: float = Field(default=0,ge=0,le=200)
+
+
+@router.post("/section-physics")
+async def section_physics(body: SectionPhysics, request: Request):
+    sim=get_sim(request)
+    try:
+        scenario=checked_scenario(sim,body.epoch)
+        section=next((s for s in scenario.sections if s.id==body.section_id),None)
+        if section is None:raise ValueError("Неизвестный перегон")
+        if any(m['section_id']==section.id and m['start_s']<=scenario.now_s for m in sim.state['active_plan']['movements']):
+            raise ValueError("Перегон уже использован в этом запуске. Изменение профиля переписало бы историю; начните новый запуск.")
+        for key,value in body.model_dump(exclude={'epoch','section_id'}).items():setattr(section,key,value)
+        scenario.metadata.setdefault('physics_assumptions',{})['section:'+section.id]={'source':'dispatcher_simulation','parameters':body.model_dump(exclude={'epoch'})}
+        scenario=Scenario.model_validate(scenario.model_dump())
+    except ValueError as error:raise HTTPException(409,str(error)) from error
+    commit(sim,scenario,'section_physics')
+    return {'accepted':True}

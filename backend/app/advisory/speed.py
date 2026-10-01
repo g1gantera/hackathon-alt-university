@@ -71,7 +71,10 @@ def _grid(train: Train, section: Section, reverse: bool):
             )
         )
     )
-    ceilings = np.full(positions.shape, min(train.max_speed_mps, section.max_speed_mps))
+    cap=min(train.max_speed_mps, section.max_speed_mps)
+    if section.curve_radius_m is not None:
+        cap=min(cap,math.sqrt(9.81*section.curve_radius_m*(section.cant_mm+100)/1520))
+    ceilings = np.full(positions.shape, cap)
     for a, b, speed in limits:
         ceilings[(positions >= a) & (positions <= b)] = np.minimum(
             ceilings[(positions >= a) & (positions <= b)], speed
@@ -136,6 +139,21 @@ def build_speed_profile(
         raise ValueError("Target duration must be finite and positive")
     x, limits = _grid(train, section, reverse)
     cap = float(max(limits))
+    if train.traction_power_w is not None:
+        # Conservative constant acceleration based on the worst resistance at
+        # the cruise cap. Power is mechanical power at the wheels.
+        grade=section.grade_permille*(-1 if reverse else 1)
+        for _ in range(100):
+            if train.davis_resistance is None:
+                resistance=train.mass_kg*9.81*train.rolling_coefficient+train.drag_n_per_mps2*cap**2
+            else:
+                c=train.davis_resistance;v=cap*3.6
+                resistance=train.mass_kg*9.81/1000*(c.a+c.b*v+c.c*v*v)
+            available=(train.traction_power_w/max(cap,0.01)-resistance-train.mass_kg*9.81*grade/1000)/train.mass_kg
+            if available>0.005:break
+            cap*=0.9
+        limits=np.minimum(limits,cap)
+        train=train.model_copy(update={'acceleration_mps2':max(0.001,min(train.acceleration_mps2,available)), 'braking_mps2':max(0.001,train.braking_mps2+9.81*grade/1000)})
     fastest = _envelope(x, limits, train, cap, initial_speed_mps, final_speed_mps)
     if fastest is None:
         return SpeedProfile(
@@ -174,28 +192,10 @@ def build_speed_profile(
             else:
                 high = middle
         speed, times = _capped_envelope(x, speed, high, initial_speed_mps, final_speed_mps)
-    distance = np.diff(x)
-    acceleration = np.diff(speed**2) / (2 * distance)
-    if train.davis_resistance is None:
-        resistance = (
-            train.mass_kg * 9.81 * train.rolling_coefficient
-            + train.drag_n_per_mps2 * (speed[:-1] ** 2 + speed[1:] ** 2) / 2
-        )
-    else:
-        # Same units as railsim.energy.traction_kwh; apply the formula per cell
-        # before combining it with acceleration, so downhill gravity keeps its sign.
-        coefficients = train.davis_resistance
-        v_mean = (speed[:-1] + speed[1:]) * 3.6 / 2
-        v2_mean = (speed[:-1] ** 2 + speed[1:] ** 2) * 3.6**2 / 2
-        resistance = (
-            train.mass_kg
-            * 9.81
-            / 1000
-            * (coefficients.a + coefficients.b * v_mean + coefficients.c * v2_mean)
-        )
-    resistance += train.mass_kg * 9.81 * section.grade_permille / 1000 * (-1 if reverse else 1)
-    traction = np.maximum(train.mass_kg * acceleration + resistance, 0)
-    traction_kwh = float(np.sum(traction * distance) / train.traction_efficiency / 3_600_000)
+    from .energy import cell_energy
+    gross,recovered=cell_energy(train,section,x,speed,times,reverse)
+    traction_kwh=float(np.sum(gross))
+    recovered_kwh=float(np.sum(recovered))
     auxiliary_kwh = train.auxiliary_power_w * float(times[-1]) / 3_600_000
     return SpeedProfile(
         status="FEASIBLE",
@@ -203,7 +203,8 @@ def build_speed_profile(
         minimum_duration_s=minimum,
         traction_energy_kwh=traction_kwh,
         auxiliary_energy_kwh=auxiliary_kwh,
-        energy_kwh=traction_kwh + auxiliary_kwh,
+        regenerated_energy_kwh=recovered_kwh,
+        energy_kwh=traction_kwh - recovered_kwh + auxiliary_kwh,
         points=[
             SpeedPoint(
                 time_s=float(t), position_m=float(p), speed_mps=float(v), limit_mps=float(lim)
@@ -226,4 +227,10 @@ def _minimum(train_json: str, section_json: str, reverse: bool) -> int:
 
 
 def minimum_duration_s(train: Train, section: Section, origin: str) -> int:
-    return _minimum(train.model_dump_json(), section.model_dump_json(), origin == section.station_b)
+    # Timetable/identity/dispatch fields do not change a physical envelope.
+    physical=train.model_copy(update={'id':'physics','route':['a','b'],'release_s':0,'due_s':0,'priority':1,'dispatch_category':None,'min_dwell_s':1,'not_before_s':{},'manual_station_tracks':{},'manual_main_tracks':{},'section_hold_s':{},'section_recovery_all_tracks':[]})
+    geometry=section.model_copy(update={'id':'section','station_a':'a','station_b':'b','shared_resources':[],'entry_speed_limits':[],'main_tracks':[], 'block_length_m':0})
+    # Keep a valid default track for schema validation inside the cache.
+    from backend.app.schemas import MainTrack
+    geometry.main_tracks=[MainTrack(id='1')]
+    return _minimum(physical.model_dump_json(), geometry.model_dump_json(), origin == section.station_b)

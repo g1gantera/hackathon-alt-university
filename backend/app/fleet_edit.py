@@ -27,6 +27,8 @@ class Addition(BaseModel):
     kind: Literal["passenger", "freight"]
     direction: Literal[1, -1]
     dispatch_category: Literal["emergency", "passenger", "express_freight", "freight", "service"] | None = None
+    origin: str | None = None
+    destination: str | None = None
     ready_in_s: int = Field(default=120, ge=1, le=14400)
 
 
@@ -55,7 +57,7 @@ def prepare_edit(state, edit):
         raise ValueError("Список удаления содержит неизвестные или повторные номера.")
     if not edit.add and not removed:
         raise ValueError("Нет изменений состава.")
-    if not 5 <= len(ids) - len(removed) + len(edit.add) <= 20:
+    if not 5 <= len(ids) - len(removed) + len(edit.add) <= (120 if scenario.metadata.get("network") else 20):
         raise ValueError("В сценарии должно оставаться от 5 до 20 поездов.")
     if any(s.train_id in removed and s.arrival_s <= now for s in old.stops):
         raise ValueError("Удалять можно только поезда, ещё не допущенные на участок.")
@@ -105,7 +107,7 @@ def prepare_edit(state, edit):
         (r["resource"], r["start_s"], r["end_s"])
         for r in reservations(retained_scenario.model_dump(), retained.model_dump())
     )
-    templates = corridor_scenario(CORRIDORS[state["topology"].get("corridor_id", "kokshetau")][1]).trains
+    templates = scenario.trains if scenario.metadata.get("network") else corridor_scenario(CORRIDORS[state["topology"].get("corridor_id", "kokshetau")][1]).trains
     added = []
     for item in edit.add:
         template = next(t for t in templates if t.kind == item.kind).model_copy(deep=True)
@@ -114,6 +116,14 @@ def prepare_edit(state, edit):
         direction=1 if positions[template.route[-1]]>positions[template.route[0]] else -1
         if item.direction != direction:
             template.route.reverse()
+        if scenario.metadata.get("network"):
+            from .regional import route_between
+            from .advisory.speed import minimum_duration_s
+            from .planning.common import section_for
+            if not item.origin or not item.destination:raise ValueError("Выберите начальную и конечную станции")
+            template.route=route_between(scenario,item.origin,item.destination)
+            template.manual_main_tracks={};template.manual_station_tracks={};template.section_hold_s={};template.section_recovery_all_tracks=[];template.not_before_s={}
+            runtime=sum(minimum_duration_s(template,section_for(scenario,a,b),a) for a,b in zip(template.route,template.route[1:]))+len(template.route)*template.min_dwell_s+600
         template.id = f"USR-{'P' if item.kind == 'passenger' else 'F'}-{uuid.uuid4().hex[:6]}"
         template.release_s = math.ceil(now) + item.ready_in_s
         template.due_s = template.release_s + runtime

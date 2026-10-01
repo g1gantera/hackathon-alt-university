@@ -83,11 +83,14 @@ class Section(Model):
     length_m: float = Field(gt=0)
     max_speed_mps: float = Field(gt=0)
     main_tracks: list[MainTrack] = Field(default_factory=lambda: [MainTrack(id="1")], min_length=1)
+    block_length_m: float = Field(default=0, ge=0)
     headway_s: int = Field(default=10, ge=0)
     # Conservative tail-release speed, NOT actual terminal speed (which is zero).
     tail_clearance_speed_mps: float = Field(default=5, gt=0)
     speed_limits: list[SpeedLimit] = Field(default_factory=list)
     entry_speed_limits: list[EntrySpeedLimit] = Field(default_factory=list)
+    curve_radius_m: float | None = Field(default=None, gt=0)
+    cant_mm: float = Field(default=0, ge=0, le=200)
     grade_permille: float = Field(default=0, ge=-60, le=60)
     # A switch/junction resource is reserved for the entire traversal in this MVP.
     shared_resources: list[str] = Field(default_factory=list)
@@ -124,6 +127,10 @@ class Train(Model):
     acceleration_mps2: float = Field(default=0.4, gt=0)
     braking_mps2: float = Field(default=0.5, gt=0)
     traction_efficiency: float = Field(default=0.88, gt=0, le=1)
+    traction_power_w: float | None = Field(default=None, gt=0)
+    regenerative_efficiency: float = Field(default=0, ge=0, le=1)
+    grid_receptivity: float = Field(default=0, ge=0, le=1)
+    regenerative_power_w: float | None = Field(default=None, gt=0)
     rolling_coefficient: float = Field(default=0.0015, ge=0)
     drag_n_per_mps2: float = Field(default=5, ge=0)
     auxiliary_power_w: float = Field(default=10000, ge=0)
@@ -299,6 +306,7 @@ class SpeedProfile(Model):
     duration_s: float | None = None
     minimum_duration_s: float
     traction_energy_kwh: float | None = None
+    regenerated_energy_kwh: float = 0
     auxiliary_energy_kwh: float | None = None
     energy_kwh: float | None = None
     points: list[SpeedPoint] = Field(default_factory=list)

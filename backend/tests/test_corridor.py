@@ -7,7 +7,7 @@ import sys
 
 import pytest
 
-from backend.app.advisory.speed import build_speed_profile
+from backend.app.advisory.speed import build_speed_profile, section_at_entry
 from backend.app.metrics.load import calculate_track_load
 from backend.app.planning.baseline import build_baseline
 from backend.app.planning.solver import solve_plan
@@ -132,7 +132,7 @@ def test_each_disruption_invalidates_the_old_plan(corridor, original, kind):
     assert violations
     assert all(v.code != "STALE" for v in violations)
     if kind == "ten_incidents":
-        assert len(state.blocks) == 10
+        assert len([b for b in state.blocks if not b.id.endswith("-entry")]) == 10
         assert len({b.resource for b in state.blocks}) == 10
     assert corridor.blocks == []
     assert corridor.now_s == 0
@@ -151,12 +151,12 @@ def test_repair_preserves_departed_trains_and_respects_new_limits(corridor, orig
         if movement.start_s <= state.now_s:
             assert repaired[movement.train_id, movement.origin] == movement
     if kind == "speed_restriction":
-        section = next(s for s in state.sections if s.max_speed_mps == 40 / 3.6)
-        movement = next(m for m in result.plan.movements if m.section_id == section.id)
+        section = next(s for s in state.sections if any(l.id==kind for l in s.entry_speed_limits))
+        movement = next(m for m in result.plan.movements if m.section_id == section.id and m.start_s>state.now_s)
         train = next(t for t in state.trains if t.id == movement.train_id)
         profile = build_speed_profile(
             train,
-            section,
+            section_at_entry(train,section,movement.start_s),
             target_duration_s=movement.end_s - movement.start_s,
             reverse=movement.origin == section.station_b,
         )

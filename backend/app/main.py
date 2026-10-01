@@ -308,7 +308,7 @@ async def control(action:str,request:Request):
             raise HTTPException(409,'Wait until calculation completes before reset')
         sim.replanning=True
         try:
-            fresh=await asyncio.to_thread(type(sim))
+            fresh=await asyncio.to_thread(type(sim),sim._corridor,sim._traffic_profile,sim._service_date) if isinstance(sim,LogicSimulator) else await asyncio.to_thread(type(sim))
             sim.__dict__.update(fresh.__dict__)
         finally:
             sim.replanning=False

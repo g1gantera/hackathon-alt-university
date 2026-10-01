@@ -92,7 +92,13 @@ def inject_incident(base: Scenario, previous: Plan, name: str) -> Scenario:
     if name not in REALISM_INCIDENTS:
         raise ValueError(f"Unknown realism incident: {name}")
     kind = name.removeprefix("railsim_")
-    cfg = build_config(base)
+    if base.metadata.get("network"):
+        # Controlled events use only validated hazard/duration parameters; the
+        # recorder index addresses the regional section, not a linear railsim line.
+        from backend.app.scenarios import corridor_scenario
+        cfg = build_config(corridor_scenario())
+    else:
+        cfg = build_config(base)
     scenario = base.model_copy(deep=True)
     first = min(previous.movements, key=lambda m: m.start_s)
     scenario.now_s = first.start_s + max(1, (first.end_s - first.start_s) // 3)

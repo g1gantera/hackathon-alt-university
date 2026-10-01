@@ -17,7 +17,7 @@ from backend.app.validation.plan import validate_plan
 
 
 def build_baseline(
-    scenario: Scenario, time_budget_s: float = 1.0, *, duration_multiplier: float = 1.0
+    scenario: Scenario, time_budget_s: float = 1.0, *, duration_multiplier: float = 1.0, fixed_admissions: set[str] | None = None
 ) -> PlanResult:
     started = time.perf_counter()
 
@@ -49,6 +49,7 @@ def build_baseline(
     all_stops, all_moves = [], []
     for train in sorted(scenario.trains, key=lambda t: (t.release_s, -t.priority, t.id)):
         admission = train.release_s
+        initial_wait = 0
         while admission < scenario.horizon_s:
             if time.perf_counter() - started >= time_budget_s:
                 return result("UNKNOWN", message="FCFS time budget exhausted")
@@ -57,6 +58,7 @@ def build_baseline(
             for i, station_id in enumerate(train.route):
                 station = station_map[station_id]
                 departure = max(arrival + train.min_dwell_s, train.not_before_s.get(station_id, 0))
+                if i==0:departure+=initial_wait
                 if i < len(train.route) - 1:
                     section = section_for(scenario, station_id, train.route[i + 1])
                     # Clear this train's previous traversal of a shared junction
@@ -171,7 +173,10 @@ def build_baseline(
             if max(end for _, _, end in pending) > scenario.horizon_s:
                 return result("UNKNOWN", message="FCFS cannot fit trains within horizon")
             if shift:
-                admission += max(1, shift)
+                if fixed_admissions and train.id in fixed_admissions:
+                    initial_wait += max(1,shift)
+                else:
+                    admission += max(1, shift)
                 continue
             all_stops.extend(stops)
             all_moves.extend(moves)

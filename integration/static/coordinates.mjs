@@ -26,7 +26,7 @@ export function movementGeometry(topology,section,trackId,fromTrack,toTrack) {
   const a=topology.stations.find(s=>s.id===section.from_station);
   const b=topology.stations.find(s=>s.id===section.to_station);
   const points=section.main_tracks?.find(t=>t.id===trackId)?.geometry||section.geometry;
-  const line=prepared(points), span=b.position_m-a.position_m;
+  const line=prepared(points), span=section.length_m||Math.abs(b.position_m-a.position_m);
   const throat=Math.min(250,span/4)/span;
   const anchor=(s,id,f)=>s.track_layout?.find(t=>t.id===id)?.coordinate||sample(line,f);
   const knots=[{fraction:0,coordinate:anchor(a,fromTrack,0)},
@@ -60,7 +60,7 @@ export function createLocator(topology) {
       const s=stations.get(train.station_id);
       return s.track_layout?.find(t=>t.id===train.station_track_id)?.coordinate||s.coordinate;
     }
-    const position=Math.max(0,Math.min(topology.length_m,train.position_m));
+    const position=train.section_id?train.position_m:Math.max(0,Math.min(topology.length_m,train.position_m));
     const section=topology.sections.find(s=>s.id===train.section_id)||topology.sections.find(s=>position>=stations.get(s.from_station).position_m&&position<=stations.get(s.to_station).position_m);
     if(!section)throw new Error('Позиция поезда вне геометрии маршрута');
     const forward=train.direction!==-1;

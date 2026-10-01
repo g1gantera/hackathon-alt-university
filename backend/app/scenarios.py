@@ -9,6 +9,7 @@ from backend.app.realism.incidents import REALISM_INCIDENTS, inject_incident
 from backend.app.schemas import (
     Block,
     DavisResistance,
+    EntrySpeedLimit,
     MainTrack,
     Plan,
     Scenario,
@@ -317,7 +318,7 @@ def incident_scenario(base: Scenario, previous: Plan, kind: str) -> Scenario:
             expected_resolution="Учесть задержку на 30 минут и пересчитать очередность",
         )
     elif kind == "speed_restriction":
-        section.max_speed_mps = 40 / 3.6
+        section.entry_speed_limits.append(EntrySpeedLimit(id=kind,start_s=scenario.now_s+1,end_s=scenario.horizon_s,speed_factor=min(1,(40/3.6)/section.max_speed_mps),reason="Объявленное ограничение до 40 км/ч для новых входов"))
         info.update(
             speed_limit_kmh=40,
             expected_resolution="Увеличить ходовое время и пересчитать допустимый профиль скорости",
@@ -330,19 +331,21 @@ def incident_scenario(base: Scenario, previous: Plan, kind: str) -> Scenario:
             if resource in seen:
                 continue
             seen.add(resource)
-            scenario.blocks.append(
-                Block(
-                    id=f"incident-{len(seen)}",
-                    resource=resource,
-                    start_s=scenario.now_s,
-                    end_s=movement.start_s + 900,
-                    kind="signal" if len(seen) % 2 else "closure",
-                )
-            )
+            kind_of_block="signal" if len(seen)%2 else "closure"
+            activates=scenario.now_s
+            if kind_of_block=="closure":
+                from backend.app.planning.common import clearance_s
+                affected_section=next(s for s in scenario.sections if s.id==movement.section_id)
+                train_map={t.id:t for t in scenario.trains}
+                activates=max([activates]+[m.end_s+clearance_s(train_map[m.train_id],affected_section) for m in previous.movements if m.section_id==movement.section_id and m.main_track_id==movement.main_track_id and m.start_s<=scenario.now_s])
+                if activates>scenario.now_s:
+                    scenario.blocks.append(Block(id=f"incident-{len(seen)}-entry",resource=resource,start_s=scenario.now_s,end_s=activates,kind="signal"))
+            scenario.blocks.append(Block(id=f"incident-{len(seen)}",resource=resource,start_s=activates,end_s=max(activates+900,movement.start_s+900),kind=kind_of_block))
             if len(seen) == 10:
                 break
         if len(seen) != 10:
             raise ValueError("Scenario has fewer than ten future resources")
+        info["occupied_track_procedure"]="Немедленный запрет новых входов; объявленное закрытие после освобождения хвостом. Аварийная остановка внутри перегона не подразумевается."
         info["expected_resolution"] = (
             "Совместный пересчёт десяти ограничений без изменения начатых движений"
         )

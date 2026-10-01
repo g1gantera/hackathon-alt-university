@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 ROOT = Path(__file__).resolve().parents[2]
 CORRIDORS = {
+    "akmola_network": ("Единая сеть Акмолы · все доступные станции", ROOT / "data/region/infrastructure.json"),
     "astana1_ereymentau": ("Астана-1 — Ерейментау", ROOT / "data/akmola/astana1_ereymentau.json"),
     "atbasar_esil": ("Атбасар — Есиль", ROOT / "data/akmola/atbasar_esil.json"),
     "astana_burabay": (

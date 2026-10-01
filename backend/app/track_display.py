@@ -53,9 +53,9 @@ def display_tracks(stations, sections, scenario, infra, features):
             key=lambda h: (h.get("usage") != "main" or bool(h.get("service")), abs(h["offset_m"])),
         )[: station["tracks"]]
         preferred.sort(key=lambda h: h["offset_m"])
-        section = sections[min(i, len(sections) - 1)]
+        section = next(s for s in sections if station["id"] in (s["from_station"],s["to_station"]))
         points = section["geometry"]
-        before, after = points[:2] if i < len(sections) else points[-2:]
+        before, after = points[:2] if station["id"]==section["from_station"] else points[-2:]
         tracks = []
         for lane, native in enumerate(scenario.stations[i].tracks):
             hit = preferred[lane] if lane < len(preferred) else None

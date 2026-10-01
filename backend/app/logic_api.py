@@ -220,3 +220,34 @@ async def performance(request: Request):
             "paint_max_ms": max(latencies, default=None),
             "paint_p95_ms": latencies[min(len(latencies)-1,int(len(latencies)*.95))] if latencies else None,
             "measurement": "Start of snapshot construction, through normalization service, to browser acknowledgement after React commit and two animation frames; includes return network time. Visible tabs only; no guarantee on hidden tabs or other machines."}
+
+
+@router.get("/operations")
+async def operations_report(request: Request):
+    from .operations import stock_rotation, wear_forecast, recovery_report
+    state=compact_state(simulator(request).state)
+    scenario=scenario_for(state);plan=Plan.model_validate(state["active_plan"]["_native"])
+    def calculate():
+        return {"context":context(state),"rotation":stock_rotation(scenario,plan),"wear":wear_forecast(scenario,plan,state["sim_time_s"]),"recovery":recovery_report(scenario,plan)}
+    return await asyncio.to_thread(calculate)
+
+
+class WagonDemand(BaseModel):
+    supplies: dict[str,int]
+    demands: dict[str,int]
+
+
+@router.post("/empty-wagons")
+async def empty_wagons(body: WagonDemand, request: Request):
+    from .operations import empty_wagon_allocation
+    scenario=scenario_for(simulator(request).state)
+    try:return await asyncio.to_thread(empty_wagon_allocation,scenario,body.supplies,body.demands)
+    except ValueError as error:raise HTTPException(422,str(error)) from error
+
+
+@router.get("/regional-catalog")
+async def regional_catalog(request: Request):
+    simulator(request)
+    from .regional import infrastructure
+    data=infrastructure()
+    return {"stations":data["stations"],"sections":data["sections"],"coverage":data["coverage"],"source":data["source"]}

@@ -15,5 +15,8 @@
   "backend/tests/test_integration.py": "Select demo authorization explicitly in the pre-existing native integration test. User requested smooth model-time rendering, manual route clearances, automatic plan application, removal prohibition, five priorities and selectable Akmola corridors; tests updated for explicit control mode.",
   "Dockerfile": "Keep shared per-track display modules available in the frontend build stage; preserve the repository directory layout.",
   "backend/app/live_logic.py": "User-requested train removal retains energy already consumed by cancelled off-network trains in actual metrics.",
-  "backend/app/planning/common.py": "User-requested manual track filtering and synthetic wear preference, including an uncertainty penalty for unknown condition."
+  "backend/app/planning/common.py": "User-requested manual track filtering and synthetic wear preference, including an uncertainty penalty for unknown condition.",
+  "backend/app/advisory/speed.py": "User requested a shared regional network, block-section scheduling and expanded physics; extend native algorithms while retaining independent safety validation and provenance.",
+  "backend/app/realism/incidents.py": "User requested a shared regional network, block-section scheduling and expanded physics; extend native algorithms while retaining independent safety validation and provenance.",
+  "backend/tests/test_corridor.py": "User requested regional model and recovery: apply announced limits to new entries, preserve entered movements, validate block intervals and document operational assumptions."
 }

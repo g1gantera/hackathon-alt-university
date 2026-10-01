@@ -22,38 +22,12 @@ def prepare_profiles(scenario, plan, profiles):
         points = profile["points"]
         x = np.array([p["position_m"] for p in points])
         v = np.array([p["speed_mps"] for p in points])
-        dx = np.diff(x)
-        # Recovery holds have zero distance; their traction is zero.
-        acceleration = np.divide(np.diff(v**2), 2 * dx, out=np.zeros_like(dx), where=dx > 0)
-        if train.davis_resistance is None:
-            resistance = (
-                train.mass_kg * 9.81 * train.rolling_coefficient
-                + train.drag_n_per_mps2 * (v[:-1] ** 2 + v[1:] ** 2) / 2
-            )
-        else:
-            c = train.davis_resistance
-            resistance = (
-                train.mass_kg
-                * 9.81
-                / 1000
-                * (
-                    c.a
-                    + c.b * (v[:-1] + v[1:]) * 3.6 / 2
-                    + c.c * (v[:-1] ** 2 + v[1:] ** 2) * 3.6**2 / 2
-                )
-            )
-        reverse = move.origin == section.station_b
-        resistance += train.mass_kg * 9.81 * section.grade_permille / 1000 * (-1 if reverse else 1)
-        cells = (
-            np.maximum(train.mass_kg * acceleration + resistance, 0)
-            * dx
-            / train.traction_efficiency
-            / 3_600_000
-        )
-        cumulative = np.concatenate(([0.0], np.cumsum(cells)))
-        if not np.isclose(cumulative[-1], profile["traction_energy_kwh"], rtol=1e-8, atol=1e-8):
+        from .advisory.energy import cell_energy
+        times=np.array([p['time_s'] for p in points])
+        gross,recovered=cell_energy(train,section,x,v,times,move.origin==section.station_b)
+        if not np.isclose(sum(gross), profile["traction_energy_kwh"], rtol=1e-8, atol=1e-8):
             raise ValueError(f"Live energy disagrees with the native profile: {key}")
-        profile["_traction_kwh"] = cumulative.tolist()
+        profile["_traction_kwh"] = np.concatenate(([0.0],np.cumsum(gross-recovered))).tolist()
         profile["_times_s"] = [p["time_s"] for p in points]
         profile["_auxiliary_power_w"] = train.auxiliary_power_w
         result[key] = profile
