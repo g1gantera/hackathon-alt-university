@@ -4,7 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import type {Topology,Snapshot} from './types';
 import {useDispatch} from './store';
 
-const trainStatus:Record<string,string>={waiting:'?? ???????',moving:'? ????????',completed:'??????'};
+const trainStatus:Record<string,string>={waiting:'На станции',moving:'В движении',completed:'Прибыл'};
 let networkRequest:Promise<Extract<GeoJSONSourceSpecification['data'],{type:'FeatureCollection'}>>|null=null;
 function loadNetwork(){
  if(!networkRequest)networkRequest=fetch('/api/network').then(r=>{if(!r.ok)throw Error('Network unavailable');return r.json();}).catch(error=>{networkRequest=null;throw error;});
@@ -16,7 +16,7 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
  const markers=useRef(new Map<string,maplibregl.Marker>());
  const retryNetwork=useRef<()=>void>(()=>{});
  const {selected,select}=useDispatch();
- const [ready,setReady]=useState(false),[networkError,setNetworkError]=useState(false),[networkState,setNetworkState]=useState('???????? ???? ???????????');
+ const [ready,setReady]=useState(false),[networkError,setNetworkError]=useState(false),[networkState,setNetworkState]=useState('Загрузка сети Казахстана…');
  useEffect(()=>{
   if(!container.current)return;
   setReady(false);
@@ -29,22 +29,22 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
    m.addLayer({id:'corridor-halo',source:'corridor',type:'line',paint:{'line-color':'#ffffff','line-width':7}});
    m.addLayer({id:'corridor',source:'corridor',type:'line',paint:{'line-color':['match',['get','status'],'closed','#dd6652','signal_failure','#d59831','occupied','#167466','#228b79'],'line-width':3}});
    for(const station of topology.stations){
-    const element=document.createElement('button');element.type='button';element.className='map-station station-button';element.setAttribute('aria-label',`??????? ${station.name}`);
+    const element=document.createElement('button');element.type='button';element.className='map-station station-button';element.setAttribute('aria-label',`Станция ${station.name}`);
     const dot=document.createElement('i'),label=document.createElement('span');label.textContent=station.name;element.append(dot,label);
     const details=document.createElement('div');details.className='station-popup';
-    const title=document.createElement('strong'),description=document.createElement('p');title.textContent=station.name;description.textContent=`${(station.position_m/1000).toFixed(1)} ?? ? ${station.tracks} ????? ? ??????????. ??????????? ??????????? ????????.`;details.append(title,description);
+    const title=document.createElement('strong'),description=document.createElement('p');title.textContent=station.name;description.textContent=`${(station.position_m/1000).toFixed(1)} км · ${station.tracks} путей в демомодели. Станционная вместимость условная.`;details.append(title,description);
     new maplibregl.Marker({element,anchor:'left',offset:[-4,0]}).setLngLat(station.coordinate).setPopup(new maplibregl.Popup({offset:10}).setDOMContent(details)).addTo(m);
    }
    const requestNetwork=()=>{
-    setNetworkError(false);setNetworkState('???????? ???? ???????????');
+    setNetworkError(false);setNetworkState('Загрузка сети Казахстана…');
     loadNetwork().then(data=>{
      if(map.current!==m)return;
      if(!m.getSource('network')){
       m.addSource('network',{type:'geojson',data});
       m.addLayer({id:'network',source:'network',type:'line',paint:{'line-color':'#526e7d','line-width':['interpolate',['linear'],['zoom'],4,1,10,2,15,3],'line-opacity':.9}},'corridor-halo');
      }
-     setNetworkState(`${data.features.length.toLocaleString('ru')} ????????? ? OpenStreetMap`);
-    }).catch(()=>{if(map.current===m){setNetworkError(true);setNetworkState('?? ??????? ????????? ???? ??????????');}});
+     setNetworkState(`${data.features.length.toLocaleString('ru')} сегментов · OpenStreetMap`);
+    }).catch(()=>{if(map.current===m){setNetworkError(true);setNetworkState('Не удалось загрузить сеть Казахстана');}});
    };
    retryNetwork.current=requestNetwork;requestNetwork();setReady(true);
   });
@@ -66,22 +66,22 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
    let marker=markers.current.get(train.id);
    if(!marker){
     const element=document.createElement('button');element.type='button';element.className='train-pin';element.addEventListener('click',()=>select(train.id));
-    const arrow=document.createElement('span');arrow.className='train-bearing';arrow.textContent='?';
+    const arrow=document.createElement('span');arrow.className='train-bearing';arrow.textContent='↑';
     const label=document.createElement('span');label.className='train-label';element.append(arrow,label);
     marker=new maplibregl.Marker({element,anchor:'center',offset:[0,0]}).setLngLat(train.coordinate).addTo(m);markers.current.set(train.id,marker);
    }
    marker.setLngLat(train.coordinate);
    const element=marker.getElement();element.classList.toggle('freight',train.type==='freight');element.classList.toggle('selected',selected===train.id);element.classList.toggle('stopped',train.status!=='moving');
    const label=element.querySelector('.train-label') as HTMLElement;
-   label.textContent=`${train.number} ? ${trainStatus[train.status]||train.status}`;
+   label.textContent=`${train.number} · ${trainStatus[train.status]||train.status}`;
    label.style.top=`${train.status==='moving'?-12:(Math.floor(index/2)-1)*25}px`;
    (element.querySelector('.train-bearing') as HTMLElement).style.transform=`rotate(${train.bearing_deg-m.getBearing()}deg)`;
-   element.title=`? ${train.number} ? ${train.route_name} ? ${trainStatus[train.status]} ? ${(train.speed_mps*3.6).toFixed(0)} ??/?`;
+   element.title=`№ ${train.number} · ${train.route_name} · ${trainStatus[train.status]} · ${(train.speed_mps*3.6).toFixed(0)} км/ч`;
    element.setAttribute('aria-label',element.title);
   });
  },[snapshot,ready,selected,topology,select]);
  const selectedTrain=snapshot.trains.find(t=>t.id===selected);
- return <div className="map-wrapper"><div ref={container} className="map-canvas"/><div className="map-caption"><span className="dot green"/>{networkState}{networkError&&<button onClick={()=>retryNetwork.current()}>?????????</button>}</div>{selectedTrain&&<div className="map-selected"><strong>? {selectedTrain.number} ? {trainStatus[selectedTrain.status]}</strong><span>{selectedTrain.route_name}</span><small>{(selectedTrain.speed_mps*3.6).toFixed(0)} ??/? ? ???????? ????????????</small></div>}<div className="map-distance"><strong>{(topology.length_m/1000).toFixed(1)}</strong><span>?? ????????</span></div></div>;
+ return <div className="map-wrapper"><div ref={container} className="map-canvas"/><div className="map-caption"><span className="dot green"/>{networkState}{networkError&&<button onClick={()=>retryNetwork.current()}>Повторить</button>}</div>{selectedTrain&&<div className="map-selected"><strong>№ {selectedTrain.number} · {trainStatus[selectedTrain.status]}</strong><span>{selectedTrain.route_name}</span><small>{(selectedTrain.speed_mps*3.6).toFixed(0)} км/ч · движение моделируется</small></div>}<div className="map-distance"><strong>{(topology.length_m/1000).toFixed(1)}</strong><span>км маршрута</span></div></div>;
 }
 
 export function TrackDiagram({topology,snapshot}:{topology:Topology;snapshot:Snapshot}){

@@ -12,16 +12,16 @@ The full Kazakhstan layer retains 23,280 OSM rail segments. The simulated sectio
 is Astana?Kokshetau: six named station anchors, five connected sections and eight
 mock trains. Stations and capacity are demo assumptions; this is not a live feed.
 
-- Click **? ????????** to focus on the section; **???? ?????????** restores the
+- Click **К маршруту** to focus on the section; **Весь Казахстан** restores the
   nationwide view without removing its rail layer.
-- Click **?????????**: opposing trains move along the actual rail polyline.
+- Click **Запустить**: opposing trains move along the actual rail polyline.
   Their circular marker centres stay on the line; arrows follow travel direction.
   Green means passenger, amber means freight. Labels show waiting/moving/arrived.
 - Click a train marker or train list entry to select it and see its named route,
   speed and status. Click a station to see its name, route distance and demo capacity.
-- Pause to inspect; use **? ? ????????** to restart after completing the route.
+- Pause to inspect; use **↻ → Сбросить** to restart after completing the route.
 - Rail data loads independently of external map tiles. If the nationwide dataset
-  fails to load, use **?????????** in the map caption.
+  fails to load, use **Повторить** in the map caption.
 
 `backend/app/railway_map.py` is the map foundation for the next backend steps.
 `GET /api/map` returns station Points and railway LineStrings as GeoJSON.
