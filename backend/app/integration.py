@@ -6,14 +6,15 @@ profiles and constraints are retained; UI projections never drive validation.
 import copy
 import json
 import math
+import time
 import uuid
 
 import numpy as np
 
 from .domain import ROOT
-from .demo_metrics import DEFAULT_SETTINGS
 from . import demo_planning, demo_validation
 from .metrics.quality import MetricConfig, calculate_metrics, profile_plan
+from .live_logic import prepare_profiles, sample_profile, waiting_energy, resource_states, actual_metrics
 from .planning.baseline import build_baseline
 from .planning.common import clearance_s
 from .planning.service import plan_alternatives
@@ -22,15 +23,31 @@ from .scenarios import corridor_scenario, load_infrastructure, incident_scenario
 from .validation.plan import validate_plan as native_validate
 
 
+NATIVE_CONFIG = MetricConfig.load(ROOT/'config/metrics.json')
+
+
+def default_settings():
+    return {'passenger_weight': 3, 'freight_weight': 1,
+            'delay_weight': NATIVE_CONFIG.weights['punctuality'],
+            'energy_weight': NATIVE_CONFIG.weights['energy'],
+            'delay_norm_s': NATIVE_CONFIG.delay_scale_s,
+            'energy_norm_kwh': NATIVE_CONFIG.energy_budget_kwh,
+            'arrival_tolerance_s': NATIVE_CONFIG.arrival_tolerance_s}
+
+
 def config_for(state):
     settings = state['settings']
+    config = NATIVE_CONFIG.model_copy(deep=True)
+    # The existing two UI controls divide their native combined share (0.5).
+    # Throughput, conflicts and arrival accuracy retain their native weights.
+    share = config.weights['punctuality'] + config.weights['energy']
     total = settings['delay_weight'] + settings['energy_weight']
-    return MetricConfig(weights={'punctuality': settings['delay_weight']/total,
-                                 'energy': settings['energy_weight']/total,
-                                 'throughput': 0, 'conflicts': 0, 'arrival_accuracy': 0},
-                        delay_scale_s=settings['delay_norm_s'],
-                        energy_budget_kwh=settings['energy_norm_kwh'],
-                        arrival_tolerance_s=int(settings['arrival_tolerance_s']))
+    config.weights.update(punctuality=share*settings['delay_weight']/total,
+                          energy=share*settings['energy_weight']/total)
+    config.delay_scale_s = settings['delay_norm_s']
+    config.energy_budget_kwh = settings['energy_norm_kwh']
+    config.arrival_tolerance_s = int(settings['arrival_tolerance_s'])
+    return config
 
 
 def scenario_for(state):
@@ -38,7 +55,7 @@ def scenario_for(state):
     scenario.now_s = int(state['sim_time_s'])
     scenario.state_version = state['constraint_version'] + 1
     for train in scenario.trains:
-        train.priority = max(1, round(state['settings'][train.kind + '_weight'] * 10))
+        train.priority = max(1, round(state['settings'][train.kind + '_weight']))
     return scenario
 
 
@@ -66,7 +83,7 @@ def project_plan(state, scenario, plan, profiles=None, forecast=None):
             'calculation_s': plan.elapsed_ms/1000, 'within_budget': plan.elapsed_ms <= 5000,
             'reason': '; '.join(plan.explanations) or 'Пути, физика и ограничения проверены движком logic.',
             'violations': [], 'forecast': forecast.model_dump(),
-            '_native': plan.model_dump(), '_profiles': {k:p.model_dump() for k,p in profiles.items()}}
+            '_native': plan.model_dump(), '_profiles': prepare_profiles(scenario, plan, profiles)}
 
 
 def public_plan(plan):
@@ -76,13 +93,16 @@ def public_plan(plan):
 def build_plans(state):
     if state.get('engine') != 'logic':
         return demo_planning.build_plans(state)
+    started = time.perf_counter()
     scenario = scenario_for(state)
+    # Reserve time within the live five-second target for API projection and IPC.
     result = plan_alternatives(scenario, config_for(state),
                                previous=Plan.model_validate(state['active_plan']['_native']),
-                               strategies=('balanced', 'passenger', 'eco'), time_budget_s=5)
-    return {'plans':[project_plan(state, scenario, c.plan, c.profiles, c.metrics) for c in result.candidates],
-            'diagnostics':result.diagnostics, 'message':'; '.join(result.diagnostics),
-            'elapsed_s':result.elapsed_ms/1000, 'within_budget':not result.budget_exceeded}
+                               strategies=('balanced', 'passenger', 'eco'), time_budget_s=4.2)
+    plans = [project_plan(state, scenario, c.plan, c.profiles, c.metrics) for c in result.candidates]
+    elapsed = time.perf_counter()-started
+    return {'plans':plans, 'diagnostics':result.diagnostics, 'message':'; '.join(result.diagnostics),
+            'elapsed_s':elapsed, 'within_budget':elapsed <= 5}
 
 
 def warm_worker(state):
@@ -137,8 +157,8 @@ class LogicSimulator:
             raise RuntimeError('No valid initial logic plan: ' + '; '.join(result.diagnostics))
         self.state = {'engine':'logic','scenario':scenario.model_dump(),'topology':topology(scenario),
                       'sim_time_s':0,'state_version':0,'running':False,'speed':30,'incidents':[],
-                      'settings':copy.deepcopy(DEFAULT_SETTINGS),'epoch':str(uuid.uuid4()),
-                      'constraint_version':0,'awaiting_plan':False}
+                      'settings':default_settings(),'epoch':str(uuid.uuid4()),
+                      'constraint_version':0,'awaiting_plan':False, 'baseline_scenario':scenario.model_dump()}
         self.state['fleet'] = [dict(t.model_dump(), type=t.kind, number=t.id,
             direction=1 if self._position(t.route[-1])>self._position(t.route[0]) else -1,
             destination=t.route[-1]) for t in scenario.trains]
@@ -146,6 +166,7 @@ class LogicSimulator:
         self.state.update(baseline=copy.deepcopy(baseline), active_plan=baseline)
         self.plans = {}
         self.replanning = False
+        self._validation_cache = None
 
     def _position(self, station):
         return next(s['position_m'] for s in self.state['topology']['stations'] if s['id']==station)
@@ -155,81 +176,143 @@ class LogicSimulator:
         # clock during a decision so an unapplied schedule can never depart.
         if not self.state['running'] or self.state['awaiting_plan'] or self.replanning:
             return
-        end = max(m['release_s'] for m in self.state['active_plan']['movements'])
+        plan = self.state['active_plan']
+        end = max(max(m['release_s'] for m in plan['movements']),
+                  max(s['departure_s'] for s in plan['_native']['stops']))
         self.state['sim_time_s'] = min(end, self.state['sim_time_s']+seconds)
         self.state['state_version'] += 1
         if self.state['sim_time_s'] >= end:
             self.state['running'] = False
 
+    def plan_violations(self):
+        # Future constraints change only with constraint_version or a new plan.
+        # Every apply is independently checked again at the current simulation time.
+        key = (self.state['epoch'], self.state['constraint_version'], self.state['active_plan']['id'])
+        if self._validation_cache is None or self._validation_cache[0] != key:
+            errors = validate_plan(self.state, self.state['active_plan'])
+            scenario = scenario_for(self.state)
+            native = Plan.model_validate(self.state['active_plan']['_native'])
+            if native.state_version != scenario.state_version:
+                checked = native.model_copy(update={'state_version': scenario.state_version})
+                errors += [v.model_dump() for v in native_validate(scenario, checked, native)]
+            self._validation_cache = (key, errors)
+        return self._validation_cache[1]
+
+    def active_public_plan(self):
+        result = public_plan(self.state['active_plan'])
+        violations = self.plan_violations()
+        result['violations'] = violations
+        result['applicable'] = not violations
+        result['needs_replan'] = self.state['awaiting_plan'] or bool(violations)
+        if violations:
+            # A historical forecast must not masquerade as valid after an incident.
+            result['forecast'] = dict(result['forecast'], applicable=False, track_load=None,
+                                      quality_index=None, energy_kwh=None, category='Критично',
+                                      violation_count=len(violations))
+        return result
+
     def profile(self, train_id):
         plan = self.state['active_plan']
-        points, energy, distance = [],0,0
-        moves = sorted((m for m in plan['movements'] if m['train_id']==train_id),key=lambda m:m['leg'])
-        if not moves:
+        train = next((t for t in self.state['scenario']['trains'] if t['id']==train_id), None)
+        if train is None:
             raise KeyError(train_id)
-        for m in moves:
+        stops = sorted((s for s in plan['_native']['stops'] if s['train_id']==train_id),
+                       key=lambda s:train['route'].index(s['station_id']))
+        moves = sorted((m for m in plan['movements'] if m['train_id']==train_id),key=lambda m:m['leg'])
+        points, energy, distance = [], 0.0, 0.0
+        # Include off-network waiting and each dwell so totals equal native metrics.
+        points.append([train['release_s'],0,0,0,0])
+        for index, stop in enumerate(stops):
+            for time in (stop['arrival_s'], stop['departure_s']):
+                points.append([time,distance,0,0,energy+waiting_energy(train,stops,time)])
+            if index == len(moves):
+                break
+            m = moves[index]
             p = plan['_profiles'][f"{train_id}:{m['section_id']}"]
+            wait = waiting_energy(train,stops,m['start_s'])
             for point in p['points']:
-                fraction = point['time_s']/p['duration_s'] if p['duration_s'] else 0
-                points.append([m['start_s']+point['time_s'],distance+point['position_m'],point['speed_mps'],
-                               point['limit_mps'],energy+fraction*p['energy_kwh']])
+                _, _, consumed = sample_profile(p,point['time_s'])
+                points.append([m['start_s']+point['time_s'],distance+point['position_m'],
+                               point['speed_mps'],point['limit_mps'],energy+wait+consumed])
             energy += p['energy_kwh']
             distance += p['points'][-1]['position_m']
-        return {'train_id':train_id,'plan_id':plan['id'],'points':points,'energy_kwh':energy,
-                'arrival_s':moves[-1]['end_s'],'reachable':True,
-                'assumptions':['Traction and auxiliary energy from logic; within-leg cumulative energy is time-interpolated.']}
+        errors = self.plan_violations()
+        return {'train_id':train_id,'plan_id':plan['id'],'points':points,
+                'energy_kwh':energy+waiting_energy(train,stops,stops[-1]['departure_s']),
+                'arrival_s':moves[-1]['end_s'],'reachable':not errors,
+                'applicable':not errors,'violations':errors,
+                'assumptions':['Native constant-acceleration cells, traction work and auxiliary power; '
+                               'includes station, recovery and off-network waiting; no regeneration.']}
 
     def snapshot(self):
         state, fleet = self.state, []
         now, plan = state['sim_time_s'], state['active_plan']
+        native_trains = {t.id:t for t in scenario_for(state).trains}
         for train in state['fleet']:
             item = copy.deepcopy(train)
             item.update(position_m=self._position(train['route'][0]),speed_mps=0,energy_kwh=0,
-                        status='waiting',station_id=train['route'][0],section_id=None,delay_s=0,next_leg=0)
+                        status='waiting',station_id=train['route'][0],section_id=None,delay_s=0,next_leg=0,
+                        distance_travelled_m=0.0,priority=native_trains[train['id']].priority,
+                        holding=False,arrival_s=None)
             moves = sorted((m for m in plan['movements'] if m['train_id']==train['id']),key=lambda m:m['leg'])
             for m in moves:
                 if m['start_s']>now:
                     break
                 p = plan['_profiles'][f"{train['id']}:{m['section_id']}"]
-                elapsed = min(now-m['start_s'],p['duration_s'])
-                points = p['points']
-                times = [x['time_s'] for x in points]
-                item['position_m'] = self._position(m['origin'])+train['direction']*float(np.interp(elapsed,times,[x['position_m'] for x in points]))
-                item['speed_mps'] = float(np.interp(elapsed,times,[x['speed_mps'] for x in points]))
-                item['energy_kwh'] += p['energy_kwh'] * elapsed/p['duration_s']
+                position, speed, energy = sample_profile(p,now-m['start_s'])
+                item['position_m'] = self._position(m['origin'])+train['direction']*position
+                item['distance_travelled_m'] += position
+                item['speed_mps'] = speed
+                item['energy_kwh'] += energy
                 item['next_leg'] = m['leg'] if now<m['end_s'] else m['leg']+1
                 if now<m['end_s']:
-                    item.update(status='moving',section_id=m['section_id'],station_id=None,main_track_id=m['main_track_id'])
+                    item.update(status='moving',section_id=m['section_id'],station_id=None,
+                                main_track_id=m['main_track_id'],holding=now<m['start_s']+m['hold_s'])
                     break
                 item.update(status='completed' if m==moves[-1] else 'waiting',section_id=None,
                             station_id=m['destination'],speed_mps=0,position_m=self._position(m['destination']))
-            # Factual terminal delay only; forecasts are in plan.metrics.
-            due = train['due_s']
-            item['delay_s'] = max(0,min(now,moves[-1]['end_s'])-due)
+            stops = sorted((s for s in plan['_native']['stops'] if s['train_id']==train['id']),
+                           key=lambda s:train['route'].index(s['station_id']))
+            item['energy_kwh'] += waiting_energy(train,stops,now)
+            item['delay_s'] = max(0,min(now,moves[-1]['end_s'])-train['due_s'])
             item['eta_s'] = None if state['awaiting_plan'] else moves[-1]['end_s']
+            item['arrival_s'] = moves[-1]['end_s'] if item['status']=='completed' else None
             fleet.append(item)
-        sections=[]
-        for section in state['topology']['sections']:
-            active=[i for i in state['incidents'] if i['target_id']==section['id'] and i['start_s']<=now<i['end_s']]
-            occupied=[m for m in plan['movements'] if m['section_id']==section['id'] and m['start_s']<=now<m['release_s']]
-            sections.append({'id':section['id'],'status':'closed' if any(i['kind']=='closure' for i in active) else 'signal_failure' if active else 'occupied' if occupied else 'open',
-                             'occupying':[m['train_id'] for m in occupied], 'signal':'red' if active or occupied else 'green',
-                             'tracks':[dict(t,occupying=[m['train_id'] for m in occupied if m['main_track_id']==t['id']]) for t in section['main_tracks']]})
-        actual = copy.deepcopy(plan['metrics'])
-        completed=[t for t in fleet if t['status']=='completed']
-        weighted=sum(t['delay_s']*state['settings'][t['type']+'_weight'] for t in fleet)
-        energy=sum(t['energy_kwh'] for t in fleet)
-        settings=state['settings']
-        denominator=settings['delay_weight']+settings['energy_weight']
-        index=100*(1-(settings['delay_weight']*min(1,weighted/settings['delay_norm_s'])+settings['energy_weight']*min(1,energy/settings['energy_norm_kwh']))/denominator)
-        actual.update(index=index,total_delay_s=sum(t['delay_s'] for t in fleet),max_delay_s=max(t['delay_s'] for t in fleet),
-                      weighted_delay_s=weighted,passenger_delay_s=sum(t['delay_s'] for t in fleet if t['type']=='passenger'),
-                      energy_kwh=energy,completed_trips=len(completed),scheduled_trips=sum(t['due_s']<=now for t in fleet),
-                      on_time_pct=100*sum(abs(t['eta_s']-t['due_s'])<=settings['arrival_tolerance_s'] for t in completed)/len(completed) if completed and not state['awaiting_plan'] else None)
+        sections, stations = resource_states(state)
+        violations = self.plan_violations()
+        actual = actual_metrics(state, fleet, config_for(state), violations)
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
             'engine':'logic','decision_hold':state['awaiting_plan'] or self.replanning,
-            'trains':fleet,'sections':sections,'switches':[], 'metrics':actual,
-            'active_plan_id':plan['id'],'plan':public_plan(plan),'replanning':self.replanning}
+            'trains':fleet,'sections':sections,'stations':stations,'switches':[], 'metrics':actual,
+            'active_plan_id':plan['id'],'plan':self.active_public_plan(),'replanning':self.replanning}
+
+    def update_settings(self, settings):
+        settings = dict(settings)
+        for kind in ('passenger', 'freight'):
+            settings[kind+'_weight'] = max(1, round(settings[kind+'_weight']))
+        settings['arrival_tolerance_s'] = int(settings['arrival_tolerance_s'])
+        self.state['settings'] = settings
+        self.state['constraint_version'] += 1
+        self.state['state_version'] += 1
+        for key in ('active_plan', 'baseline'):
+            plan = self.state[key]
+            if key == 'baseline':
+                base_state = dict(self.state, scenario=self.state['baseline_scenario'], sim_time_s=0)
+                scenario = scenario_for(base_state)
+            else:
+                scenario = scenario_for(self.state)
+            native = Plan.model_validate(plan['_native'])
+            # Settings change scoring/priorities, but cannot change a reservation.
+            # A plan invalidated by a physical incident remains invalid.
+            checked = native.model_copy(update={'state_version':scenario.state_version})
+            errors = native_validate(scenario, checked, native if key=='active_plan' else None)
+            if not errors:
+                plan['_native'] = checked.model_dump()
+                forecast = calculate_metrics(scenario,checked,config_for(self.state),
+                                             previous=native if key=='active_plan' else None)
+                plan['forecast'], plan['metrics'] = forecast.model_dump(), ui_metrics(forecast)
+        self.plans.clear()
+        self._validation_cache = None
 
     def add_incident(self, kind, target_id, duration_s):
         scenario = scenario_for(self.state)
@@ -273,10 +356,16 @@ class LogicSimulator:
         self.reset()
         scenario=incident_scenario(Scenario.model_validate(self.state['scenario']),Plan.model_validate(self.state['active_plan']['_native']),kind)
         self.state['scenario']=scenario.model_dump()
+        self.state['topology']=topology(scenario)
         self.state['sim_time_s']=scenario.now_s
         self.state['state_version']+=1
         self.state['constraint_version']+=1
         self.state['awaiting_plan']=True
         info=scenario.metadata.get('incident',{})
+        intervals = [b.model_dump() for b in scenario.blocks]
+        intervals += [dict(limit.model_dump(), resource='section:'+section.id, kind='speed_restriction')
+                      for section in scenario.sections for limit in section.entry_speed_limits]
+        until = max((interval['end_s'] for interval in intervals), default=scenario.horizon_s)
         self.state['incidents']=[{'id':str(uuid.uuid4()),'kind':kind,'target_id':info.get('resource','scenario'),
-                                 'start_s':scenario.now_s,'end_s':scenario.horizon_s, 'details':info}]
+                                 'start_s':scenario.now_s,'end_s':until, 'details':info,
+                                 'constraint_intervals':intervals}]

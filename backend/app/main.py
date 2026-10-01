@@ -83,6 +83,7 @@ async def ticker():
 
 async def calculate(job_id, snapshot):
     began=time.perf_counter()
+    superseded=False
     sim.replanning=True
     emit('replan.started',{'job_id':job_id})
     try:
@@ -90,7 +91,8 @@ async def calculate(job_id, snapshot):
         result['elapsed_s']=round(time.perf_counter()-began,3)
         result['within_budget']=result['elapsed_s']<=5
         if snapshot['epoch']!=sim.state['epoch'] or snapshot['constraint_version']!=sim.state['constraint_version']:
-            emit('replan.failed',{'job_id':job_id,'message':'Условия изменились. Повторите расчёт.'})
+            superseded=snapshot['epoch']==sim.state['epoch']
+            emit('replan.failed',{'job_id':job_id,'message':'Условия изменились. Расчёт обновляется.'})
             return
         for plan in result['plans']:
             plan['calculation_s']=result['elapsed_s']
@@ -106,6 +108,9 @@ async def calculate(job_id, snapshot):
     finally:
         sim.replanning=False
         publish()
+        if superseded:
+            # Schedule after this task completes so queue_replan sees an idle worker.
+            asyncio.get_running_loop().call_soon(queue_replan)
 
 
 def queue_replan():
@@ -294,7 +299,7 @@ async def replan(request:Request):
 @app.get('/api/plans')
 async def plans(request:Request):
     require(request,'viewer')
-    return {'plans':[public_plan(p) for p in sim.plans.values()],'active':public_plan(sim.state['active_plan']),'baseline':public_plan(sim.state['baseline'])}
+    return {'plans':[public_plan(p) for p in sim.plans.values()],'active':sim.active_public_plan() if isinstance(sim,LogicSimulator) else public_plan(sim.state['active_plan']),'baseline':public_plan(sim.state['baseline'])}
 
 
 @app.post('/api/plans/{plan_id}/apply')
@@ -370,23 +375,12 @@ async def settings(request:Request):
 @app.put('/api/settings')
 async def update_settings(body:Settings,request:Request):
     require(request,'admin')
-    sim.state['settings']=body.model_dump()
-    sim.state['constraint_version']+=1
-    sim.state['state_version']+=1
     if isinstance(sim,LogicSimulator):
-        from .integration import scenario_for, config_for, ui_metrics
-        from .metrics.quality import calculate_metrics
-        from .schemas import Plan
-        from .scenarios import corridor_scenario
-        for key in ('active_plan','baseline'):
-            plan=sim.state[key]
-            scenario=corridor_scenario() if key=='baseline' else scenario_for(sim.state)
-            native=Plan.model_validate(plan['_native'])
-            native.state_version=scenario.state_version
-            forecast=calculate_metrics(scenario,native,config_for(sim.state),previous=native if key=='active_plan' else None)
-            plan['metrics']=ui_metrics(forecast)
-            plan['forecast']=forecast.model_dump()
+        sim.update_settings(body.model_dump())
     else:
+        sim.state['settings']=body.model_dump()
+        sim.state['constraint_version']+=1
+        sim.state['state_version']+=1
         sim.state['active_plan']['metrics']=metrics(sim.state,sim.state['active_plan'])
         sim.state['baseline']['metrics']=metrics(sim.state,sim.state['baseline'])
     sim.plans.clear()
@@ -422,8 +416,8 @@ async def logic_diagnostics(request:Request):
     require(request,'viewer')
     if not isinstance(sim,LogicSimulator):
         raise HTTPException(409,'Logic engine is not active')
-    return {'scenario':sim.state['scenario'],'plan':sim.state['active_plan']['_native'],
-            'forecast':sim.state['active_plan']['forecast']}
+    from .logic_api import diagnose
+    return await asyncio.to_thread(diagnose,copy.deepcopy(sim.state))
 
 
 @app.websocket('/ws')
@@ -462,6 +456,10 @@ async def websocket(ws:WebSocket):
         with suppress(asyncio.CancelledError,WebSocketDisconnect):
             await receiver
 
+
+from .logic_api import router as logic_router
+
+app.include_router(logic_router)
 
 if (ROOT/'frontend/dist').exists():
     app.mount('/',StaticFiles(directory=ROOT/'frontend/dist',html=True),name='frontend')

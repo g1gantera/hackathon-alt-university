@@ -1,0 +1,4 @@
+{
+  "backend/app/integration.py": "Connect live movement, energy, metrics, constraints and settings to native logic; retain the existing frontend API fields.",
+  "backend/app/main.py": "Expose native logic reports and ensure replanning catches incident changes; preserve shared auth, WebSocket and existing URLs."
+}

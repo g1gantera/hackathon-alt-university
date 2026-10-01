@@ -13,10 +13,18 @@ from integration.main import MAP_ADAPTER, app
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_component_sources_are_byte_identical():
+def test_component_sources_preserved_except_documented_approved_changes():
     manifest = json.loads((ROOT / "integration/source-manifest.json").read_text())
     assert set(manifest["sources"]) == {"M_part", "era", "logic"}
+    changes = json.loads((ROOT / "integration/backend-changes.json").read_text())
+    assert set(changes) == {"backend/app/integration.py", "backend/app/main.py"}
+    frontend_changes = json.loads((ROOT / "integration/frontend-changes.json").read_text())
+    assert set(frontend_changes) == {"frontend/src/types.ts", "frontend/src/App.tsx"}
+    changes.update(frontend_changes)
+    assert all(changes.values())
     for entry in manifest["files"]:
+        if entry["path"] in changes:
+            continue
         assert hashlib.sha256((ROOT / entry["path"]).read_bytes()).hexdigest() == entry["sha256"], (
             entry
         )

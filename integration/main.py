@@ -1,7 +1,7 @@
-"""One origin, one simulation and unchanged component source files.
+"""One origin and one native logic simulation shared by both interfaces.
 
 Run from the repository root: python -m uvicorn integration.main:app
-The original backend remains mounted intact, including its API and WebSocket.
+The shared backend retains its API and WebSocket paths.
 """
 
 from contextlib import asynccontextmanager
