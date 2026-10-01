@@ -39,7 +39,7 @@ python -m uvicorn integration.main:app --host 127.0.0.1 --port 8000
 | Компонент | Коммит |
 |---|---|
 | `era` | `221fb8ea8144ac43d3a80ed0beb44e2f97c2b488` |
-| `M_part` | `817d3e565a6a74a903103e7d8c236b186338af38` |
+| `M_part` | `ed58c04ca105371912c7843a6c437afdacf48375` |
 | `logic` | `7db5b1d0b2122f59d0beb3f47da610d8d72e8a1a` |
 
 В `M_part` уже был merge `logic`, включая адаптер API и изменения импортов
