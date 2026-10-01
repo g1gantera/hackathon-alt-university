@@ -3,6 +3,7 @@ import maplibregl, {type GeoJSONSourceSpecification} from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type {Topology,Snapshot} from './types';
 import {useDispatch} from './store';
+import {committedSnapshot,paintIdentifier} from './performanceProbe';
 
 const trainStatus:Record<string,string>={waiting:'На станции',moving:'В движении',completed:'Прибыл'};
 let networkRequest:Promise<Extract<GeoJSONSourceSpecification['data'],{type:'FeatureCollection'}>>|null=null;
@@ -20,7 +21,7 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
  useEffect(()=>{
   if(!container.current)return;
   setReady(false);
-  const m=new maplibregl.Map({container:container.current,style:{version:8,sources:{base:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,attribution:'? OpenStreetMap contributors'}},layers:[{id:'background',type:'background',paint:{'background-color':'#eef1eb'}},{id:'base',source:'base',type:'raster',paint:{'raster-saturation':-.85,'raster-opacity':.53}}]},center:[70.5,52.25],zoom:7.1,attributionControl:{compact:true}});
+  const m=new maplibregl.Map({container:container.current,style:{version:8,sources:{base:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,attribution:'© OpenStreetMap contributors'}},layers:[{id:'background',type:'background',paint:{'background-color':'#eef1eb'}},{id:'base',source:'base',type:'raster',paint:{'raster-saturation':-.85,'raster-opacity':.53}}]},center:[70.5,52.25],zoom:7.1,attributionControl:{compact:true}});
   map.current=m;
   m.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
   // Rail data does not wait for external raster tiles to finish loading.
@@ -72,13 +73,19 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
    }
    marker.setLngLat(train.coordinate);
    const element=marker.getElement();element.classList.toggle('freight',train.type==='freight');element.classList.toggle('selected',selected===train.id);element.classList.toggle('stopped',train.status!=='moving');
-   const label=element.querySelector('.train-label') as HTMLElement;
+   let label=element.querySelector('.train-label') as HTMLElement;
+   const paintId=paintIdentifier(snapshot,'map',train.id);
+   if(paintId&&label.getAttribute('elementtiming')!==paintId){
+    const replacement=label.cloneNode(false) as HTMLElement;
+    replacement.setAttribute('elementtiming',paintId);label.replaceWith(replacement);label=replacement;
+   }
    label.textContent=`${train.number} · ${trainStatus[train.status]||train.status}`;
    label.style.top=`${train.status==='moving'?-12:(Math.floor(index/2)-1)*25}px`;
    (element.querySelector('.train-bearing') as HTMLElement).style.transform=`rotate(${train.bearing_deg-m.getBearing()}deg)`;
    element.title=`№ ${train.number} · ${train.route_name} · ${trainStatus[train.status]} · ${(train.speed_mps*3.6).toFixed(0)} км/ч`;
    element.setAttribute('aria-label',element.title);
   });
+  committedSnapshot(snapshot,'map');
  },[snapshot,ready,selected,topology,select]);
  const selectedTrain=snapshot.trains.find(t=>t.id===selected);
  return <div className="map-wrapper"><div ref={container} className="map-canvas"/><div className="map-caption"><span className="dot green"/>{networkState}{networkError&&<button onClick={()=>retryNetwork.current()}>Повторить</button>}</div>{selectedTrain&&<div className="map-selected"><strong>№ {selectedTrain.number} · {trainStatus[selectedTrain.status]}</strong><span>{selectedTrain.route_name}</span><small>{(selectedTrain.speed_mps*3.6).toFixed(0)} км/ч · движение моделируется</small></div>}<div className="map-distance"><strong>{(topology.length_m/1000).toFixed(1)}</strong><span>км маршрута</span></div></div>;

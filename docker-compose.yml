@@ -1,4 +1,30 @@
+x-ingestion: &ingestion
+  build:
+    context: .
+    target: backend
+  command: ["uvicorn", "backend.ingestion.service:app", "--host", "0.0.0.0", "--port", "8100"]
+  restart: unless-stopped
+  healthcheck:
+    test: ["CMD", "python", "-c", "import json,urllib.request; assert json.load(urllib.request.urlopen('http://127.0.0.1:8100/health'))['status']=='ready'"]
+    interval: 5s
+    timeout: 2s
+    retries: 5
 services:
+  movement-ingestion:
+    <<: *ingestion
+    environment:
+      INGESTION_KIND: movement
+      INGESTION_TOKEN: ${INGESTION_TOKEN:?Set INGESTION_TOKEN in your environment}
+  infrastructure-ingestion:
+    <<: *ingestion
+    environment:
+      INGESTION_KIND: infrastructure
+      INGESTION_TOKEN: ${INGESTION_TOKEN:?Set INGESTION_TOKEN in your environment}
+  timetable-ingestion:
+    <<: *ingestion
+    environment:
+      INGESTION_KIND: timetable
+      INGESTION_TOKEN: ${INGESTION_TOKEN:?Set INGESTION_TOKEN in your environment}
   dispatch:
     build: .
     ports:
@@ -11,6 +37,18 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       COOKIE_SECURE: ${COOKIE_SECURE:-false}
       DATABASE_URL: sqlite:////storage/dispatch.sqlite
+      INGESTION_MODE: remote
+      INGESTION_TOKEN: ${INGESTION_TOKEN:?Set INGESTION_TOKEN in your environment}
+      MOVEMENT_INGESTION_URL: http://movement-ingestion:8100
+      INFRASTRUCTURE_INGESTION_URL: http://infrastructure-ingestion:8100
+      TIMETABLE_INGESTION_URL: http://timetable-ingestion:8100
+    depends_on:
+      movement-ingestion:
+        condition: service_healthy
+      infrastructure-ingestion:
+        condition: service_healthy
+      timetable-ingestion:
+        condition: service_healthy
     volumes:
       - dispatch-data:/storage
 volumes:

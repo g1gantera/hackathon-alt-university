@@ -10,6 +10,7 @@ import time
 import uuid
 from concurrent.futures import ProcessPoolExecutor
 from contextlib import asynccontextmanager, suppress
+from datetime import datetime, timezone
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect, Query
@@ -18,25 +19,38 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, model_validator, ValidationError
 
-from .domain import ROOT, movement_profile
+from .domain import ROOT
 from .metrics import DEFAULT_SETTINGS, metrics
 from .planning import build_plans, warm_worker
 from .simulator import Simulator
 from .storage import Store
 from .validation import validate_plan
 from .railway_map import infrastructure
+from .dispatch import dispatch_report
+from .stage3_demo import demo_state, scenario_data, solve_demo
+from .replanning import Replanner, comparison
+from .timing import MAX_SPEED, UPDATE_INTERVAL_MS, ModelClock, run_periodic
+from .speed_advice import eco_plan, train_profile
+from .reports import csv_report
+from .quality_config import Settings, canonical_settings
+from backend.ingestion.client import Ingestion
 
 logger = logging.getLogger('dispatch')
 logging.basicConfig(level=logging.INFO,format='%(message)s')
 sessions = {}
 clients = set()
 seq = 0
+stream_id = str(uuid.uuid4())
 last_saved_snapshot = None
 sim = None
 store = None
 pool = None
-job_task = None
+replanner = None
+demo_pool = None
+demo_lock = None
+eco_lock = None
 demo_mode = os.environ.get('DEMO_MODE','true').lower()=='true'
+ingestion = None
 
 
 def require(request, role='dispatcher'):
@@ -50,11 +64,28 @@ def require(request, role='dispatcher'):
     return session['role']
 
 
+def realtime_metadata(sequence=None):
+    return {'protocol_version':1,'stream_id':stream_id,'seq':seq if sequence is None else sequence,
+            'observed_at':datetime.now(timezone.utc).isoformat(),'source':'simulation','update_interval_ms':UPDATE_INTERVAL_MS}
+
+
+def live_snapshot(sequence=None):
+    report=dispatch_report(sim.state,sim.state['active_plan'])
+    snapshot=sim.snapshot(violations=report['conflicts'])
+    snapshot['dispatch']={k:report[k] for k in ('valid','conflicts','policy','next_decisions')}
+    return {**snapshot,'realtime':realtime_metadata(sequence)}
+
+
+def event_envelope(kind,payload):
+    return {**realtime_metadata(),'type':kind,'epoch':sim.state['epoch'],
+            'sim_time_s':sim.state['sim_time_s'],'state_version':sim.state['state_version'],
+            'plan_id':sim.state['active_plan']['id'],'payload':payload}
+
+
 def emit(kind,payload):
     global seq
     seq += 1
-    event={'type':kind,'seq':seq,'sim_time_s':sim.state['sim_time_s'],
-           'state_version':sim.state['state_version'],'plan_id':sim.state['active_plan']['id'],'payload':payload}
+    event=event_envelope(kind,payload)
     for queue in tuple(clients):
         if queue.full():
             with suppress(asyncio.QueueEmpty):
@@ -66,80 +97,96 @@ def emit(kind,payload):
 
 
 def publish():
+    ingestion.deliver(live_snapshot())
+
+
+def publish_normalized(snapshot):
     global last_saved_snapshot
-    snapshot=sim.snapshot()
-    key=(sim.state['epoch'],sim.state['state_version'])
+    snapshot['realtime']=realtime_metadata(seq+1)
+    key=(snapshot['epoch'],snapshot['state_version'])
     if key!=last_saved_snapshot:
-        store.save('snapshot',sim.state['epoch'],sim.state['sim_time_s'],snapshot)
+        store.save('snapshot',snapshot['epoch'],snapshot['sim_time_s'],snapshot)
         last_saved_snapshot=key
     emit('state.updated',snapshot)
     emit('metrics.updated',snapshot['metrics'])
 
 
 async def ticker():
-    while True:
-        await asyncio.sleep(1)
-        sim.tick(int(sim.state['speed']))
+    model_clock=ModelClock()
+
+    def update():
+        sim.tick(model_clock.step(epoch=sim.state['epoch'],speed=sim.state['speed'],
+                                  running=sim.state['running'],held=sim.clock_held_for_replan))
+        expired=[]
+        for entry in sim.state['incidents']:
+            if entry['end_s']<=sim.state['sim_time_s'] and 'resolved_s' not in entry and not entry.get('expiry_notified'):
+                entry['expiry_notified']=True
+                expired.append(entry)
+                sim.state['state_version']+=1
+                emit('incident.expired',entry)
+        if expired and sim.state['awaiting_plan'] and not sim.replanning:
+            queue_replan('expiry',sim.state['replanning_options']['auto_apply'])
         publish()
+        store.maintain()
+
+    await run_periodic(update)
 
 
-async def calculate(job_id, snapshot):
-    began=time.perf_counter()
-    sim.replanning=True
-    emit('replan.started',{'job_id':job_id})
-    try:
-        result=await asyncio.get_running_loop().run_in_executor(pool,build_plans,snapshot)
-        result['elapsed_s']=round(time.perf_counter()-began,3)
-        result['within_budget']=result['elapsed_s']<=5
-        if snapshot['epoch']!=sim.state['epoch'] or snapshot['constraint_version']!=sim.state['constraint_version']:
-            emit('replan.failed',{'job_id':job_id,'message':'Условия изменились. Повторите расчёт.'})
-            return
-        for plan in result['plans']:
-            plan['calculation_s']=result['elapsed_s']
-            plan['within_budget']=result['within_budget']
-            plan['epoch']=snapshot['epoch']
-            plan['constraint_version']=snapshot['constraint_version']
-            sim.plans[plan['id']]=plan
-            store.save('plan',snapshot['epoch'],snapshot['sim_time_s'],plan)
-        emit('replan.completed' if result['plans'] else 'replan.failed',{'job_id':job_id,**result})
-    except Exception:
-        logger.exception('Planning failed')
-        emit('replan.failed',{'job_id':job_id,'message':'Ошибка расчёта; действующий план не заменён.'})
-    finally:
-        sim.replanning=False
-        publish()
+async def solve_snapshot(snapshot):
+    return await asyncio.get_running_loop().run_in_executor(pool,build_plans,snapshot)
 
 
-def queue_replan():
-    global job_task
-    if job_task and not job_task.done():
-        return {'job_id':'running','status':'running'}
-    job_id=str(uuid.uuid4())
-    job_task=asyncio.create_task(calculate(job_id,copy.deepcopy(sim.state)))
-    return {'job_id':job_id,'status':'queued'}
+async def solve_eco(snapshot,train_id):
+    return await asyncio.get_running_loop().run_in_executor(pool,eco_plan,snapshot,train_id)
+
+
+def queue_replan(trigger='manual',automatic=False):
+    return replanner.request(trigger,automatic)
 
 
 @asynccontextmanager
 async def lifespan(app):
-    global sim,store,pool
+    global sim,store,pool,seq,stream_id,last_saved_snapshot,replanner,demo_pool,demo_lock,eco_lock,ingestion
+    seq=0
+    stream_id=str(uuid.uuid4())
+    last_saved_snapshot=None
+    clients.clear()
     sim=Simulator()
     store=Store()
     pool=ProcessPoolExecutor(max_workers=1)
-    await asyncio.get_running_loop().run_in_executor(pool,warm_worker,sim.state)
-    publish()
-    task=asyncio.create_task(ticker())
-    yield
-    task.cancel()
-    with suppress(asyncio.CancelledError):
-        await task
-    if job_task and not job_task.done():
-        await job_task
-    pool.shutdown(wait=True,cancel_futures=True)
-    store.engine.dispose()
+    demo_pool=ProcessPoolExecutor(max_workers=1)
+    demo_lock=asyncio.Lock()
+    eco_lock=asyncio.Lock()
+    ingestion=Ingestion(publish_normalized,lambda:(sim.state['epoch'],sim.state['state_version']))
+    replanner=Replanner(sim,solve_snapshot,emit,publish,lambda plan:store.save('plan',plan['epoch'],sim.state['sim_time_s'],plan))
+    task=None
+    try:
+        await asyncio.get_running_loop().run_in_executor(pool,warm_worker,sim.state)
+        await ingestion.start(live_snapshot())
+        task=asyncio.create_task(ticker())
+        yield
+    finally:
+        if task:
+            task.cancel()
+            with suppress(asyncio.CancelledError):
+                await task
+        await replanner.close()
+        await ingestion.close()
+        pool.shutdown(wait=True,cancel_futures=True)
+        demo_pool.shutdown(wait=True,cancel_futures=True)
+        store.engine.dispose()
+
 
 
 app=FastAPI(title='KTZH | Astana–Kokshetau dispatcher',version='0.1.0',lifespan=lifespan)
 app.add_middleware(GZipMiddleware,minimum_size=1000)
+
+
+@app.get('/api/health')
+async def health():
+    ready=ingestion is not None and ingestion.status['status']=='ready' and time.time()-ingestion.status.get('last_success_at',0)<5
+    return {'status':'ready' if ready else 'degraded','ingestion':ingestion.status if ingestion else None,
+            'history':store.statistics() if store else None}
 
 
 class Login(BaseModel):
@@ -148,7 +195,19 @@ class Login(BaseModel):
 
 
 class Speed(BaseModel):
-    multiplier: Literal[1,5,15,30,60]
+    multiplier: int=Field(gt=0,le=MAX_SPEED,strict=True)
+
+
+class DemoRequest(BaseModel):
+    scenario: Literal['opposing','following','fleet']='opposing'
+    policy: Literal['balanced','passenger_priority']='balanced'
+    priorities: dict[str,int]=Field(default_factory=dict,max_length=8)
+
+    @model_validator(mode='after')
+    def valid_priorities(self):
+        if any(not 1<=value<=10 for value in self.priorities.values()):
+            raise ValueError('Priorities must be from 1 to 10')
+        return self
 
 
 class Incident(BaseModel):
@@ -157,20 +216,9 @@ class Incident(BaseModel):
     duration_s: int=Field(600,ge=30,le=7200)
 
 
-class Settings(BaseModel):
-    passenger_weight: float=Field(3,gt=0,le=20)
-    freight_weight: float=Field(1,gt=0,le=20)
-    delay_weight: float=Field(.7,ge=0,le=1)
-    energy_weight: float=Field(.3,ge=0,le=1)
-    delay_norm_s: float=Field(7200,gt=0,le=1000000)
-    energy_norm_kwh: float=Field(100000,gt=0,le=10000000)
-    arrival_tolerance_s: float=Field(300,ge=0,le=3600)
-
-    @model_validator(mode='after')
-    def weights(self):
-        if self.delay_weight+self.energy_weight<=0:
-            raise ValueError('At least one metric weight must be positive')
-        return self
+class ReplanningOptions(BaseModel):
+    auto_apply: bool=True
+    policy: Literal['balanced','passenger_priority']='balanced'
 
 
 @app.post('/api/auth/login')
@@ -199,7 +247,42 @@ async def logout(request:Request,response:Response):
 @app.get('/api/state')
 async def state(request:Request):
     require(request,'viewer')
-    return sim.snapshot()
+    return live_snapshot()
+
+
+@app.get('/api/trains')
+async def trains(request:Request):
+    require(request,'viewer')
+    snapshot=live_snapshot()
+    return {key:snapshot[key] for key in ('realtime','epoch','state_version','sim_time_s','trains')}
+
+
+@app.get('/api/quality')
+async def movement_quality(request:Request):
+    require(request,'viewer')
+    snapshot=live_snapshot()
+    actual=snapshot['metrics']
+    forecast=metrics(sim.state,sim.state['active_plan']) if snapshot['dispatch']['valid'] and not snapshot['awaiting_plan'] else None
+    now=snapshot['sim_time_s']
+    trend=store.quality_history(snapshot['epoch'],max(0,now-900),now,actual['quality_signature'])
+    current={'sim_time_s':now,'state_version':snapshot['state_version'],'index':actual['index']}
+    if not trend or trend[-1]!=current:
+        trend.append(current)
+    return {'epoch':snapshot['epoch'],'state_version':snapshot['state_version'],'sim_time_s':now,
+            'constraint_version':snapshot['constraint_version'],'active_plan_id':snapshot['active_plan_id'],
+            'realtime':snapshot['realtime'],'actual':actual,'forecast':forecast,
+            'trend':{'window_start_s':max(0,now-900),'window_end_s':now,'quality_signature':actual['quality_signature'],
+                     'points':trend,'sample_count':len(trend)}}
+
+
+@app.get('/api/trains/{train_id}')
+async def train_state(train_id:str,request:Request):
+    require(request,'viewer')
+    snapshot=live_snapshot()
+    train=next((t for t in snapshot['trains'] if t['id']==train_id),None)
+    if train is None:
+        raise HTTPException(404,'Unknown train')
+    return {**{key:snapshot[key] for key in ('realtime','epoch','state_version','sim_time_s')},'train':train}
 
 
 @app.get('/api/topology')
@@ -224,18 +307,21 @@ async def map_infrastructure(request:Request):
 async def control(action:str,request:Request):
     require(request)
     if action=='start':
+        if not sim.state['awaiting_plan']:
+            errors=validate_plan(sim.state,sim.state['active_plan'])
+            if errors:
+                raise HTTPException(409,{'message':'Active schedule is invalid; calculate and apply a new plan','violations':errors})
         sim.state['running']=True
     elif action=='pause':
         sim.state['running']=False
     elif action=='reset':
-        if sim.replanning:
-            raise HTTPException(409,'Wait until calculation completes before reset')
+        replanner.invalidate()
         sim.reset()
     elif action=='speed':
         try:
             body=Speed.model_validate(await request.json())
         except (ValidationError,ValueError):
-            raise HTTPException(422,'Speed must be one of 1, 5, 15, 30, 60')
+            raise HTTPException(422,f'Speed must be a whole number from 1 to {MAX_SPEED}')
         sim.state['speed']=body.multiplier
     else:
         raise HTTPException(404,'Unknown action')
@@ -265,15 +351,54 @@ async def incident(body:Incident,request:Request):
     sim.plans.clear()
     emit('incident.created',entry)
     publish()
-    # Coalesce rapid incidents, then compute the latest snapshot.
-    async def deferred():
-        await asyncio.sleep(.3)
-        if job_task and not job_task.done():
-            await asyncio.shield(job_task)
-        if sim.state['awaiting_plan'] and not sim.plans:
-            queue_replan()
-    asyncio.create_task(deferred())
+    queue_replan('incident',sim.state['replanning_options']['auto_apply'])
     return entry
+
+
+@app.post('/api/incidents/{incident_id}/resolve')
+async def resolve_incident(incident_id:str,request:Request):
+    require(request)
+    entry=next((i for i in sim.state['incidents'] if i['id']==incident_id),None)
+    if entry is None:
+        raise HTTPException(404,'Unknown incident')
+    now=sim.state['sim_time_s']
+    if entry['end_s']<=now or 'resolved_s' in entry:
+        return entry
+    entry['scheduled_end_s']=entry['end_s']
+    entry['end_s']=now
+    entry['resolved_s']=now
+    sim.state['constraint_version']+=1
+    sim.state['state_version']+=1
+    sim.state['awaiting_plan']=True
+    sim.plans.clear()
+    emit('incident.resolved',entry)
+    queue_replan('resolved',sim.state['replanning_options']['auto_apply'])
+    return entry
+
+
+@app.get('/api/replanning')
+async def replanning_status(request:Request):
+    require(request,'viewer')
+    return {'options':sim.state['replanning_options'],'status':sim.state['replan_status']}
+
+
+@app.put('/api/replanning')
+async def replanning_options(body:ReplanningOptions,request:Request):
+    require(request)
+    sim.state['replanning_options']=body.model_dump()
+    sim.state['state_version']+=1
+    emit('replan.options_changed',body.model_dump())
+    if sim.state['awaiting_plan'] or sim.replanning:
+        queue_replan('options',body.auto_apply)
+    else:
+        publish()
+    return body.model_dump()
+
+
+@app.post('/api/replanning/retry')
+async def retry_replanning(request:Request):
+    require(request)
+    return queue_replan('retry',sim.state['replanning_options']['auto_apply'])
 
 
 @app.post('/api/replan')
@@ -288,22 +413,64 @@ async def plans(request:Request):
     return {'plans':list(sim.plans.values()),'active':sim.state['active_plan'],'baseline':sim.state['baseline']}
 
 
+@app.get('/api/dispatch')
+async def dispatch_status(request:Request,plan_id:str|None=None):
+    require(request,'viewer')
+    plan=sim.state['active_plan'] if plan_id is None or plan_id==sim.state['active_plan']['id'] else sim.plans.get(plan_id)
+    if plan is None:
+        raise HTTPException(404,'Plan not found; recalculate')
+    report=dispatch_report(sim.state,plan)
+    report['active']=plan['id']==sim.state['active_plan']['id']
+    report['applicable']=not report['active'] and report['valid'] and plan.get('epoch')==sim.state['epoch'] and plan.get('constraint_version')==sim.state['constraint_version']
+    return report
+
+
+@app.get('/api/plans/{plan_id}/comparison')
+async def compare_plan(plan_id:str,request:Request):
+    require(request,'viewer')
+    plan=sim.plans.get(plan_id)
+    if plan is None:
+        raise HTTPException(404,'Plan not found; recalculate')
+    state=sim.state
+    if plan.get('epoch')!=state['epoch'] or plan.get('constraint_version')!=state['constraint_version']:
+        raise HTTPException(409,'Plan conditions changed; recalculate')
+    if plan.get('source_plan_id') and plan['source_plan_id']!=state['active_plan']['id']:
+        raise HTTPException(409,'Source timetable changed; recalculate')
+    change=comparison(state,plan)
+    return {'epoch':state['epoch'],'constraint_version':state['constraint_version'],
+            'active_plan_id':state['active_plan']['id'],'plan_id':plan_id,'sim_time_s':state['sim_time_s'],
+            'applicable':change['after']['forecast_valid'],'comparison':change}
+
+
+@app.get('/api/stage3/scenario')
+async def stage3_scenario(request:Request,scenario:Literal['opposing','following','fleet']='opposing'):
+    require(request,'viewer')
+    return scenario_data(demo_state(scenario))
+
+
+@app.post('/api/stage3/solve')
+async def stage3_solve(body:DemoRequest,request:Request):
+    require(request,'viewer')
+    try:
+        demo_state(body.scenario,body.priorities)
+    except ValueError as error:
+        raise HTTPException(422,str(error))
+    if demo_lock.locked():
+        raise HTTPException(409,'The demo is calculating. Please try again shortly.')
+    async with demo_lock:
+        return await asyncio.get_running_loop().run_in_executor(demo_pool,solve_demo,body.scenario,body.priorities,body.policy)
+
+
 @app.post('/api/plans/{plan_id}/apply')
 async def apply(plan_id:str,request:Request):
     require(request)
     plan=sim.plans.get(plan_id)
     if not plan:
         raise HTTPException(404,'Plan not found; recalculate')
-    if plan['epoch']!=sim.state['epoch'] or plan['constraint_version']!=sim.state['constraint_version']:
-        raise HTTPException(409,'Plan conditions changed; recalculate')
-    errors=validate_plan(sim.state,plan)
-    if errors:
-        raise HTTPException(409,{'message':'Plan is no longer feasible; recalculate','violations':errors})
-    sim.state['active_plan']=copy.deepcopy(plan)
-    sim.state['awaiting_plan']=False
-    sim.state['state_version']+=1
-    sim.plans.clear()
-    emit('plan.applied',{'plan_id':plan_id})
+    try:
+        replanner.install(plan)
+    except ValueError as error:
+        raise HTTPException(409,error.args[0])
     publish()
     return sim.snapshot()
 
@@ -314,18 +481,48 @@ async def speed_profile(train_id:str,request:Request):
     train=next((t for t in sim.state['fleet'] if t['id']==train_id),None)
     if not train:
         raise HTTPException(404,'Unknown train')
-    points=[]
-    energy=0
-    position=0
-    legs=sorted([m for m in sim.state['active_plan']['movements'] if m['train_id']==train_id],key=lambda m:m['leg'])
-    for m in legs:
-        section=next(s for s in sim.state['topology']['sections'] if s['id']==m['section_id'])
-        p=movement_profile(train,section,m['end_s']-m['start_s'])
-        points.extend([[m['start_s']+t,position+x,v,p['limit_mps'],energy+e] for t,x,v,e in p['points']])
-        energy+=p['energy_kwh']
-        position+=section['length_m']
-    return {'train_id':train_id,'plan_id':sim.state['active_plan']['id'],'points':points,'energy_kwh':energy,
-            'arrival_s':legs[-1]['end_s'],'reachable':True,'assumptions':p['assumptions']}
+    return train_profile(sim.state,train)
+
+
+@app.get('/api/trains/{train_id}/advice')
+async def speed_advice(train_id:str,request:Request):
+    require(request,'viewer')
+    snapshot=live_snapshot()
+    train=next((t for t in snapshot['trains'] if t['id']==train_id),None)
+    if train is None:
+        raise HTTPException(404,'Unknown train')
+    return {'epoch':snapshot['epoch'],'state_version':snapshot['state_version'],'realtime':snapshot['realtime'],
+            'advice':train['speed_advice'],'profile':train_profile(sim.state,train)}
+
+
+@app.post('/api/trains/{train_id}/eco-plan')
+async def economy_proposal(train_id:str,request:Request):
+    require(request)
+    if train_id not in [t['id'] for t in sim.state['fleet']]:
+        raise HTTPException(404,'Unknown train')
+    if sim.state['running'] or sim.state['awaiting_plan'] or sim.replanning:
+        raise HTTPException(409,'Pause the model and wait for a valid active timetable first')
+    if eco_lock.locked():
+        raise HTTPException(409,'An economy proposal is already being calculated')
+    async with eco_lock:
+        snapshot=copy.deepcopy(sim.state)
+        result=await solve_eco(snapshot,train_id)
+        current=sim.state
+        # Neither an incident, reset, new timetable nor a start/pause cycle may
+        # let an obsolete worker result replace the current speed recommendation.
+        if any(current[key]!=snapshot[key] for key in ('epoch','constraint_version','sim_time_s','committed')) or current['active_plan']['id']!=snapshot['active_plan']['id'] or current['running'] or current['awaiting_plan'] or sim.replanning:
+            raise HTTPException(409,'The scenario changed during calculation; try again')
+        plan=result.get('plan')
+        if plan:
+            if validate_plan(current,plan):
+                raise HTTPException(409,'The economy proposal is no longer feasible')
+            # Retain at most one economy proposal per train, plus dispatch variants.
+            sim.plans={key:p for key,p in sim.plans.items() if p.get('eco',{}).get('train_id')!=train_id}
+            sim.plans[plan['id']]=plan
+            store.save('plan',current['epoch'],current['sim_time_s'],plan)
+            emit('eco.plan_ready',{'train_id':train_id,'plan_id':plan['id']})
+        return {**result,'epoch':current['epoch'],'base_plan_id':current['active_plan']['id'],
+                'constraint_version':current['constraint_version'],'sim_time_s':current['sim_time_s']}
 
 
 @app.get('/api/history')
@@ -347,22 +544,64 @@ async def report(request:Request):
     return Response('\ufeff'+output.getvalue(),media_type='text/csv; charset=utf-8',headers={'Content-Disposition':'attachment; filename=dispatch-report.csv'})
 
 
+@app.get('/api/history/runs')
+def history_runs(request:Request):
+    require(request,'viewer')
+    return {'current_epoch':sim.state['epoch'],'retention_hours':store.retention_hours,'runs':store.runs()}
+
+
+@app.get('/api/history/window')
+def history_window(request:Request,epoch:str|None=None,minutes:int=Query(15,ge=5,le=15,multiple_of=5),
+                   end:float|None=Query(None,alias='to',ge=0,allow_inf_nan=False)):
+    require(request,'viewer')
+    window=store.archive_window(epoch or sim.state['epoch'],minutes,end)
+    if window is None:
+        raise HTTPException(404,'Saved run not found or its retention period has expired')
+    return window
+
+
+@app.get('/api/history/snapshots/{record_id}')
+def history_snapshot(record_id:int,request:Request,epoch:str):
+    require(request,'viewer')
+    snapshot=store.archive_snapshot(epoch,record_id)
+    if snapshot is None:
+        raise HTTPException(404,'Snapshot not found or its retention period has expired')
+    return snapshot
+
+
+@app.get('/api/reports/history.csv')
+def history_report(request:Request,epoch:str,minutes:int=Query(15,ge=5,le=15,multiple_of=5),
+                   end:float=Query(...,alias='to',ge=0,allow_inf_nan=False),
+                   through_id:int=Query(...,gt=0)):
+    require(request,'viewer')
+    window=store.archive_window(epoch,minutes,end,through_id)
+    if window is None or not window['frames']:
+        raise HTTPException(404,'No saved snapshots in this report window')
+    filename=f"railflow-report-{int(window['from_s'])}-{int(window['to_s'])}.csv"
+    return StreamingResponse(csv_report(store,window),media_type='text/csv; charset=utf-8',
+        headers={'Content-Disposition':f'attachment; filename={filename}','Cache-Control':'no-store'})
+
+
 @app.get('/api/settings')
 async def settings(request:Request):
     require(request,'viewer')
-    return sim.state['settings']
+    return canonical_settings(sim.state['settings'])
 
 
 @app.put('/api/settings')
 async def update_settings(body:Settings,request:Request):
     require(request,'admin')
-    sim.state['settings']=body.model_dump()
+    sim.state['settings']=canonical_settings(body.model_dump())
     sim.state['constraint_version']+=1
     sim.state['state_version']+=1
     sim.state['active_plan']['metrics']=metrics(sim.state,sim.state['active_plan'])
     sim.state['baseline']['metrics']=metrics(sim.state,sim.state['baseline'])
     sim.plans.clear()
     emit('settings.updated',sim.state['settings'])
+    if sim.state['awaiting_plan'] or sim.replanning:
+        queue_replan('settings',sim.state['replanning_options']['auto_apply'])
+    elif sim.state['replan_status']['status']=='review':
+        sim.state['replan_status']={'status':'idle','comparison':None,'message':None}
     publish()
     return sim.state['settings']
 
@@ -379,23 +618,32 @@ async def websocket(ws:WebSocket):
         await ws.close(code=1008)
         return
     await ws.accept()
+    try:
+        initial=await ingestion.current_snapshot()
+    except asyncio.TimeoutError:
+        await ws.close(code=1013)
+        return
     queue=asyncio.Queue(maxsize=6)
     clients.add(queue)
-    await ws.send_json({'type':'state.updated','seq':seq,'sim_time_s':sim.state['sim_time_s'],
-                        'state_version':sim.state['state_version'],'plan_id':sim.state['active_plan']['id'],
-                        'payload':sim.snapshot()})
     async def receive():
         while True:
             await ws.receive_text()
     receiver=asyncio.create_task(receive())
     try:
+        initial['realtime']=realtime_metadata()
+        await asyncio.wait_for(ws.send_json(event_envelope('state.updated',initial)),timeout=2)
         while not receiver.done():
             try:
+                require(ws,'viewer')
+            except HTTPException:
+                await ws.close(code=1008)
+                break
+            try:
                 event=await asyncio.wait_for(queue.get(),timeout=2)
-                await asyncio.wait_for(ws.send_json(event),timeout=2)
             except asyncio.TimeoutError:
                 continue
-    except (WebSocketDisconnect,RuntimeError):
+            await asyncio.wait_for(ws.send_json(event),timeout=2)
+    except (WebSocketDisconnect,RuntimeError,asyncio.TimeoutError):
         pass
     finally:
         clients.discard(queue)

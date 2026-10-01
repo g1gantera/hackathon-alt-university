@@ -1,8 +1,9 @@
 import {create} from 'zustand';
 import type {Snapshot} from './types';
-export const useDispatch=create<{snapshot:Snapshot|null;selected:string;connected:boolean;lastUpdate:number;setSnapshot:(s:Snapshot)=>void;select:(s:string)=>void;setConnected:(s:boolean)=>void}>(set=>({snapshot:null,selected:'T01',connected:false,lastUpdate:0,setSnapshot:s=>set({snapshot:s,lastUpdate:Date.now()}),select:s=>set({selected:s}),setConnected:s=>set({connected:s})}));
+import {acceptSnapshot} from './realtime';
+export const useDispatch=create<{snapshot:Snapshot|null;selected:string;connected:boolean;lastUpdate:number;setSnapshot:(s:Snapshot,fromSocket?:boolean)=>void;select:(s:string)=>void;setConnected:(s:boolean)=>void}>(set=>({snapshot:null,selected:'T01',connected:false,lastUpdate:0,setSnapshot:(s,fromSocket=false)=>set(current=>acceptSnapshot(current.snapshot,s,fromSocket)?{snapshot:s,lastUpdate:fromSocket?Date.now():current.lastUpdate}:{}),select:s=>set({selected:s}),setConnected:s=>set({connected:s})}));
 export async function api<T=unknown>(path:string,method='GET',body?:unknown):Promise<T>{
- const result=await fetch('/api'+path,{method,headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});
+ const result=await fetch('/api'+path,{method,cache:'no-store',signal:AbortSignal.timeout(10000),headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});
  if(!result.ok){const value=await result.json().catch(()=>({detail:result.statusText}));throw new Error(typeof value.detail==='string'?value.detail:JSON.stringify(value.detail));}
  return result.json();
 }

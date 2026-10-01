@@ -7,6 +7,8 @@ from ortools.sat.python import cp_model
 from .domain import DWELL, SWITCH_TIME, HORIZON, assign_tracks, clearance, movement_profile, stops, started as was_started
 from .metrics import metrics
 from .validation import validate_plan
+from .dispatch import priority_weight
+from .timing import planning_headroom
 
 
 def make_move(train, leg, section, start, duration):
@@ -15,16 +17,17 @@ def make_move(train, leg, section, start, duration):
 
 
 def ready_time(state,train,leg):
-    ready = max(train['ready_s'],math.ceil(state['sim_time_s']) + (math.ceil(state['speed']*6) if state.get('running') else 0))
+    ready = max(train['ready_s'],math.ceil(state['sim_time_s'])+planning_headroom(state))
     for incident in state.get('incidents',[]):
         if incident['kind']=='delay' and incident['target_id']==train['id'] and incident['leg']==leg:
             ready = max(ready,incident['end_s'])
     return math.ceil(ready)
 
 
-def finish(state,movements,label,status):
+def finish(state,movements,label,status,policy='preserve_order'):
     result = {'id':str(uuid.uuid4()),'label':label,'status':status,'state_version':state['state_version'],
               'sim_time_s':state['sim_time_s'],'movements':movements,'reason':'Развести встречные поезда; учесть занятость, стоянки и действующие сбои.'}
+    result['policy']=policy
     result['violations'] = validate_plan(state,result)
     if result['violations']:
         return None
@@ -50,7 +53,7 @@ def heuristic(state):
                     cursor = incident['end_s']
             moves.append(make_move(train,leg,section,cursor,duration))
             cursor = moves[-1]['release_s']+DWELL
-    return finish(state,moves,'Резервный: по приоритету','heuristic')
+    return finish(state,moves,'Резервный: по приоритету','heuristic','priority_order')
 
 
 def shifted_seed(state):
@@ -93,8 +96,7 @@ def objective_value(state,plan,passenger_priority):
     by_key={(m['train_id'],m['leg']):m for m in plan['movements']}
     for key,m in by_key.items():
         train=fleet[m['train_id']]
-        weight=state['settings'][f"{train['type']}_weight"]*(3 if passenger_priority and train['type']=='passenger' else 1)
-        total+=max(0,m['end_s']-base[key]['end_s'])*max(1,round(weight*10))
+        total+=max(0,m['end_s']-base[key]['end_s'])*priority_weight(state,train,passenger_priority)
         total+=abs(m['start_s']-old[key]['start_s'])
         if m['leg'] and m['start_s']>by_key[(m['train_id'],m['leg']-1)]['end_s']+DWELL:
             total+=60
@@ -118,6 +120,8 @@ def solve(state, passenger_priority, seconds, seed=None):
             key = (train['id'],leg)
             duration = movement_profile(train,section)['duration_s']
             started = key in old and was_started(state,old[key])
+            if started:
+                duration=old[key]['end_s']-old[key]['start_s']
             lower = old[key]['start_s'] if started else ready_time(state,train,leg)
             start = model.new_int_var(lower,HORIZON-20000,f's-{key}')
             end = model.new_int_var(0,HORIZON,f'e-{key}')
@@ -128,7 +132,8 @@ def solve(state, passenger_priority, seconds, seed=None):
                 model.add(start==old[key]['start_s'])
             if previous_end is not None:
                 model.add(start>=previous_end+DWELL)
-            interval = model.new_fixed_size_interval_var(start,duration+clearance(train),f'block-{key}')
+            occupied=old[key]['release_s']-old[key]['start_s'] if started else duration+clearance(train)
+            interval = model.new_fixed_size_interval_var(start,occupied,f'block-{key}')
             section_intervals[section['id']].append(interval)
             switch_intervals[route[leg]].append(model.new_fixed_size_interval_var(start,SWITCH_TIME,f'exit-{key}'))
             switch_intervals[route[leg+1]].append(model.new_fixed_size_interval_var(end-SWITCH_TIME,SWITCH_TIME,f'entry-{key}'))
@@ -146,11 +151,7 @@ def solve(state, passenger_priority, seconds, seed=None):
             expected = baseline.get(key,{}).get('end_s',train['ready_s']+(leg+1)*(duration+DWELL))
             late = model.new_int_var(0,HORIZON,f'late-{key}')
             model.add(late>=end-expected)
-            settings = state['settings']
-            weight = settings[f"{train['type']}_weight"]
-            if passenger_priority and train['type']=='passenger':
-                weight *= 3
-            objective.append(late*max(1,round(weight*10)))
+            objective.append(late*priority_weight(state,train,passenger_priority))
             if key in old:
                 change = model.new_int_var(0,HORIZON,f'change-{key}')
                 model.add_abs_equality(change,start-old[key]['start_s'])
@@ -183,11 +184,14 @@ def solve(state, passenger_priority, seconds, seed=None):
         return None
     moves = []
     for train in fleet:
-        for leg in range(5):
+        for leg in range(len(train['route'])):
             start,duration,section = variables[(train['id'],leg)]
-            moves.append(make_move(train,leg,section,solver.value(start),duration))
+            key=(train['id'],leg)
+            moves.append(copy.deepcopy(old[key]) if key in old and was_started(state,old[key]) else
+                         make_move(train,leg,section,solver.value(start),duration))
     return finish(state,moves,'Приоритет пассажирских' if passenger_priority else 'Баланс задержек',
-                  'optimal' if status==cp_model.OPTIMAL else 'feasible')
+                  'optimal' if status==cp_model.OPTIMAL else 'feasible',
+                  'passenger_priority' if passenger_priority else 'balanced')
 
 
 def build_plans(state):
@@ -207,6 +211,7 @@ def build_plans(state):
             plan=copy.deepcopy(seed)
             plan['id']=str(uuid.uuid4())
             plan['label']='Приоритет пассажирских' if priority else 'Баланс задержек'
+            plan['policy']='passenger_priority' if priority else 'balanced'
         if plan:
             plans.append(plan)
     if not plans:
@@ -218,7 +223,7 @@ def build_plans(state):
         plan['calculation_s'] = round(elapsed,3)
         plan['within_budget'] = elapsed<=5
     return {'plans':plans,'elapsed_s':round(elapsed,3),'within_budget':elapsed<=5,
-            'status':'completed' if plans else 'infeasible'}
+            'status':'completed' if plans else 'no_valid_plan'}
 
 
 def warm_worker(state):

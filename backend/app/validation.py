@@ -1,5 +1,6 @@
 """Independent checks applied to heuristic, solver and plan-apply results."""
 from collections import defaultdict
+import math
 from .domain import DWELL, SWITCH_TIME, HORIZON, clearance, movement_profile, station_intervals, stops, started
 
 
@@ -9,8 +10,23 @@ def validate_plan(state, plan):
         errors.append({'code':code,'message':message,**context})
     topo, fleet = state['topology'], state['fleet']
     moves = plan.get('movements',[])
+    expected = {(t['id'],leg) for t in fleet for leg in range(len(t['route']))}
+    if not isinstance(moves,list):
+        fail('route','Movements must be a list')
+        return errors
+    for m in moves:
+        if not isinstance(m,dict) or not isinstance(m.get('train_id'),str) or type(m.get('leg')) is not int:
+            fail('route','Invalid movement identity')
+            return errors
+        if (m['train_id'],m['leg']) not in expected or not isinstance(m.get('section_id'),str):
+            fail('route','Unknown train, leg or section')
+            return errors
+        if any(type(m.get(k)) not in (int,float) or not math.isfinite(m[k]) or m[k]!=int(m[k])
+               for k in ('start_s','end_s','release_s')):
+            fail('time','Movement times must be finite whole seconds',train_id=m['train_id'])
+            return errors
     indexed = {(m['train_id'],m['leg']):m for m in moves}
-    if len(indexed)!=len(moves) or len(moves)!=len(fleet)*5:
+    if len(indexed)!=len(moves) or set(indexed)!=expected:
         fail('route','Missing or duplicate movements')
         return errors
     resources = defaultdict(list)
@@ -39,10 +55,10 @@ def validate_plan(state, plan):
                     if m['start_s'] < incident['end_s']:
                         fail('delay','Station hold violated',train_id=train['id'])
                 if incident['target_id']==section['id']:
-                    if incident['start_s'] <= m['start_s'] < incident['end_s']:
+                    if not started(state,m) and incident['start_s'] <= m['start_s'] < incident['end_s']:
                         fail('signal' if incident['kind']=='signal' else 'closed','Entry forbidden',train_id=train['id'],section_id=section['id'])
                     # Already-entered trains are allowed to clear a newly closed resource.
-                    if incident['kind']=='closure' and m['start_s'] >= incident['created_s'] and m['start_s'] < incident['end_s'] and m['release_s'] > incident['start_s']:
+                    if incident['kind']=='closure' and not started(state,m) and m['start_s'] < incident['end_s'] and m['release_s'] > incident['start_s']:
                         fail('closed','Movement overlaps closure',train_id=train['id'],section_id=section['id'])
             resources[section['id']].append((m['start_s'],m['release_s'],train['id']))
             resources[f'switch-{route[leg]}'].append((m['start_s'],m['start_s']+SWITCH_TIME,train['id']))
@@ -54,7 +70,8 @@ def validate_plan(state, plan):
             for other_start,other_end,other_id in items[i+1:]:
                 if other_start>=end:
                     break
-                fail('switch' if resource.startswith('switch') else 'occupancy','Conflicting reservations',resource=resource,train_id=train_id,other_train_id=other_id)
+                fail('switch' if resource.startswith('switch') else 'occupancy','Conflicting reservations',resource=resource,train_id=train_id,other_train_id=other_id,
+                     start_s=max(start,other_start),end_s=min(end,other_end))
     for si,station in enumerate(topo['stations']):
         events = []
         for item in station_intervals(topo,fleet,moves):

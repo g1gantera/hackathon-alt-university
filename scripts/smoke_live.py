@@ -10,6 +10,8 @@ from websockets.asyncio.client import connect
 async def main():
     async with httpx.AsyncClient(base_url='http://127.0.0.1:8000',timeout=15) as c:
         (await c.post('/api/simulation/reset')).raise_for_status()
+        # Keep this legacy smoke check focused on manual review/application.
+        (await c.put('/api/replanning',json={'auto_apply':False,'policy':'balanced'})).raise_for_status()
         async with connect('ws://127.0.0.1:8000/ws') as ws:
             initial=json.loads(await ws.recv())
             assert initial['type']=='state.updated'

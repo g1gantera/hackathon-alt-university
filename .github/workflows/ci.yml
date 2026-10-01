@@ -2,7 +2,7 @@ name: Tests and build
 
 on:
   push:
-    branches: [main]
+    branches: [main, M_part]
   pull_request:
   workflow_dispatch:
 
@@ -34,9 +34,13 @@ jobs:
         run: python -m pip install -r backend/requirements.lock.txt
       - name: Test simulator and parser
         run: python -m pytest backend/tests tests -q
+      - name: Verify accelerated 24, 48 and 72 hour retention
+        run: python scripts/verify_retention.py
+      - name: Verify all four services and incident replanning
+        run: python scripts/run_local.py --api-port 8012 --service-base 8111 --database .logs/ci-services.sqlite --verify
 
   frontend:
-    name: TypeScript and production build
+    name: Frontend tests and production build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -49,5 +53,7 @@ jobs:
           runtime: node@22
           require-lockfile: true
           cache: true
+      - name: Test frontend state and contracts
+        run: pnpm --dir frontend test
       - name: Type-check and build
         run: pnpm --dir frontend build
