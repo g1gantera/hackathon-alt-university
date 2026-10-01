@@ -1,0 +1,281 @@
+{
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4",
+  "scenarios": {
+    "passing": {
+      "simulation_seconds": 3499.9999999990077,
+      "wall_seconds": 2.038,
+      "constraint_errors": 0,
+      "arrivals": {
+        "KZ-101": [
+          {
+            "label": "Siding E47083",
+            "time": 812.8,
+            "scheduled": null,
+            "error_m": 0.0
+          },
+          {
+            "label": "Track point V39870",
+            "time": 2085.8,
+            "scheduled": 1800.0,
+            "error_m": 0.0
+          }
+        ],
+        "KZ-009": [
+          {
+            "label": "Track point V39875",
+            "time": 2208.2,
+            "scheduled": 2200.0,
+            "error_m": 0.0
+          }
+        ]
+      },
+      "states": {
+        "KZ-101": "completed",
+        "KZ-009": "completed"
+      },
+      "quality": {
+        "score": 85.3,
+        "status": "Normal",
+        "factors": {
+          "schedule": {
+            "value": 51.0,
+            "weight": 0.3,
+            "contribution": 15.3
+          },
+          "capacity": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "energy": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "conflicts": {
+            "value": 100.0,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "stopping": {
+            "value": 100.0,
+            "weight": 0.1,
+            "contribution": 10.0
+          }
+        },
+        "reasons": [
+          "schedule: 51.0/100"
+        ],
+        "window_s": 300,
+        "observed_s": 300.0,
+        "samples": 301
+      }
+    },
+    "overtaking": {
+      "simulation_seconds": 3499.9999999990077,
+      "wall_seconds": 2.1711,
+      "constraint_errors": 0,
+      "arrivals": {
+        "KZ-101": [
+          {
+            "label": "Siding E47083",
+            "time": 812.8,
+            "scheduled": null,
+            "error_m": 0.0
+          },
+          {
+            "label": "Track point V39870",
+            "time": 2895.0,
+            "scheduled": 1800.0,
+            "error_m": 0.0
+          }
+        ],
+        "KZ-009": [
+          {
+            "label": "Track point V39870",
+            "time": 2208.0,
+            "scheduled": 2200.0,
+            "error_m": 0.0
+          }
+        ]
+      },
+      "states": {
+        "KZ-101": "completed",
+        "KZ-009": "completed"
+      },
+      "quality": {
+        "score": 70.0,
+        "status": "Attention",
+        "factors": {
+          "schedule": {
+            "value": 0,
+            "weight": 0.3,
+            "contribution": 0.0
+          },
+          "capacity": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "energy": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "conflicts": {
+            "value": 100.0,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "stopping": {
+            "value": 100.0,
+            "weight": 0.1,
+            "contribution": 10.0
+          }
+        },
+        "reasons": [
+          "schedule: 0.0/100"
+        ],
+        "window_s": 300,
+        "observed_s": 300.0,
+        "samples": 301
+      }
+    },
+    "priority": {
+      "simulation_seconds": 3499.9999999990077,
+      "wall_seconds": 2.0792,
+      "constraint_errors": 0,
+      "arrivals": {
+        "KZ-201": [
+          {
+            "label": "Track point V39870",
+            "time": 2772.4,
+            "scheduled": 1600.0,
+            "error_m": 0.0
+          }
+        ],
+        "KZ-010": [
+          {
+            "label": "Track point V39870",
+            "time": 1507.8,
+            "scheduled": 1500.0,
+            "error_m": 0.0
+          }
+        ]
+      },
+      "states": {
+        "KZ-201": "completed",
+        "KZ-010": "completed"
+      },
+      "quality": {
+        "score": 70.0,
+        "status": "Attention",
+        "factors": {
+          "schedule": {
+            "value": 0,
+            "weight": 0.3,
+            "contribution": 0.0
+          },
+          "capacity": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "energy": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "conflicts": {
+            "value": 100.0,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "stopping": {
+            "value": 100.0,
+            "weight": 0.1,
+            "contribution": 10.0
+          }
+        },
+        "reasons": [
+          "schedule: 0.0/100"
+        ],
+        "window_s": 300,
+        "observed_s": 300.0,
+        "samples": 301
+      }
+    },
+    "closure": {
+      "simulation_seconds": 3499.9999999990077,
+      "wall_seconds": 2.0323,
+      "constraint_errors": 0,
+      "arrivals": {
+        "KZ-201": [
+          {
+            "label": "Track point V39870",
+            "time": 2773.2,
+            "scheduled": 1600.0,
+            "error_m": 0.0
+          }
+        ],
+        "KZ-010": [
+          {
+            "label": "Track point V39870",
+            "time": 1508.6,
+            "scheduled": 1500.0,
+            "error_m": 0.0
+          }
+        ]
+      },
+      "states": {
+        "KZ-201": "completed",
+        "KZ-010": "completed"
+      },
+      "quality": {
+        "score": 70.0,
+        "status": "Attention",
+        "factors": {
+          "schedule": {
+            "value": 0,
+            "weight": 0.3,
+            "contribution": 0.0
+          },
+          "capacity": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "energy": {
+            "value": 100,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "conflicts": {
+            "value": 100.0,
+            "weight": 0.2,
+            "contribution": 20.0
+          },
+          "stopping": {
+            "value": 100.0,
+            "weight": 0.1,
+            "contribution": 10.0
+          }
+        },
+        "reasons": [
+          "schedule: 0.0/100"
+        ],
+        "window_s": 300,
+        "observed_s": 300.0,
+        "samples": 301
+      }
+    }
+  },
+  "note": "Local measurements, not production or certified safety benchmarks.",
+  "ten_incident_batch_ms": {
+    "trials": 20,
+    "median": 0.574,
+    "p95": 0.605,
+    "max": 0.605
+  }
+}

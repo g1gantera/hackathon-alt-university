@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-01",
+  "command": ".venv/bin/python -m pytest -q",
+  "passed": 68,
+  "failed": 0,
+  "duration_s": 51.33,
+  "note": "One existing FastAPI/Starlette test-client deprecation warning. Simulation tests, not real-world railway certification."
+}

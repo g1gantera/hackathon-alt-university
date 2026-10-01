@@ -1,0 +1,40 @@
+{
+  "browser": "Firefox 155.0 · WebDriver BiDi",
+  "viewport": "1512×1100 / mobile 390×844, DPR 1",
+  "reconnect_verified": true,
+  "replay_read_only_verified": true,
+  "report_download_verified": true,
+  "out_of_order_discarded": 7,
+  "received_events": 30,
+  "browser_errors": [],
+  "mobile_document_overflow": false,
+  "ui_receipt_to_render_ms": {
+    "samples": 35,
+    "median": 3,
+    "p95": 17,
+    "max": 420
+  },
+  "map_message_to_ack_ms": {
+    "samples": 28,
+    "median": 6,
+    "p95": 15,
+    "max": 434
+  },
+  "server_metrics": {
+    "replan_ms": 0.412,
+    "max_replan_ms": 2.119812999808346,
+    "replans": 1061,
+    "steps": 5275,
+    "incident_batches": 1,
+    "max_incident_batch_ms": 1.6502939997735666,
+    "rejected_ingest": 0,
+    "last_incident_batch_ms": 1.65,
+    "tick_ms": 0.002,
+    "max_tick_ms": 20.912,
+    "lag_s": 0,
+    "connections": 2,
+    "subscribers": 1,
+    "dropped_snapshots": 0,
+    "history_retention_hours": 48
+  }
+}

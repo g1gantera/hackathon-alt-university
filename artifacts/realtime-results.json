@@ -1,0 +1,21 @@
+{
+  "samples": 12,
+  "steady_intervals_ms": [
+    504.254,
+    507.849,
+    511.814,
+    507.896,
+    507.988,
+    508.23,
+    508.545,
+    509.229,
+    507.7,
+    510.583
+  ],
+  "median_interval_ms": 508.109,
+  "max_interval_ms": 511.814,
+  "mean_hz": 1.967,
+  "monotonic_versions": true,
+  "reconnect_full_state": true,
+  "scope": "Read-only localhost SSE; live simulation may be paused. First partial interval omitted."
+}
