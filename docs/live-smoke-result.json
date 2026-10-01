@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "trains": 8,
+  "initial_moving": 2,
+  "plan_count": 2,
+  "planning_cycle_s": 2.577,
+  "state_updates_during_replan": 4,
+  "max_delay_s": 603,
+  "history_read_only": true,
+  "csv": true,
+  "applied_validated_plan": true
+}
