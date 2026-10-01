@@ -37,6 +37,8 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
         add("MOVEMENT_SET", "Movements are missing, duplicated or unexpected")
     if errors:
         return errors
+    from backend.app.resource_roster import validate_roster
+    errors.extend(validate_roster(scenario, plan))
     reservations = []  # (resource, start, end, train_id)
     for stop in plan.stops:
         train, station = trains[stop.train_id], stations[stop.station_id]

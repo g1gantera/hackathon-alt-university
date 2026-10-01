@@ -74,7 +74,7 @@ def solve_plan(
         checked=previous.model_copy(update={'state_version':scenario.state_version})
         if not validate_plan(scenario,checked,previous):
             fallback=checked
-        elif strategy=="balanced" and time_budget_s>.2:
+        elif strategy=="balanced" and time_budget_s>.2 and not scenario.metadata.get("resource_roster"):
             from backend.app.planning.repair import repair_plan
             fallback=repair_plan(scenario,previous,time_budget_s=min(3,time_budget_s*.5))
     model = cp_model.CpModel()
@@ -301,6 +301,8 @@ def solve_plan(
                 model.add_no_overlap([recovery, traversal])
     for intervals in resources.values():
         model.add_no_overlap(intervals)
+    from backend.app.resource_roster import constrain_roster
+    constrain_roster(model, scenario, stop_vars)
     model.minimize(sum(cost_terms))
     model_error = model.validate()
     if model_error:

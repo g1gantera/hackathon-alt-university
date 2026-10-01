@@ -320,3 +320,29 @@ async def section_physics(body: SectionPhysics, request: Request):
     except ValueError as error:raise HTTPException(409,str(error)) from error
     commit(sim,scenario,'section_physics')
     return {'accepted':True}
+
+
+from .resource_roster import ResourceRoster
+
+
+class RosterChange(BaseModel):
+    epoch: str
+    roster: ResourceRoster | None
+
+
+@router.post("/resource-roster")
+async def resource_roster(body: RosterChange, request: Request):
+    sim = get_sim(request)
+    try:
+        scenario = checked_scenario(sim, body.epoch)
+        if scenario.now_s != 0:
+            raise ValueError("Назначения парка задаются до начала движения; сбросьте запуск")
+        if body.roster is None:
+            scenario.metadata.pop("resource_roster", None)
+        else:
+            scenario.metadata["resource_roster"] = body.roster.model_dump()
+        scenario = Scenario.model_validate(scenario.model_dump())
+    except ValueError as error:
+        raise HTTPException(409, str(error)) from error
+    commit(sim, scenario, "resource_roster")
+    return {"accepted": True, "enforced": body.roster is not None}

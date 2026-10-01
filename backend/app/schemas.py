@@ -245,6 +245,8 @@ class Scenario(Model):
                 raise ValueError("Train does not fit any track at a route station")
         if any(b.resource not in resources for b in self.blocks):
             raise ValueError("Unknown blocked resource")
+        from .resource_roster import check_roster
+        check_roster(self)
         return self
 
 

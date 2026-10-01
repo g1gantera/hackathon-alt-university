@@ -96,3 +96,36 @@ def test_physics_budget_and_reset_preserve_network_context(monkeypatch):
     assert response.status_code == 200, response.text
     assert sim._corridor == "akmola_network" and sim._traffic_profile == "reference_day"
     assert len(sim.state["fleet"]) == 28 and sim.state["sim_time_s"] == 0
+
+
+def test_roster_api_validates_before_mutation_and_blocks_late_change(monkeypatch):
+    sim = LogicSimulator()
+    monkeypatch.setattr(main, "sim", sim)
+    monkeypatch.setattr(main, "demo_mode", True)
+    monkeypatch.setattr(main, "emit", lambda *args, **kwargs: None)
+    monkeypatch.setattr(main, "publish", lambda: None)
+    monkeypatch.setattr(main, "queue_replan", lambda: None)
+    client = TestClient(app)
+    roster = client.get("/api/logic/resource-roster-template").json()
+    assert len(roster["units"]) == len(sim.state["fleet"]) * 3
+    body = {"epoch": sim.state["epoch"], "roster": roster}
+    assert client.post("/api/dispatch/resource-roster", json=body).status_code == 200
+    original = sim.state["scenario"]["metadata"]["resource_roster"]
+    roster["units"].pop()
+    assert client.post("/api/dispatch/resource-roster", json=body).status_code == 409
+    assert sim.state["scenario"]["metadata"]["resource_roster"] == original
+    sim.state["sim_time_s"] = 1
+    assert (
+        client.post(
+            "/api/dispatch/resource-roster", json={"epoch": body["epoch"], "roster": None}
+        ).status_code
+        == 409
+    )
+    sim.state["sim_time_s"] = 0
+    assert (
+        client.post(
+            "/api/dispatch/resource-roster", json={"epoch": body["epoch"], "roster": None}
+        ).status_code
+        == 200
+    )
+    assert "resource_roster" not in sim.state["scenario"]["metadata"]

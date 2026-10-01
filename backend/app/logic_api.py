@@ -228,7 +228,7 @@ async def operations_report(request: Request):
     state=compact_state(simulator(request).state)
     scenario=scenario_for(state);plan=Plan.model_validate(state["active_plan"]["_native"])
     def calculate():
-        return {"context":context(state),"rotation":stock_rotation(scenario,plan),"wear":wear_forecast(scenario,plan,state["sim_time_s"]),"recovery":recovery_report(scenario,plan)}
+        return {"context":context(state),"resource_roster":scenario.metadata.get("resource_roster"),"rotation":stock_rotation(scenario,plan),"wear":wear_forecast(scenario,plan,state["sim_time_s"]),"recovery":recovery_report(scenario,plan)}
     return await asyncio.to_thread(calculate)
 
 
@@ -251,3 +251,10 @@ async def regional_catalog(request: Request):
     from .regional import infrastructure
     data=infrastructure()
     return {"stations":data["stations"],"sections":data["sections"],"coverage":data["coverage"],"source":data["source"]}
+
+
+@router.get("/resource-roster-template")
+async def roster_template(request: Request):
+    from .resource_roster import model_roster
+    state = compact_state(simulator(request).state)
+    return model_roster(scenario_for(state), Plan.model_validate(state["active_plan"]["_native"])).model_dump()
