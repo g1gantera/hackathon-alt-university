@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rail Network Map</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="map_data.js"></script>
+<style>
+:root{
+  --bg:#f6f5f2; --panel:#ffffffee; --text:#1d1d1f; --muted:#6b6b70; --line:#e2e0db; --accent:#d1495b;
+  --c-main:#1f2a44; --c-line:#4a5a80; --c-branch:#3c7dc4; --c-industrial:#8a6d3b;
+  --c-siding:#2a9d8f; --c-yard:#e76f51; --c-spur:#9b5de5; --c-crossover:#f4a261;
+  --c-tram:#e63973; --c-subway:#d62828; --c-light_rail:#00a6a6; --c-narrow_gauge:#6a994e;
+}
+:root[data-theme="dark"]{
+  --bg:#141518; --panel:#1d1f24ee; --text:#ececef; --muted:#9a9ca3; --line:#33353b; --accent:#ff6b7d;
+  --c-main:#e8ecf5; --c-line:#a9b6d6; --c-branch:#6cb2ff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141518; --panel:#1d1f24ee; --text:#ececef; --muted:#9a9ca3; --line:#33353b; --accent:#ff6b7d;
+    --c-main:#e8ecf5; --c-line:#a9b6d6; --c-branch:#6cb2ff;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+#map{position:absolute;inset:0;background:var(--bg)}
+#panel{position:absolute;z-index:1000;top:12px;left:12px;width:300px;max-height:calc(100% - 24px);overflow:auto;
+  background:var(--panel);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:0 4px 18px #0002}
+h1{font-size:15px;margin:0 0 2px}
+.sub{color:var(--muted);font-size:11px;margin-bottom:10px}
+h2{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 6px}
+.row{display:flex;align-items:center;gap:8px;padding:2px 0;cursor:pointer;user-select:none}
+.row input{margin:0}
+.sw{width:22px;height:0;border-top:3px solid;flex:none}
+.sw.dash{border-top-style:dashed}
+.km{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;border:2px solid #fff;box-shadow:0 0 0 1px #0005}
+input[type=text],select{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--text);font:inherit}
+select option{background:var(--bg)}
+#results{margin-top:4px}
+#results div{padding:3px 6px;border-radius:4px;cursor:pointer}
+#results div:hover{background:#8882}
+button{font:inherit;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btns{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+#info{position:absolute;z-index:1000;right:12px;top:12px;width:300px;max-height:calc(100% - 24px);overflow:auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:none;box-shadow:0 4px 18px #0002}
+#info table{width:100%;border-collapse:collapse}
+#info td{padding:2px 0;vertical-align:top;border-bottom:1px solid var(--line)}
+#info td:first-child{color:var(--muted);padding-right:8px;white-space:nowrap}
+#info .x{float:right;border:none;padding:0 4px;font-size:16px;line-height:1}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-variant-numeric:tabular-nums}
+.stats b{display:block;font-size:14px}
+.stats span{color:var(--muted);font-size:11px}
+#routeOut{margin-top:6px;color:var(--muted)}
+.lbl{background:none;border:none;box-shadow:none;padding:0;font-weight:600;font-size:11px;color:var(--text);
+  text-shadow:0 0 3px var(--bg),0 0 3px var(--bg),0 0 3px var(--bg)}
+.lbl::before{display:none}
+.leaflet-container{font:inherit}
+#toggle{display:none}
+a{color:var(--accent)}
+@media (max-width:640px){
+  #panel{left:8px;right:8px;width:auto;top:8px;max-height:45%}
+  #panel.collapsed > :not(.head){display:none}
+  #toggle{display:inline-block;float:right}
+  #info{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:40%}
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="panel">
+  <div class="head"><button id="toggle">☰</button><h1>Rail network</h1>
+  <div class="sub" id="srcline"></div></div>
+
+  <h2>Find station</h2>
+  <input type="text" id="q" placeholder="Name, English name or UIC code…">
+  <div id="results"></div>
+
+  <h2>Tracks</h2>
+  <div id="cats"></div>
+  <h2>Points</h2>
+  <label class="row"><input type="checkbox" id="lyStation" checked><span class="dot" style="background:var(--accent)"></span>Stations<span class="km" id="nSt"></span></label>
+  <label class="row"><input type="checkbox" id="lyHalt" checked><span class="dot" style="background:#fff;border-color:var(--accent)"></span>Halts / stops<span class="km" id="nHa"></span></label>
+  <label class="row"><input type="checkbox" id="lyTram"><span class="dot" style="background:var(--c-tram)"></span>Tram stops<span class="km" id="nTr"></span></label>
+  <label class="row"><input type="checkbox" id="lyGap" checked><span class="sw dash" style="border-color:#e00"></span>Missing in source data<span class="km" id="nGap"></span></label>
+  <label class="row"><input type="checkbox" id="lyJunc"><span class="dot" style="background:#888;width:7px;height:7px"></span>Switches &amp; dead ends (zoom 14+)</label>
+
+  <h2>Basemap</h2>
+  <select id="base">
+    <option value="osm">OpenStreetMap</option>
+    <option value="light">Light (CARTO)</option>
+    <option value="dark">Dark (CARTO)</option>
+    <option value="none">None – tracks only</option>
+  </select>
+
+  <h2>Route test</h2>
+  <select id="rFrom"></select>
+  <select id="rTo" style="margin-top:4px"></select>
+  <div class="btns"><button class="primary" id="rGo">Find route</button><button id="rClear">Clear</button></div>
+  <div id="routeOut">Shortest path over the track graph; trains can't reverse at switches.</div>
+
+  <h2>Network</h2>
+  <div class="stats" id="stats"></div>
+</div>
+<div id="info"></div>
+
+<script>
+const D = window.RAIL, Q = D.Q;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const CAT_INFO = {
+  main:["Main line",3,0], line:["Line (untagged usage)",2.5,0], branch:["Branch line",2.2,0], industrial:["Industrial line",1.8,0],
+  siding:["Siding",1.6,9], yard:["Yard track",1.3,11], spur:["Spur",1.4,10], crossover:["Crossover",1.6,12],
+  tram:["Tram",1.6,10], subway:["Subway",2.2,9], light_rail:["Light rail",2,9], narrow_gauge:["Narrow gauge",1.6,9]
+};
+const ORDER = ["main","line","branch","industrial","siding","yard","spur","crossover","subway","light_rail","tram","narrow_gauge"];
+const S = D.stats;
+
+// ---------- decode
+const V = D.v.map(([x,y]) => [y/Q, x/Q]);              // [lat,lon]
+const E = D.e.map(([u,v,c,w,len,d]) => {
+  const pts=[]; let x=0,y=0;
+  for(let i=0;i<d.length;i+=2){ x+=d[i]; y+=d[i+1]; pts.push([y/Q,x/Q]); }
+  return {u,v,cat:D.cats[c],way:w,len,pts};
+});
+const ST = D.s.map(([id,type,name,en,x,y,vx,uic,sd]) => ({id,type,name,en,lat:y/Q,lon:x/Q,vx,uic,sd}));
+const adj = V.map(()=>[]);
+E.forEach((e,i)=>{ adj[e.u].push(i); adj[e.v].push(i); });
+
+document.getElementById("srcline").textContent =
+  `OSM data ${S.osm_timestamp.slice(0,10)} · ${S.track_km_total.toLocaleString()} km of track · © OpenStreetMap contributors`;
+
+// ---------- map
+const map = L.map("map",{preferCanvas:true, zoomControl:false, minZoom:4, maxZoom:19});
+L.control.zoom({position:"bottomright"}).addTo(map);
+L.control.scale({position:"bottomleft",imperial:false}).addTo(map);
+const b = S.bounds; map.fitBounds([[b[1],b[0]],[b[3],b[2]]]);
+const renderer = L.canvas({padding:0.3, tolerance:6});
+
+const BASES = {
+  osm: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap contributors", 0.55],
+  light: ["https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", "© OpenStreetMap contributors © CARTO", 1],
+  dark: ["https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", "© OpenStreetMap contributors © CARTO", 1],
+};
+let base=null;
+function setBase(k){
+  if(base){ map.removeLayer(base); base=null; }
+  if(BASES[k]){ const [u,a,o]=BASES[k]; base=L.tileLayer(u,{attribution:a,opacity:o,maxZoom:19,subdomains:"abcd"}).addTo(map); }
+  else map.attributionControl.addAttribution("© OpenStreetMap contributors");
+  document.documentElement.dataset.theme = k==="dark" ? "dark" : (k==="none" ? "" : "light");
+  if(!document.documentElement.dataset.theme) delete document.documentElement.dataset.theme;
+  restyle();
+}
+
+// ---------- track layers (one canvas polyline per edge, grouped per category)
+const groups = {}, enabled = {};
+ORDER.forEach(c => { groups[c]=L.layerGroup(); enabled[c]=true; });
+const edgeLayers = E.map((e,i) => {
+  const [,w] = CAT_INFO[e.cat];
+  const pl = L.polyline(e.pts,{renderer, weight:w, color:"#000", dashArray: e.cat==="crossover"?"3 3":null, interactive:true});
+  pl._edge=i; pl.on("click", ev => { L.DomEvent.stop(ev); showEdge(i, ev.latlng); });
+  groups[e.cat].addLayer(pl); return pl;
+});
+function restyle(){
+  ORDER.forEach(c => { const col=css("--c-"+c); groups[c].eachLayer(l=>l.setStyle({color:col})); });
+}
+function syncLayers(){
+  const z=map.getZoom();
+  ORDER.forEach(c => {
+    const on = enabled[c] && z >= CAT_INFO[c][2];
+    if(on && !map.hasLayer(groups[c])) groups[c].addTo(map);
+    if(!on && map.hasLayer(groups[c])) map.removeLayer(groups[c]);
+  });
+  syncPoints();
+}
+
+const catsEl = document.getElementById("cats");
+ORDER.forEach(c => {
+  const km = S.track_km_by_category[c]; if(km==null) return;
+  const [label,,minz] = CAT_INFO[c];
+  const r = document.createElement("label"); r.className="row";
+  r.innerHTML = `<input type="checkbox" checked><span class="sw ${c==="crossover"?"dash":""}" style="border-color:var(--c-${c})"></span>${label}${minz?` <span style="color:var(--muted);font-size:11px">z${minz}+</span>`:""}<span class="km">${km.toLocaleString()} km</span>`;
+  r.querySelector("input").onchange = ev => { enabled[c]=ev.target.checked; syncLayers(); };
+  catsEl.appendChild(r);
+});
+
+// ---------- stations
+const stLayer = {station:L.layerGroup(), halt:L.layerGroup(), tram_stop:L.layerGroup()};
+const stMarkers = ST.map((s,i) => {
+  const isSt = s.type==="station", isTram = s.type==="tram_stop";
+  const m = L.circleMarker([s.lat,s.lon],{renderer, radius:isSt?5:(isTram?3:4), weight:2,
+    color: isTram?"#fff":css("--accent"), fillColor: isSt?css("--accent"):(isTram?css("--c-tram"):"#fff"), fillOpacity:1});
+  m.on("click", ev => { L.DomEvent.stop(ev); showStation(i); });
+  stLayer[s.type].addLayer(m); return m;
+});
+const labels = L.layerGroup().addTo(map);
+const juncLayer = L.layerGroup();
+const ptChk = {station:"lyStation", halt:"lyHalt", tram_stop:"lyTram"};
+document.getElementById("nSt").textContent = S.stations.station;
+document.getElementById("nHa").textContent = S.stations.halt;
+document.getElementById("nTr").textContent = S.stations.tram_stop;
+
+function syncPoints(){
+  const z = map.getZoom(), bb = map.getBounds().pad(0.1);
+  const minZ = {station:7, halt:10, tram_stop:13};
+  const k = z<9?0.6:z<12?0.8:1;
+  stMarkers.forEach((m,i)=>{ const t=ST[i].type; m.setRadius((t==="station"?5:t==="tram_stop"?3:4)*k); });
+  for(const t in stLayer){
+    const on = document.getElementById(ptChk[t]).checked && z>=minZ[t];
+    if(on && !map.hasLayer(stLayer[t])) stLayer[t].addTo(map);
+    if(!on && map.hasLayer(stLayer[t])) map.removeLayer(stLayer[t]);
+  }
+  labels.clearLayers();
+  ST.forEach(s => {
+    const need = s.type==="station" ? 8 : s.type==="halt" ? 11 : 14;
+    if(z<need || !document.getElementById(ptChk[s.type]).checked || !bb.contains([s.lat,s.lon]) || !s.name) return;
+    labels.addLayer(L.tooltip({permanent:true, direction:"right", className:"lbl", offset:[6,0]}).setLatLng([s.lat,s.lon]).setContent(esc(s.name)));
+  });
+  juncLayer.clearLayers();
+  const jOn = document.getElementById("lyJunc").checked && z>=14;
+  if(jOn){
+    if(!map.hasLayer(juncLayer)) juncLayer.addTo(map);
+    V.forEach((p,i)=>{
+      const d = adj[i].length; if(d===2 || !bb.contains(p)) return;
+      juncLayer.addLayer(L.circleMarker(p,{renderer, radius: d===1?3:2.5, weight:1, color:"#fff",
+        fillColor: d===1?"#c33":"#555", fillOpacity:1}).bindTooltip(d===1?"Dead end / buffer stop":`Switch / junction (${d} tracks)`));
+    });
+  } else if(map.hasLayer(juncLayer)) map.removeLayer(juncLayer);
+}
+["lyStation","lyHalt","lyTram","lyJunc"].forEach(id => document.getElementById(id).onchange = syncPoints);
+map.on("zoomend", syncLayers); map.on("moveend", syncPoints);
+
+// ---------- suspected gaps: track ends facing each other, not in the export
+const gapLayer = L.layerGroup().addTo(map);
+(D.g||[]).forEach(([a,b,len,name]) => {
+  L.polyline([V[a],V[b]],{renderer, color:"#e00", weight:2.5, dashArray:"2 6", opacity:.9})
+   .on("click", ev => { L.DomEvent.stop(ev); highlight(null);
+     openInfo(`<h1>Suspected missing track</h1><div class="sub">${(len/1000).toFixed(2)} km gap${name?" on "+esc(name):""}</div>`+
+       `<p>Two running-line ends face each other here but the source export contains no track between them. Not routable. Re-export this area or add the track in OSM.</p>`+
+       table([["Vertices",`${a} ↔ ${b}`]])); })
+   .addTo(gapLayer);
+});
+document.getElementById("nGap").textContent = (D.g||[]).length;
+document.getElementById("lyGap").onchange = ev => ev.target.checked ? gapLayer.addTo(map) : map.removeLayer(gapLayer);
+
+// ---------- info panel
+const info = document.getElementById("info");
+const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let hl = null;
+function highlight(pts){
+  if(hl) map.removeLayer(hl);
+  hl = pts ? L.polyline(pts,{renderer, color:"#ffd60a", weight:7, opacity:.85, interactive:false}).addTo(map) : null;
+  if(hl) hl.bringToBack();
+}
+function table(rows){ return "<table>"+rows.filter(r=>r[1]!=null&&r[1]!=="").map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join("")+"</table>"; }
+function openInfo(html){ info.innerHTML = `<button class="x" onclick="closeInfo()">×</button>`+html; info.style.display="block"; }
+function closeInfo(){ info.style.display="none"; highlight(null); }
+function showEdge(i){
+  const e=E[i], [osm,tags]=D.w[e.way];
+  highlight(e.pts);
+  openInfo(`<h1>${esc(tags.name || CAT_INFO[e.cat][0])}</h1><div class="sub">${CAT_INFO[e.cat][0]} · ${(e.len/1000).toFixed(e.len<1000?3:2)} km segment</div>`+
+    table([["Edge id",i],["Vertices",`${e.u} → ${e.v}`],["OSM way",`<a href="https://www.openstreetmap.org/way/${osm}" target="_blank">${osm}</a>`],
+      ...Object.entries(tags).map(([k,v])=>[k,esc(v)])]));
+}
+function showStation(i){
+  const s=ST[i];
+  highlight(null);
+  openInfo(`<h1>${esc(s.name||"(unnamed)")}</h1><div class="sub">${esc(s.en)} · ${s.type.replace("_"," ")}</div>`+
+    table([["OSM node",`<a href="https://www.openstreetmap.org/node/${s.id}" target="_blank">${s.id}</a>`],["UIC",esc(s.uic)],
+      ["Track vertex", s.vx==null?"not on track":`${s.vx} (${s.sd} m away)`],["Position",`${s.lat.toFixed(5)}, ${s.lon.toFixed(5)}`]])+
+    `<div class="btns"><button onclick="setRoute('rFrom',${i})">Route from here</button><button onclick="setRoute('rTo',${i})">Route to here</button></div>`);
+}
+map.on("click", closeInfo);
+
+// ---------- search
+const qEl=document.getElementById("q"), res=document.getElementById("results");
+qEl.oninput = () => {
+  const q=qEl.value.trim().toLowerCase(); res.innerHTML="";
+  if(q.length<2) return;
+  ST.map((s,i)=>[s,i]).filter(([s])=>(s.name+" "+s.en+" "+(s.uic||"")).toLowerCase().includes(q)).slice(0,12).forEach(([s,i])=>{
+    const d=document.createElement("div"); d.innerHTML=`${esc(s.name)} <span style="color:var(--muted)">${esc(s.en)} · ${s.type}</span>`;
+    d.onclick=()=>{ map.setView([s.lat,s.lon], Math.max(map.getZoom(),14)); showStation(i); };
+    res.appendChild(d);
+  });
+};
+
+// ---------- routing: Dijkstra over directed edge states, no reversing at switches
+const routable = ST.map((s,i)=>[s,i]).filter(([s])=>s.vx!=null && s.type!=="tram_stop" && s.name).sort((a,b)=>a[0].name.localeCompare(b[0].name));
+["rFrom","rTo"].forEach((id,k)=>{
+  const el=document.getElementById(id);
+  el.innerHTML=`<option value="">${k?"To":"From"} station…</option>`+routable.map(([s,i])=>`<option value="${i}">${esc(s.name)}</option>`).join("");
+});
+window.setRoute=(id,i)=>{ const el=document.getElementById(id); el.value=i; };
+function bearing(a,b){ const y=b[1]-a[1], x=(b[0]-a[0]); return Math.atan2(y*Math.cos(a[0]*Math.PI/180), x); }
+function endDir(e, atEnd){ // heading of travel when *leaving* the edge at this end... in local plane (lat,lon)
+  const p=e.pts; return atEnd ? bearing(p[p.length-2],p[p.length-1]) : bearing(p[1],p[0]);
+}
+function startDir(e, fromStart){ const p=e.pts; return fromStart ? bearing(p[0],p[1]) : bearing(p[p.length-1],p[p.length-2]); }
+class Heap{constructor(){this.a=[]}push(x){const a=this.a;a.push(x);let i=a.length-1;while(i){const p=(i-1)>>1;if(a[p][0]<=a[i][0])break;[a[p],a[i]]=[a[i],a[p]];i=p}}
+  pop(){const a=this.a,t=a[0],l=a.pop();if(a.length){a[0]=l;let i=0;for(;;){let m=i,L=2*i+1,R=L+1;if(L<a.length&&a[L][0]<a[m][0])m=L;if(R<a.length&&a[R][0]<a[m][0])m=R;if(m===i)break;[a[m],a[i]]=[a[i],a[m]];i=m}}return t}get size(){return this.a.length}}
+function route(src,dst,strict){
+  // state id = edge*2 + dir (dir 0: u→v, 1: v→u)
+  const dist=new Float64Array(E.length*2).fill(Infinity), prev=new Int32Array(E.length*2).fill(-1), h=new Heap();
+  for(const ei of adj[src]){ const e=E[ei]; const s=ei*2+(e.u===src?0:1); dist[s]=e.len; h.push([e.len,s]); }
+  while(h.size){
+    const [d,s]=h.pop(); if(d>dist[s]) continue;
+    const ei=s>>1, dir=s&1, e=E[ei], at = dir? e.u : e.v;
+    if(at===dst) return {d,s,prev};
+    const inH = endDir(e, dir===0);
+    for(const fi of adj[at]){
+      if(fi===ei && adj[at].length>1) continue;
+      const f=E[fi], fd = f.u===at?0:1;
+      if(strict && fi!==ei){ let da=Math.abs(startDir(f, fd===0)-inH); if(da>Math.PI) da=2*Math.PI-da; if(da>Math.PI/2) continue; }
+      const ns=fi*2+fd, nd=d+f.len;
+      if(nd<dist[ns]){ dist[ns]=nd; prev[ns]=s; h.push([nd,ns]); }
+    }
+  }
+  return null;
+}
+document.getElementById("rGo").onclick = () => {
+  const a=+document.getElementById("rFrom").value, b=+document.getElementById("rTo").value, out=document.getElementById("routeOut");
+  if(document.getElementById("rFrom").value===""||document.getElementById("rTo").value===""){ out.textContent="Pick both stations."; return; }
+  const sa=ST[a], sb=ST[b];
+  if(sa.vx===sb.vx){ out.textContent="Same track point."; return; }
+  out.textContent="Routing…";
+  setTimeout(()=>{
+    const t0=performance.now();
+    let r=route(sa.vx,sb.vx,true), relaxed=false;
+    if(!r){ r=route(sa.vx,sb.vx,false); relaxed=true; }
+    if(!r){ out.textContent="No connection in the track graph (separate networks or a data gap)."; highlight(null); return; }
+    const seq=[]; for(let s=r.s; s!==-1; s=r.prev[s]) seq.push(s);
+    seq.reverse();
+    const pts=[]; seq.forEach(s=>{ const e=E[s>>1]; const p=(s&1)?[...e.pts].reverse():e.pts; pts.push(...p); });
+    highlight(pts); map.fitBounds(hl.getBounds(),{padding:[40,40]});
+    out.innerHTML=`<b style="color:var(--text)">${(r.d/1000).toFixed(1)} km</b> · ${seq.length} segments · ${Math.round(performance.now()-t0)} ms`+
+      (relaxed?`<br>⚠ only reachable with a reversal at a switch`:"");
+  },10);
+};
+document.getElementById("rClear").onclick=()=>{ highlight(null); document.getElementById("routeOut").textContent=""; };
+
+// ---------- stats
+document.getElementById("stats").innerHTML = [
+  [S.edges.toLocaleString(),"track segments"],[S.vertices.toLocaleString(),"graph vertices"],
+  [S.junctions.toLocaleString(),"switches/junctions"],[S.dead_ends.toLocaleString(),"dead ends"],
+  [S.ways.toLocaleString(),"OSM ways"],[S.components,"connected networks"],
+  [S.healed_gaps,"small gaps auto-joined"],[S.suspected_gaps,"missing sections"],
+].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("");
+
+document.getElementById("toggle").onclick=()=>document.getElementById("panel").classList.toggle("collapsed");
+const baseSel=document.getElementById("base");
+let saved=null; try{ saved=localStorage.getItem("railmap.base"); }catch(e){}
+if(saved && [...baseSel.options].some(o=>o.value===saved)) baseSel.value=saved;
+baseSel.onchange=()=>{ setBase(baseSel.value); try{localStorage.setItem("railmap.base",baseSel.value)}catch(e){} };
+setBase(baseSel.value);
+syncLayers();
+</script>
+</body>
+</html>
