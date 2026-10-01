@@ -5,6 +5,3 @@
 *.png binary
 *.jpg binary
 *.ico binary
-
-# Imported CSV reports use standard CRLF record separators.
-*.csv whitespace=cr-at-eol

@@ -18,13 +18,12 @@ export function TrainChart({topology,snapshot,baseline,preview}:{topology:Topolo
   for(const [plan,dashed] of [[baseline,true],[active,false]] as const){
    if(!plan)continue;
    const moves=plan.movements.filter(m=>m.train_id===train.id).sort((a,b)=>a.leg-b.leg);
-   const indices=topology.stations.map((_,i)=>i);
-   const route=train.route?train.route.map(id=>topology.stations.findIndex(s=>s.id===id)):(train.direction>0?indices:[...indices].reverse());
+   const route=train.direction>0?[0,1,2,3,4,5]:[5,4,3,2,1,0];
    const data=moves.flatMap(m=>[[m.start_s,route[m.leg]],[m.end_s,route[m.leg+1]]]);
    series.push({name:`${train.id}|${dashed?'Исходный':'План'}`,type:'line',showSymbol:false,data,lineStyle:{type:dashed?'dashed':'solid',width:train.id===selected?3:1.5,opacity:dashed?.25:train.id===selected?1:.55,color:train.type==='passenger'?'#147f71':'#bc8e42'},emphasis:{focus:'series'},markLine:!dashed&&train.id===selected?{silent:true,symbol:'none',lineStyle:{color:'#9da9ae',type:'dotted'},label:{formatter:'Сейчас'},data:[{xAxis:snapshot.sim_time_s}]}:undefined});
   }
  }
- return <Chart onSelect={select} option={{animation:false,grid:{top:25,right:35,bottom:50,left:135},tooltip:{trigger:'item',formatter:(p:unknown)=>{const item=p as {seriesName:string;value:number[]};return `${item.seriesName}<br/>${clock(item.value[0])}`;}},xAxis:{type:'value',axisLabel:{formatter:(s:number)=>clock(s).slice(0,-3),color:'#8b969d'},splitLine:{lineStyle:{color:'#eef1f3'}}},yAxis:{type:'value',min:0,max:topology.stations.length-1,interval:1,axisLabel:{formatter:(v:number)=>topology.stations[v]?.name||'',color:'#617078'},splitLine:{lineStyle:{color:'#edf1f2'}}},dataZoom:[{type:'inside',xAxisIndex:0},{type:'slider',height:13,bottom:5,borderColor:'transparent',fillerColor:'#d8e9e3',handleSize:0}],series}}/>;
+ return <Chart onSelect={select} option={{animation:false,grid:{top:25,right:35,bottom:50,left:135},tooltip:{trigger:'item',formatter:(p:unknown)=>{const item=p as {seriesName:string;value:number[]};return `${item.seriesName}<br/>${clock(item.value[0])}`;}},xAxis:{type:'value',axisLabel:{formatter:(s:number)=>clock(s).slice(0,-3),color:'#8b969d'},splitLine:{lineStyle:{color:'#eef1f3'}}},yAxis:{type:'value',min:0,max:5,interval:1,axisLabel:{formatter:(v:number)=>topology.stations[v]?.name||'',color:'#617078'},splitLine:{lineStyle:{color:'#edf1f2'}}},dataZoom:[{type:'inside',xAxisIndex:0},{type:'slider',height:13,bottom:5,borderColor:'transparent',fillerColor:'#d8e9e3',handleSize:0}],series}}/>;
 }
 
 export function SpeedChart({profile}:{profile:Profile|null}){

@@ -2,10 +2,10 @@ import copy
 import json
 import uuid
 from .domain import ROOT, topology, trains, stops, movement_profile, started
-from .demo_advisory import sample
-from .demo_metrics import DEFAULT_SETTINGS, metrics
-from .demo_planning import build_plans
-from .demo_validation import validate_plan
+from .advisory import sample
+from .metrics import DEFAULT_SETTINGS, metrics
+from .planning import build_plans
+from .validation import validate_plan
 
 
 class Simulator:

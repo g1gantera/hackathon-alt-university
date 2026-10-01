@@ -41,8 +41,3 @@ Thumbs.db
 Desktop.ini
 *.swp
 *.tmp
-
-# Algorithm experiment output
-output/*
-!output/.gitkeep
-.directory

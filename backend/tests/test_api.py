@@ -4,7 +4,6 @@ from backend.app import main
 
 
 def test_api_history_csv_roles_and_stale_plan(tmp_path,monkeypatch):
-    monkeypatch.setenv('DISPATCH_ENGINE','demo')
     monkeypatch.setenv('DATABASE_URL',f'sqlite:///{tmp_path / "test.sqlite"}')
     with TestClient(main.app) as client:
         assert client.get('/api/topology').status_code==200

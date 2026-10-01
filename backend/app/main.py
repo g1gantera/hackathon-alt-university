@@ -19,10 +19,11 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, model_validator, ValidationError
 
 from .domain import ROOT, movement_profile
-from .demo_metrics import DEFAULT_SETTINGS, metrics
-from .integration import build_plans, warm_worker, validate_plan, LogicSimulator, public_plan, INCIDENTS
+from .metrics import DEFAULT_SETTINGS, metrics
+from .planning import build_plans, warm_worker
 from .simulator import Simulator
 from .storage import Store
+from .validation import validate_plan
 
 logger = logging.getLogger('dispatch')
 logging.basicConfig(level=logging.INFO,format='%(message)s')
@@ -99,7 +100,7 @@ async def calculate(job_id, snapshot):
             plan['constraint_version']=snapshot['constraint_version']
             sim.plans[plan['id']]=plan
             store.save('plan',snapshot['epoch'],snapshot['sim_time_s'],plan)
-        emit('replan.completed' if result['plans'] else 'replan.failed',{'job_id':job_id,**result,'plans':[public_plan(p) for p in result['plans']]})
+        emit('replan.completed' if result['plans'] else 'replan.failed',{'job_id':job_id,**result})
     except Exception:
         logger.exception('Planning failed')
         emit('replan.failed',{'job_id':job_id,'message':'Ошибка расчёта; действующий план не заменён.'})
@@ -113,8 +114,6 @@ def queue_replan():
     if job_task and not job_task.done():
         return {'job_id':'running','status':'running'}
     job_id=str(uuid.uuid4())
-    if isinstance(sim,LogicSimulator):
-        sim.replanning=True
     job_task=asyncio.create_task(calculate(job_id,copy.deepcopy(sim.state)))
     return {'job_id':job_id,'status':'queued'}
 
@@ -122,7 +121,7 @@ def queue_replan():
 @asynccontextmanager
 async def lifespan(app):
     global sim,store,pool
-    sim=Simulator() if os.environ.get('DISPATCH_ENGINE','logic')=='demo' else LogicSimulator()
+    sim=Simulator()
     store=Store()
     pool=ProcessPoolExecutor(max_workers=1)
     await asyncio.get_running_loop().run_in_executor(pool,warm_worker,sim.state)
@@ -152,7 +151,7 @@ class Speed(BaseModel):
 
 
 class Incident(BaseModel):
-    kind: Literal['delay','closure','signal','speed_restriction']
+    kind: Literal['delay','closure','signal']
     target_id: str
     duration_s: int=Field(600,ge=30,le=7200)
 
@@ -242,21 +241,6 @@ async def control(action:str,request:Request):
 @app.post('/api/incidents')
 async def incident(body:Incident,request:Request):
     require(request)
-    if isinstance(sim,LogicSimulator):
-        if sim.replanning:
-            raise HTTPException(409,'Wait until calculation completes')
-        try:
-            entry=sim.add_incident(body.kind,body.target_id,body.duration_s)
-        except KeyError:
-            raise HTTPException(404,'Unknown section')
-        except ValueError as error:
-            raise HTTPException(409,str(error))
-        emit('incident.created',entry)
-        publish()
-        queue_replan()
-        return entry
-    if body.kind=='speed_restriction':
-        raise HTTPException(422,'Speed restriction requires the logic engine')
     leg=None
     if body.kind=='delay':
         train=next((t for t in sim.snapshot()['trains'] if t['id']==body.target_id),None)
@@ -294,7 +278,7 @@ async def replan(request:Request):
 @app.get('/api/plans')
 async def plans(request:Request):
     require(request,'viewer')
-    return {'plans':[public_plan(p) for p in sim.plans.values()],'active':public_plan(sim.state['active_plan']),'baseline':public_plan(sim.state['baseline'])}
+    return {'plans':list(sim.plans.values()),'active':sim.state['active_plan'],'baseline':sim.state['baseline']}
 
 
 @app.post('/api/plans/{plan_id}/apply')
@@ -320,11 +304,6 @@ async def apply(plan_id:str,request:Request):
 @app.get('/api/trains/{train_id}/profile')
 async def speed_profile(train_id:str,request:Request):
     require(request,'viewer')
-    if isinstance(sim,LogicSimulator):
-        try:
-            return sim.profile(train_id)
-        except KeyError:
-            raise HTTPException(404,'Unknown train')
     train=next((t for t in sim.state['fleet'] if t['id']==train_id),None)
     if not train:
         raise HTTPException(404,'Unknown train')
@@ -373,57 +352,12 @@ async def update_settings(body:Settings,request:Request):
     sim.state['settings']=body.model_dump()
     sim.state['constraint_version']+=1
     sim.state['state_version']+=1
-    if isinstance(sim,LogicSimulator):
-        from .integration import scenario_for, config_for, ui_metrics
-        from .metrics.quality import calculate_metrics
-        from .schemas import Plan
-        from .scenarios import corridor_scenario
-        for key in ('active_plan','baseline'):
-            plan=sim.state[key]
-            scenario=corridor_scenario() if key=='baseline' else scenario_for(sim.state)
-            native=Plan.model_validate(plan['_native'])
-            native.state_version=scenario.state_version
-            forecast=calculate_metrics(scenario,native,config_for(sim.state),previous=native if key=='active_plan' else None)
-            plan['metrics']=ui_metrics(forecast)
-            plan['forecast']=forecast.model_dump()
-    else:
-        sim.state['active_plan']['metrics']=metrics(sim.state,sim.state['active_plan'])
-        sim.state['baseline']['metrics']=metrics(sim.state,sim.state['baseline'])
+    sim.state['active_plan']['metrics']=metrics(sim.state,sim.state['active_plan'])
+    sim.state['baseline']['metrics']=metrics(sim.state,sim.state['baseline'])
     sim.plans.clear()
     emit('settings.updated',sim.state['settings'])
     publish()
     return sim.state['settings']
-
-
-@app.get('/api/logic/scenarios')
-async def logic_cases(request:Request):
-    require(request,'viewer')
-    return {'engine':sim.state.get('engine','demo'),'scenarios':list(INCIDENTS)}
-
-
-@app.post('/api/logic/scenarios/{kind}')
-async def load_logic_case(kind:str,request:Request):
-    require(request)
-    if not isinstance(sim,LogicSimulator):
-        raise HTTPException(409,'Select DISPATCH_ENGINE=logic and restart')
-    if kind not in INCIDENTS:
-        raise HTTPException(404,'Unknown scenario')
-    if sim.replanning:
-        raise HTTPException(409,'Wait until calculation completes')
-    sim.load_case(kind)
-    emit('simulation.changed',{'action':'scenario','kind':kind})
-    publish()
-    queue_replan()
-    return sim.snapshot()
-
-
-@app.get('/api/logic/diagnostics')
-async def logic_diagnostics(request:Request):
-    require(request,'viewer')
-    if not isinstance(sim,LogicSimulator):
-        raise HTTPException(409,'Logic engine is not active')
-    return {'scenario':sim.state['scenario'],'plan':sim.state['active_plan']['_native'],
-            'forecast':sim.state['active_plan']['forecast']}
 
 
 @app.websocket('/ws')

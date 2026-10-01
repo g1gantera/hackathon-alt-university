@@ -5,8 +5,8 @@ import time
 import uuid
 from ortools.sat.python import cp_model
 from .domain import DWELL, SWITCH_TIME, HORIZON, assign_tracks, clearance, movement_profile, stops, started as was_started
-from .demo_metrics import metrics
-from .demo_validation import validate_plan
+from .metrics import metrics
+from .validation import validate_plan
 
 
 def make_move(train, leg, section, start, duration):

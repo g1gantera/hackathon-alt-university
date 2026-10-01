@@ -1,5 +1,5 @@
 from .domain import movement_profile, started
-from .demo_advisory import sample
+from .advisory import sample
 
 DEFAULT_SETTINGS = {'passenger_weight':3.0,'freight_weight':1.0,'delay_weight':0.7,'energy_weight':0.3,
                     'delay_norm_s':7200.0,'energy_norm_kwh':100000.0,'arrival_tolerance_s':300.0}
