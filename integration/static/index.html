@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RailFlow — диспетчер и карта сети</title>
+  <link rel="stylesheet" href="/integration/assets/shell.css">
+  <script type="module" src="/integration/assets/shell.js"></script>
+</head>
+<body>
+  <header>
+    <strong>RailFlow</strong>
+    <nav aria-label="Разделы приложения">
+      <button type="button" data-view="dispatcher" aria-pressed="true">Диспетчер</button>
+      <button type="button" data-view="network" aria-pressed="false">Карта сети</button>
+    </nav>
+    <span>Кокшетау ↔ Астана Нурлы Жол</span>
+    <a href="/docs" target="_blank" rel="noopener">API</a>
+  </header>
+  <main>
+    <iframe id="dispatcher" title="Диспетчерская панель" src="/dispatcher/"></iframe>
+    <iframe id="network" title="Карта железнодорожной сети и движение поездов" data-src="/network/" hidden></iframe>
+  </main>
+</body>
+</html>

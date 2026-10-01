@@ -1,0 +1,5 @@
+services:
+  dispatch:
+    build:
+      context: .
+      dockerfile: Dockerfile.integrated

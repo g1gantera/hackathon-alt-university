@@ -1,0 +1,2118 @@
+{
+  "sources": {
+    "M_part": "817d3e565a6a74a903103e7d8c236b186338af38",
+    "era": "221fb8ea8144ac43d3a80ed0beb44e2f97c2b488",
+    "logic": "7db5b1d0b2122f59d0beb3f47da610d8d72e8a1a"
+  },
+  "base": "M_part",
+  "files": [
+    {
+      "branch": "M_part",
+      "source_path": ".dockerignore",
+      "path": ".dockerignore",
+      "sha256": "1c3fe6415ebb296858d93b29c43648be602443ad54f55aa8cb28d131b4a073ae"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".editorconfig",
+      "path": ".editorconfig",
+      "sha256": "85bccbd23a9070becfe1dc0dbb9ad7305fb2bb98f92f54cb9856d7d6eca4ebfe"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".env.example",
+      "path": ".env.example",
+      "sha256": "4f116d5f292ceacc87f318a23bdb288213728ae6af8d02a2b6b622672ca16a18"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".gitattributes",
+      "path": ".gitattributes",
+      "sha256": "e63a53406cad52e5c3ec96b09022a9857f724c96ca2d14fc5a99199c0bd2779f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".github/pull_request_template.md",
+      "path": ".github/pull_request_template.md",
+      "sha256": "02e651e092fcdaa660865467a6dc69196f1384ec5ad955e2beb2352cb6427be0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".github/workflows/ci.yml",
+      "path": ".github/workflows/ci.yml",
+      "sha256": "70d39cd4b62d7ef6f242ed251f86af8dba812c248961ec89811a79c3b7a5e856"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".gitignore",
+      "path": ".gitignore",
+      "sha256": "1aeffd9dc2427c6358f71a65df3ea95119ff573dac95e985055bdbdbdf4138c0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": ".python-version",
+      "path": ".python-version",
+      "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "Dockerfile",
+      "path": "Dockerfile",
+      "sha256": "eb42d6b3190b5e97fe455cfdf23a9e5a561144608325abef06461f41fd0896cf"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "README.md",
+      "path": "README.md",
+      "sha256": "4a3ca1c47164e3fc1134ccce166dd6bbf12f9220e8a79f8b2f2671953ea5f8f8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "app/__init__.py",
+      "path": "app/__init__.py",
+      "sha256": "ac41f026934c75bde0bf9f937eba69ae9bb58c06ede49cdd1cb213eaf354581f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "app/cli.py",
+      "path": "app/cli.py",
+      "sha256": "4ce79d051682b38380214cd8af363b328b5f723da56dfb103ee490b298ec1b3a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/__init__.py",
+      "path": "backend/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/__init__.py",
+      "path": "backend/app/__init__.py",
+      "sha256": "aca01e61edb38c4c181b51b72301402587c5e8cdbf90db0cdf9a5a8a1886d7fe"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/advisory/__init__.py",
+      "path": "backend/app/advisory/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/advisory/speed.py",
+      "path": "backend/app/advisory/speed.py",
+      "sha256": "bb0344b019cf1cd71a0d971758b7868fccd799e9d9e58e8db8cba588d03353c0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/cli.py",
+      "path": "backend/app/cli.py",
+      "sha256": "c027c66e86b0c2bd6b8331b10011ce5dc3ae0988a77dbdf9c9477bf9638437cd"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/demo_advisory.py",
+      "path": "backend/app/demo_advisory.py",
+      "sha256": "0a93dcc606fb0dd3c0522bc0d9fc8114707477eef16ddf87bbf6cb1483e85e3c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/demo_metrics.py",
+      "path": "backend/app/demo_metrics.py",
+      "sha256": "802a1d128bec3969ed64abb7dff3d88a3aad65b02a00867659971474c943768b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/demo_planning.py",
+      "path": "backend/app/demo_planning.py",
+      "sha256": "f2cef7cdd1088d3e3f9a3b262423bc9088572603604481eb8d43c7e7361bdeef"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/demo_validation.py",
+      "path": "backend/app/demo_validation.py",
+      "sha256": "d936023d0e5e054309ea8e13aa18954c58df37e048e8eefbae96bdd51474a84a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/domain.py",
+      "path": "backend/app/domain.py",
+      "sha256": "7d36f26401c900cd99f8c59dbae3dd202cfba70b8129620834179a4763ef565b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/integration.py",
+      "path": "backend/app/integration.py",
+      "sha256": "51f0a4c9a00924871b166f9ea9f12a4c58e937e4ae9aae9b614431f658b84d66"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/main.py",
+      "path": "backend/app/main.py",
+      "sha256": "a41af532380c91f34069b39d7c545e7b9e1a7c1a6572b23581a6a5c09b8a8461"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/metrics/__init__.py",
+      "path": "backend/app/metrics/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/metrics/economics.py",
+      "path": "backend/app/metrics/economics.py",
+      "sha256": "300753741eb066291fe536dff0cf8e4321379bc59731ab4ff5dac8392748c0d8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/metrics/load.py",
+      "path": "backend/app/metrics/load.py",
+      "sha256": "a44142957192ca4d4eaa771785c5f0cc0bb5cc1020b37f3a2801eb46e2940f11"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/metrics/quality.py",
+      "path": "backend/app/metrics/quality.py",
+      "sha256": "09ce851a99f249164df1667881371bce9a75e8114d60f17b8b6de2538e3290ee"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/planning/__init__.py",
+      "path": "backend/app/planning/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/planning/baseline.py",
+      "path": "backend/app/planning/baseline.py",
+      "sha256": "2de7c101f1d7519ab456a82c020c854df16edf11b0bad5c3b3b51d5752a4cb8b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/planning/common.py",
+      "path": "backend/app/planning/common.py",
+      "sha256": "ce33e0f2f72c375d5035e8210a25bdac662bd908e6d85ef03fe334b599ea4dcc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/planning/service.py",
+      "path": "backend/app/planning/service.py",
+      "sha256": "080f4e25ced2c8a0227d7e415c6b5ca0dd279615b33074ae27b8bc6d05c264eb"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/planning/solver.py",
+      "path": "backend/app/planning/solver.py",
+      "sha256": "ab15e918d1a1b31f9f231d3e4caf58e852d938466696a3f05da8ee5842295072"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/realism/__init__.py",
+      "path": "backend/app/realism/__init__.py",
+      "sha256": "e070577f8e7924384c4d5c96866fd3891b838d9ea13d19bbc352ab01ef6b7323"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/realism/configuration.py",
+      "path": "backend/app/realism/configuration.py",
+      "sha256": "071c13a73386d294062b964f72dad9cb976b2c5c4c77a0a2d491b1c5a08cc2e0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/realism/incidents.py",
+      "path": "backend/app/realism/incidents.py",
+      "sha256": "9a8bc5ae9a2f5b720702dff0ada4b3beae4fc7d06166bf83040f479b65be2116"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/realism/service.py",
+      "path": "backend/app/realism/service.py",
+      "sha256": "2bc543805430a54269c2d3670a750e4a5d8619fdf449ba54cfc95a90465744e7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/scenarios.py",
+      "path": "backend/app/scenarios.py",
+      "sha256": "9986c977b056311c2ac369937a4730790045edb4132b4d2ab93191c025b736be"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/schemas.py",
+      "path": "backend/app/schemas.py",
+      "sha256": "03c0757961b240932af2549b50ab88a2ef41523e8267de414860f6e7b6f8dcfa"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/simulator.py",
+      "path": "backend/app/simulator.py",
+      "sha256": "750d5cc9fa3d85766000e5247a41772105a58f68ac62a0b35115a19280137a19"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/storage.py",
+      "path": "backend/app/storage.py",
+      "sha256": "8187fa3ab4290cba4bf65d86fa6745fd7858d10d6b6e43b51d9535aaea70e7ee"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/validation/__init__.py",
+      "path": "backend/app/validation/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/app/validation/plan.py",
+      "path": "backend/app/validation/plan.py",
+      "sha256": "526008a6cdbbbfd079ead67f1c5d757f4ea0fe504d6ad2c73b7045d5eb727ddc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/requirements.lock.txt",
+      "path": "backend/requirements.lock.txt",
+      "sha256": "dcadab17bd1ff64cc0ffca8d6ef52b7c44e7103a205bb461679652d48a1a12b1"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/requirements.txt",
+      "path": "backend/requirements.txt",
+      "sha256": "324b37c3d0371a7d7bfcc852a2171f9d36f993a84530c1ec1a4cc7cf65298367"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/conftest.py",
+      "path": "backend/tests/conftest.py",
+      "sha256": "182983a7f657e71f9b94755a02f46b3b5caa176b0cec77f20230cf00f98cc2c7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/sample_network.py",
+      "path": "backend/tests/sample_network.py",
+      "sha256": "099c492efbfd08ea8b1c02d4a631c9b6f425731fc9a9feb7c7f02072185a968f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_api.py",
+      "path": "backend/tests/test_api.py",
+      "sha256": "4f08b5d86a8232ad346bec1a1b9a75fb97812a6b04adad35b8792b0aa4af3188"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_corridor.py",
+      "path": "backend/tests/test_corridor.py",
+      "sha256": "86155e965961fcd231b2a5590f642fce0b35cce57c22461f7c1b8fcc732aded3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_dispatch.py",
+      "path": "backend/tests/test_dispatch.py",
+      "sha256": "2f336d20f5d66221a1ba9f36f001e1ff51547e8ad8ea30df16cd6e2ba498ec3f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_economics.py",
+      "path": "backend/tests/test_economics.py",
+      "sha256": "4ff0ba99e7e00fd8116dd167d3b506d0a352af31a92542ee432c860a772d470c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_integration.py",
+      "path": "backend/tests/test_integration.py",
+      "sha256": "16980ddf10d39ff8c71257bdcef47d04db4589087053618488fb08a4eefa7ab6"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_load.py",
+      "path": "backend/tests/test_load.py",
+      "sha256": "f7d2a4173e30c93364237346893d03bfe5563b44708524d42926abc45f492438"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_multitrack.py",
+      "path": "backend/tests/test_multitrack.py",
+      "sha256": "204632ca48eea77aceb13e5a75bcbe25a627cdd2cba13b2fe7a898be7b816864"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_planning.py",
+      "path": "backend/tests/test_planning.py",
+      "sha256": "cc857cafdf140cb66e9b0fb4c9e82c26f16aed9a1d58af74d7307d1feea5db56"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_realism.py",
+      "path": "backend/tests/test_realism.py",
+      "sha256": "c5549fd4a7d1779d922b73f3d459d5eafa84c85cd678a2619021b4013f3618b5"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_speed.py",
+      "path": "backend/tests/test_speed.py",
+      "sha256": "db22ae1906da1bf044950fc49129c341891f00822b635e456d6e8197d3114b4d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_speed_scaling.py",
+      "path": "backend/tests/test_speed_scaling.py",
+      "sha256": "94b414f298ec09822a6bbd3f72c50685314d9d844de9c4e8d986be373ef3924a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "backend/tests/test_validation_metrics.py",
+      "path": "backend/tests/test_validation_metrics.py",
+      "sha256": "b4b684eb81de6eaa2eb9a71ce3206b56e69b8f2b2790cc366d97de9354c712b2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "config/economics.example.json",
+      "path": "config/economics.example.json",
+      "sha256": "d2173b655984dc47d59fa5de89b0f7d21091c91d81259d47fec3e92daa520221"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "config/metrics.json",
+      "path": "config/metrics.json",
+      "sha256": "5c00d599c6b41785261e6de153f3de620c697390d0d16fa1d4ed9a40490b5048"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "config/railsim.example.json",
+      "path": "config/railsim.example.json",
+      "sha256": "9e8474d2ad51fb96c429fed99ea97075c4f5631483d09f46d1598cb639b4d221"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "data/README.md",
+      "path": "data/README.md",
+      "sha256": "127a010aef8dc681d3b6ab56b42e81f255758545a26fafed8cb60160fccef2b8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "data/corridor/geometry.geojson",
+      "path": "data/corridor/geometry.geojson",
+      "sha256": "52b5e163edaae6e5f2a02fe00534a28c5d44225f6851072eee2be50416eda058"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "data/corridor/infrastructure.json",
+      "path": "data/corridor/infrastructure.json",
+      "sha256": "34da74563a1cccb3c4efb6087ef55306f16a8d73b4920a1d0a2420ba571eb1df"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "data/corridor/sources.json",
+      "path": "data/corridor/sources.json",
+      "sha256": "ca194e8d6ea9a8f6c40d3aa935a712eeb16ccc7300f98eb5c26ff1ad662816ec"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "data/kazakhstan_railways.geojson",
+      "path": "data/kazakhstan_railways.geojson",
+      "sha256": "b7b0d7d7debd9cb9e4ff52ef3d2ec1a9a5262969aae4581f239a5fa0ce9941eb"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "data/railsim/source_manifest.json",
+      "path": "data/railsim/source_manifest.json",
+      "sha256": "f54f72902d776ccc2b4bc65373830b3048520554778af6c31e2ae0be317d67b8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docker-compose.yml",
+      "path": "docker-compose.yml",
+      "sha256": "d2db25c5719353293243cc268ecd56de4c308015fad2a7be7f20fc77b1dba33b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/algorithms.md",
+      "path": "docs/algorithms.md",
+      "sha256": "7c17aef5de15fe61bdc3f8dea68e1b9b0ac33f79de64a3be9d7fa0680b7c2022"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/demo-guide.md",
+      "path": "docs/demo-guide.md",
+      "sha256": "d6b9f1213b16693b17f612e71a091d972c0c761ed12f807d66d6184f6c554780"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/dispatcher-preview.png",
+      "path": "docs/dispatcher-preview.png",
+      "sha256": "c736d501dd1955eefc45241cf44365554c6ec485b3580428070f626e0d9e04a6"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/economics.md",
+      "path": "docs/economics.md",
+      "sha256": "04c95aae11c7602f77812b77e0f2894a1df3698ad0e5ce7a497f0b1db1010cdd"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/integrated-preview.png",
+      "path": "docs/integrated-preview.png",
+      "sha256": "0acffbe4bc199d6965a04bb64613d783add53d3424c54c70896426ed8ecbb0f8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/live-smoke-result.json",
+      "path": "docs/live-smoke-result.json",
+      "sha256": "70b47a1092cec8058f20de9c71c26da681937eb6a3f65fd2529dfb628353578f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/logic-guide.md",
+      "path": "docs/logic-guide.md",
+      "sha256": "2366b4bc063b5b96554f01faf5688812bddd1dbea8d08c0686d3329c89f419fb"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/logic-smoke-result.json",
+      "path": "docs/logic-smoke-result.json",
+      "sha256": "5d6d70cdc874f95e4f9d4624c193f1bb4f3d12d4dfbdf91703be19bc7f8eb000"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/participant-3.md",
+      "path": "docs/participant-3.md",
+      "sha256": "47aabd145515123240013783220653ea17141d8c0a9df8cf8e28da667b4a144e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/railsim-integration.md",
+      "path": "docs/railsim-integration.md",
+      "sha256": "79c9051b302834085f109011b40f91123358971df0bdce380aa426352c77a584"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "docs/verification.md",
+      "path": "docs/verification.md",
+      "sha256": "f207653b3b79135d95cf3c9e9dcf37106c2269c67757cc0755ec77d7f387d8e7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/.node-version",
+      "path": "frontend/.node-version",
+      "sha256": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/index.html",
+      "path": "frontend/index.html",
+      "sha256": "db00454f01b152e6d68202e8c173e062441cf45fd0d9d859a7e7d2f314216af4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/package.json",
+      "path": "frontend/package.json",
+      "sha256": "c56e0df293013e8194b66525ee79f369477c586988cef8d01347d20ef5441649"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/pnpm-lock.yaml",
+      "path": "frontend/pnpm-lock.yaml",
+      "sha256": "43573ae49b9bcfe6a19bfbb550d202b327ab9a5d3a31b31bf87cc3cce82bd3d3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/pnpm-workspace.yaml",
+      "path": "frontend/pnpm-workspace.yaml",
+      "sha256": "ac02d96368617c760f093cfe61fdec64b6244007ab3553e0d6621f706f54a353"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/App.tsx",
+      "path": "frontend/src/App.tsx",
+      "sha256": "c60e4cba0c689ae59fde7c14b8d1c01a1831fed081b0ba932f173ece86bc2b06"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/Charts.tsx",
+      "path": "frontend/src/Charts.tsx",
+      "sha256": "c76d26c3f7b4fbe5ff5c72b1e3feaa32f088e87f23dad4035fd8a03c04ceb143"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/Map.tsx",
+      "path": "frontend/src/Map.tsx",
+      "sha256": "c3e0fd6e242f0b38c78db93820777e1e00a170233fa14a46d61a85e08783f7d2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/main.tsx",
+      "path": "frontend/src/main.tsx",
+      "sha256": "9d958f4a6892d4f12f4a28c6765a369a3aaffe738b52e97287403c9a688b3fb4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/store.ts",
+      "path": "frontend/src/store.ts",
+      "sha256": "a835e9f6cb86abeaa2987946a17ae9374afba0d85c0d4861686d0edea6f03aec"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/style.css",
+      "path": "frontend/src/style.css",
+      "sha256": "fcb864a10b4ec5812c3dfca3178afb5a51c53d9950bd80d8b51558506c776d9c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/src/types.ts",
+      "path": "frontend/src/types.ts",
+      "sha256": "4b4b2d377eb3d5a10eba97b90497ec945a3ed838eb5f1703c3139e76bae94d10"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/tsconfig.json",
+      "path": "frontend/tsconfig.json",
+      "sha256": "28da5714c74d8afb4bcd6a5047938961676d3dc192f0c31505960d75b9ffc38d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "frontend/vite.config.ts",
+      "path": "frontend/vite.config.ts",
+      "sha256": "efce012a52680a4fe03ee508275645a8559882f87ef4fc7b8df1e2c88283c4de"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/.gitkeep",
+      "path": "output/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/comparison.csv",
+      "path": "output/corridor/comparison.csv",
+      "sha256": "2c116a7cad21eeae906bfa0c66128ef84712898be51d3123761720164201b45a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/economics.json",
+      "path": "output/corridor/economics.json",
+      "sha256": "da27e0d1784a43608cfed4a218946430d481e97ae3539dc92078778d96f5bd04"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/economics_comparison.csv",
+      "path": "output/corridor/economics_comparison.csv",
+      "sha256": "914025eb6f91271a81d409aab40575ba78ae7c6d2cdddfe2fed01423ccd83198"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/fcfs.json",
+      "path": "output/corridor/fcfs.json",
+      "sha256": "5e27b5ad20733a5af5182eec8aec94afa45d5bb52c1f0b8d095b9e93fa9aaf33"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/fcfs_metrics.json",
+      "path": "output/corridor/fcfs_metrics.json",
+      "sha256": "f9087b067634b738f209cf5b148fbc1b15f92ff9b54bdd8c0cabf6c57a4730ab"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/infrastructure_audit.json",
+      "path": "output/corridor/infrastructure_audit.json",
+      "sha256": "c2ba9b24c9d40d3a5f47b4613f8379df804472802da966ca8ed4ac0ddbcc130f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/balanced_plan.json",
+      "path": "output/corridor/main_track_closure/balanced_plan.json",
+      "sha256": "92c7435673263451d98b63309ac4f64b64c775aee9babc28401296f0499b7420"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/balanced_track_load.csv",
+      "path": "output/corridor/main_track_closure/balanced_track_load.csv",
+      "sha256": "ec2d9b669601e373d0178c1216af81209d581b06060b8aef210666e2a7073880"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/eco_plan.json",
+      "path": "output/corridor/main_track_closure/eco_plan.json",
+      "sha256": "15241e048caaf451db0d91c68e5397e1b737329c5ca1f472c9ad439b6842415d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/eco_track_load.csv",
+      "path": "output/corridor/main_track_closure/eco_track_load.csv",
+      "sha256": "c2f3f67dd8a970edba1d010ed858c70d45e1bbfcf7e249e8555580ba65164293"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/passenger_plan.json",
+      "path": "output/corridor/main_track_closure/passenger_plan.json",
+      "sha256": "0cba0c05a04e80c1b78370b1e74020510667d4b2eaee6145e5d4a7044b247bdb"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/passenger_track_load.csv",
+      "path": "output/corridor/main_track_closure/passenger_track_load.csv",
+      "sha256": "1c84ec26738f9502660cf1d8d9951f1ff732b40ac4e62a740e22ebc92d590845"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/previous_plan.json",
+      "path": "output/corridor/main_track_closure/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/resolution.json",
+      "path": "output/corridor/main_track_closure/resolution.json",
+      "sha256": "0c76668b23a412ad7040ba0ac587f2cbd5bc224e43640a8a5952d752114ec151"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/main_track_closure/scenario.json",
+      "path": "output/corridor/main_track_closure/scenario.json",
+      "sha256": "b7a7971a1ca55f8e33edc531ea166e0daab6182f2ed780a2f993bb40eae6fe02"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/normal/active_plan.json",
+      "path": "output/corridor/normal/active_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/normal/balanced_track_load.csv",
+      "path": "output/corridor/normal/balanced_track_load.csv",
+      "sha256": "8109a2d7d1a1dd84820d7697a5bf224001041df011b90c99291485206c4c5279"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/normal/eco_track_load.csv",
+      "path": "output/corridor/normal/eco_track_load.csv",
+      "sha256": "2239556dbc8f7a2800b71713534c1e49298643349f48281e36032ec8436546d2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/normal/passenger_track_load.csv",
+      "path": "output/corridor/normal/passenger_track_load.csv",
+      "sha256": "08ee14eb997278d77b67a5f165171a4f7bc620974d44fd2a789ff02e633851fe"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/normal/result.json",
+      "path": "output/corridor/normal/result.json",
+      "sha256": "05028f58e98ba7ff773c173a29286884075a13774df97ac41f846a5e50405b2e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/normal/scenario.json",
+      "path": "output/corridor/normal/scenario.json",
+      "sha256": "128a158911e3f0393490258df87250214b402fc1ba9fdcd2729bbc5a914bd819"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/balanced_plan.json",
+      "path": "output/corridor/railsim_crossing/balanced_plan.json",
+      "sha256": "8e4476012fc675f2d7576640521cef3e760196f2102bd2701d16902830c7341f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/balanced_track_load.csv",
+      "path": "output/corridor/railsim_crossing/balanced_track_load.csv",
+      "sha256": "3a8af9b4f35b7f15d283d705c4585d1fef13dbde60bca9545208cc5425b5081b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/eco_plan.json",
+      "path": "output/corridor/railsim_crossing/eco_plan.json",
+      "sha256": "2d933c45a3af167262e5ec7e02b83256ce5b91f8781ea6bc4cb3dbb5cceae83e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/eco_track_load.csv",
+      "path": "output/corridor/railsim_crossing/eco_track_load.csv",
+      "sha256": "cde553876dbd0db894eb616dead6cb66b7c5387ca73c37212d7e9d40ffac9ca5"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/passenger_plan.json",
+      "path": "output/corridor/railsim_crossing/passenger_plan.json",
+      "sha256": "3111b81b4893c17b6e69c55ea1d562be22f5e37b7cd41e2499884db81f2c324d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/passenger_track_load.csv",
+      "path": "output/corridor/railsim_crossing/passenger_track_load.csv",
+      "sha256": "3f1a8c6b1d1e642cda40bccd575d9ebcd527f9228adc7bfa9bc264c4961eeae4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/previous_plan.json",
+      "path": "output/corridor/railsim_crossing/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/resolution.json",
+      "path": "output/corridor/railsim_crossing/resolution.json",
+      "sha256": "49b3f34cf56b3adb0c2ad09428c8f02760fbfda8cb0761e15dccf4056baa1586"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_crossing/scenario.json",
+      "path": "output/corridor/railsim_crossing/scenario.json",
+      "sha256": "87f4bbef87949bbfce2d0d2e1c3a13564ffe7e9777eebeeae866123284528e12"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/balanced_plan.json",
+      "path": "output/corridor/railsim_derailment/balanced_plan.json",
+      "sha256": "8c9cf2003efc0f3862e66d3efd96a6452b1b3ef761aa03c7fc293b50fc07e0bc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/balanced_track_load.csv",
+      "path": "output/corridor/railsim_derailment/balanced_track_load.csv",
+      "sha256": "1d57ff88a486130868fd46630e464a52b80abc852497666e0efe6d5455337f5d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/eco_plan.json",
+      "path": "output/corridor/railsim_derailment/eco_plan.json",
+      "sha256": "f4eaa1c4f4e6e83ddfea557f1401d83c46c89e30ff8ac33d8f2574a8ad43151b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/eco_track_load.csv",
+      "path": "output/corridor/railsim_derailment/eco_track_load.csv",
+      "sha256": "b26a88526ae50b09e58fcdbc6dc1010912c32dafec74ae58f5aa1311a204358e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/passenger_plan.json",
+      "path": "output/corridor/railsim_derailment/passenger_plan.json",
+      "sha256": "dfa519a5cc1bb9dc23ab4c4ea0f237aa89cb840c04a42e084c3a1c6a9fcce0c8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/passenger_track_load.csv",
+      "path": "output/corridor/railsim_derailment/passenger_track_load.csv",
+      "sha256": "7549ff9ba48388248fc11a8bd62b6383bebbfe0962cdba840c01d8a53aa20e65"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/previous_plan.json",
+      "path": "output/corridor/railsim_derailment/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/resolution.json",
+      "path": "output/corridor/railsim_derailment/resolution.json",
+      "sha256": "d29fc7a52c707fa3bdb1ad68adbd16bae2f1d834dcbe04a8051165b7eb3b485f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_derailment/scenario.json",
+      "path": "output/corridor/railsim_derailment/scenario.json",
+      "sha256": "315671ea4da5db0645f1da516a963a82a7cbba9b0c41ad9306847b118fb3daac"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/balanced_plan.json",
+      "path": "output/corridor/railsim_flood/balanced_plan.json",
+      "sha256": "0e0b42b7a7db24ebbf2150571ba6dde3c25fcbafbd329b6911b4ad298b5456c9"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/balanced_track_load.csv",
+      "path": "output/corridor/railsim_flood/balanced_track_load.csv",
+      "sha256": "2882d858ae387d5cd352d55005841dd34a8f621dcffc19f690a5eb9d9db18042"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/eco_plan.json",
+      "path": "output/corridor/railsim_flood/eco_plan.json",
+      "sha256": "1de265c80841e512008cc3db4bd574a50d89dff2620ce118987a61d588617c63"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/eco_track_load.csv",
+      "path": "output/corridor/railsim_flood/eco_track_load.csv",
+      "sha256": "c0614d9c4aa50a6d0d3a47d85cd7d9bd13044290b1c9528769c5b79dd87b83db"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/passenger_plan.json",
+      "path": "output/corridor/railsim_flood/passenger_plan.json",
+      "sha256": "48ee9a6bd541aae55ab518a698058032385e77ff1dee05a8fcc1e41e3f573955"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/passenger_track_load.csv",
+      "path": "output/corridor/railsim_flood/passenger_track_load.csv",
+      "sha256": "caf31aaa89c4f8194c323a630e0be41281ded5d791259951fdddd5bb009aa5c1"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/previous_plan.json",
+      "path": "output/corridor/railsim_flood/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/resolution.json",
+      "path": "output/corridor/railsim_flood/resolution.json",
+      "sha256": "cce68d0c99d3e6bfc5d30b7de8ae56377a6b900d27aa04728b442abbd05dab3a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_flood/scenario.json",
+      "path": "output/corridor/railsim_flood/scenario.json",
+      "sha256": "acbe2f23ddf344dd11c0ed70e31ea3304dc9c7bf183c28280f6b299c7e75dedc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/balanced_plan.json",
+      "path": "output/corridor/railsim_heat/balanced_plan.json",
+      "sha256": "4879125381a0f1901bd9b150695914830833c8dfd335e5e39a194b2274a53a05"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/balanced_track_load.csv",
+      "path": "output/corridor/railsim_heat/balanced_track_load.csv",
+      "sha256": "a76ea1242b256d52d97ce8e154b1c78bf2babdde86a982ec0244c73752e2ae72"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/eco_plan.json",
+      "path": "output/corridor/railsim_heat/eco_plan.json",
+      "sha256": "dff5557fc00d69ba2185c52d7821a7ab0014b4d2d5d615871bb302eb2855428d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/eco_track_load.csv",
+      "path": "output/corridor/railsim_heat/eco_track_load.csv",
+      "sha256": "94dcfc8641d05d4f8eec3037608bc17d159ef1d0342b99e87fd067f17554f5ba"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/passenger_plan.json",
+      "path": "output/corridor/railsim_heat/passenger_plan.json",
+      "sha256": "2d9de092ff3b6e9d5c905a6afbec30cd371a57e5a2ad4e6c3d7de2de7bf11e79"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/passenger_track_load.csv",
+      "path": "output/corridor/railsim_heat/passenger_track_load.csv",
+      "sha256": "3c36b733de43d86df6447c3b820731ae1f89aa9bfcfab70b4127df7b401fe364"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/previous_plan.json",
+      "path": "output/corridor/railsim_heat/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/resolution.json",
+      "path": "output/corridor/railsim_heat/resolution.json",
+      "sha256": "ea535a34f821a90adfc9a5770695eeb81b1f89a8d30c97e63923d7c1b1e2d28f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_heat/scenario.json",
+      "path": "output/corridor/railsim_heat/scenario.json",
+      "sha256": "17ac377d10c0f1d1c1bd24559132c0c0ff61dfd8ec9a09bd1541749807c0e1c2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/balanced_plan.json",
+      "path": "output/corridor/railsim_loco_failure/balanced_plan.json",
+      "sha256": "3cd7541ba7efecb96821fe64f91755e864050c25e0d43480dcdfccb270823941"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/balanced_track_load.csv",
+      "path": "output/corridor/railsim_loco_failure/balanced_track_load.csv",
+      "sha256": "e0805c9f5160e1ede2794f0edf44b2cdfde5f20cc812c95656e672a0e0cba189"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/eco_plan.json",
+      "path": "output/corridor/railsim_loco_failure/eco_plan.json",
+      "sha256": "d5b509f28bf46956a581e252c2eaef48bf4e56f5c20545d8bc44040ac366acd8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/eco_track_load.csv",
+      "path": "output/corridor/railsim_loco_failure/eco_track_load.csv",
+      "sha256": "a07e36ce8099e5e72e0e053c7b274f9411e2c3c2e8c80e37108d40efc9f63b05"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/passenger_plan.json",
+      "path": "output/corridor/railsim_loco_failure/passenger_plan.json",
+      "sha256": "f84abe3ee814b14b8b4b9d7d056cf88a6e6cc05f2554860160ebaf868a76ccf5"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/passenger_track_load.csv",
+      "path": "output/corridor/railsim_loco_failure/passenger_track_load.csv",
+      "sha256": "667b4f31eb4dfa400762d392b05428cac75a58c502782dd323922f0c682d8e5b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/previous_plan.json",
+      "path": "output/corridor/railsim_loco_failure/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/resolution.json",
+      "path": "output/corridor/railsim_loco_failure/resolution.json",
+      "sha256": "a432a03696d68fe0d88f9d4dba498875a2b0d68173e8d4d3234ba165bfd7245e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_loco_failure/scenario.json",
+      "path": "output/corridor/railsim_loco_failure/scenario.json",
+      "sha256": "66a68c9e34efc66ee6d889e609fa2148a53a82858552a63b2dc09381ecb26f40"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/balanced_plan.json",
+      "path": "output/corridor/railsim_maintenance/balanced_plan.json",
+      "sha256": "a12e818bf78dcfadcf092c7aee0e452030a99b15e708dbbee656fde638a50587"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/balanced_track_load.csv",
+      "path": "output/corridor/railsim_maintenance/balanced_track_load.csv",
+      "sha256": "a62c776e90725c8fc44d5cfa6c698bbc88f41c392e70cc14bd0432d4db9919dc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/eco_plan.json",
+      "path": "output/corridor/railsim_maintenance/eco_plan.json",
+      "sha256": "e887c0a50ff939138f43b51633ed9c7efb03cc7bde89941f29a056592860f109"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/eco_track_load.csv",
+      "path": "output/corridor/railsim_maintenance/eco_track_load.csv",
+      "sha256": "cde34646e7fb98af2fb84117f61805becb3829e433bfe4e09bd30eaaa61c2d8d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/passenger_plan.json",
+      "path": "output/corridor/railsim_maintenance/passenger_plan.json",
+      "sha256": "b03c856b0be26e1be36003d7e8cfea09d0457a183a5e419cbff7ff3a7edb45ae"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/passenger_track_load.csv",
+      "path": "output/corridor/railsim_maintenance/passenger_track_load.csv",
+      "sha256": "ffb2a67e8a1dc795ebb798a80406c19e0117dfca38e11f0d813707e5d0a8dc18"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/previous_plan.json",
+      "path": "output/corridor/railsim_maintenance/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/resolution.json",
+      "path": "output/corridor/railsim_maintenance/resolution.json",
+      "sha256": "9120e4d1306de76a9046e4e3e41bc2b63fca49059c87283d1a0fb9cd8722669c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_maintenance/scenario.json",
+      "path": "output/corridor/railsim_maintenance/scenario.json",
+      "sha256": "cea467ed866678519065dedd95453436cc324f16763b8d32419fa4612be94124"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/balanced_plan.json",
+      "path": "output/corridor/railsim_people/balanced_plan.json",
+      "sha256": "ca65af14a634d724cc9b13a36c0bd5a18648389b78c62db9b9bf92c55001cae6"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/balanced_track_load.csv",
+      "path": "output/corridor/railsim_people/balanced_track_load.csv",
+      "sha256": "bb79e7b6e17f598c6e8aad331c4b27de92c1f2bf633d125e81cd15ac5233a75f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/eco_plan.json",
+      "path": "output/corridor/railsim_people/eco_plan.json",
+      "sha256": "732401d1242716d51a30aa09ff51a073fe72bc1907c12dd6c2d036b5c97f7a91"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/eco_track_load.csv",
+      "path": "output/corridor/railsim_people/eco_track_load.csv",
+      "sha256": "10967e29d3e95080076b73c7c7be8705469e3ae137489387bfd78fc1a2e33e06"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/passenger_plan.json",
+      "path": "output/corridor/railsim_people/passenger_plan.json",
+      "sha256": "e4b3e368575dca7ce30ed538130ddd8128e0b5e0a3f767045fa6de1bdcfb25e0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/passenger_track_load.csv",
+      "path": "output/corridor/railsim_people/passenger_track_load.csv",
+      "sha256": "f129d0bde3aced3112fc5840853c87ee771ff27d79d36743f570b67b734580b3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/previous_plan.json",
+      "path": "output/corridor/railsim_people/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/resolution.json",
+      "path": "output/corridor/railsim_people/resolution.json",
+      "sha256": "5431075421112c8fce7fc78306a03c8bddedaa6aab9ed79eca62eae745b6d0a5"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_people/scenario.json",
+      "path": "output/corridor/railsim_people/scenario.json",
+      "sha256": "8e274ca1ff3d3e74e3fcc6ea421aa63c2d053a7592135e48643fb6388a96fb50"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/balanced_plan.json",
+      "path": "output/corridor/railsim_rail_defect/balanced_plan.json",
+      "sha256": "882301b6540b0f08c5cbea7ad4db68fd968cfd0e49d1a481d878eddd2bf79af9"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/balanced_track_load.csv",
+      "path": "output/corridor/railsim_rail_defect/balanced_track_load.csv",
+      "sha256": "4e38184e6840b65875c19eaedc6605792daf88da4cd54f9c54acddf9235f5e59"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/eco_plan.json",
+      "path": "output/corridor/railsim_rail_defect/eco_plan.json",
+      "sha256": "47ff302206d9c171b8a67c8b67cac3f6f26a52a5d35e6e169164ac47e60975a0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/eco_track_load.csv",
+      "path": "output/corridor/railsim_rail_defect/eco_track_load.csv",
+      "sha256": "d41fe0985fda678d8a99eebad799f5c49db38e47731b81437be6cd97fcc3c3c6"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/passenger_plan.json",
+      "path": "output/corridor/railsim_rail_defect/passenger_plan.json",
+      "sha256": "eed06652aa0c1b6fc9d9eaa3a60901187893518e9798baaa1c23d3ab7ac45b42"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/passenger_track_load.csv",
+      "path": "output/corridor/railsim_rail_defect/passenger_track_load.csv",
+      "sha256": "0b919cfb2b3559e50d2e7b14b204406394c7d4337dad10c0700369d56a830eb6"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/previous_plan.json",
+      "path": "output/corridor/railsim_rail_defect/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/resolution.json",
+      "path": "output/corridor/railsim_rail_defect/resolution.json",
+      "sha256": "a920174ce1a722d39dbc655226f36fbc82665fcec2f625a258868e22d0ea4bf4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_rail_defect/scenario.json",
+      "path": "output/corridor/railsim_rail_defect/scenario.json",
+      "sha256": "0f5a79e548c2d8489dcfe4bc48c10ad5e1739949929c96fba0b1c79167986358"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/balanced_plan.json",
+      "path": "output/corridor/railsim_sand/balanced_plan.json",
+      "sha256": "a8926815c5aada9e7bc0fa8114aa188261a2b28de8998e05885ecba307583a91"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/balanced_track_load.csv",
+      "path": "output/corridor/railsim_sand/balanced_track_load.csv",
+      "sha256": "8239e2b362e7cc76ff5517afaf51a3289b874f31f09f1e94ee6017ba08a1f46b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/eco_plan.json",
+      "path": "output/corridor/railsim_sand/eco_plan.json",
+      "sha256": "1feb9811ffad01e9aba433af9fd1a8271cfdf9e1ab7231a288570ea3bf4fbb07"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/eco_track_load.csv",
+      "path": "output/corridor/railsim_sand/eco_track_load.csv",
+      "sha256": "46f89eff7d294bbe6606d2d5b055a9b4a366b07846f14d9d14fdb72921ae7d6e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/passenger_plan.json",
+      "path": "output/corridor/railsim_sand/passenger_plan.json",
+      "sha256": "dcfcdd06e7dd78c82d075d0c164425c628bf11ffb2c681f2c3e7e64115066899"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/passenger_track_load.csv",
+      "path": "output/corridor/railsim_sand/passenger_track_load.csv",
+      "sha256": "a77c7c2b0e744601bf5702725f77062220cab5bd4cf7f2e5f4f2b05750bd8f58"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/previous_plan.json",
+      "path": "output/corridor/railsim_sand/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/resolution.json",
+      "path": "output/corridor/railsim_sand/resolution.json",
+      "sha256": "7c827ef7164f83c6db92ec55b869aa266d08ec26f09a6bb5c5dfa6efad91cbc2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_sand/scenario.json",
+      "path": "output/corridor/railsim_sand/scenario.json",
+      "sha256": "160fca9143bb1478fa94239b97507c31cbf038389e4c7e539f81a33fb4551b95"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/balanced_plan.json",
+      "path": "output/corridor/railsim_snow/balanced_plan.json",
+      "sha256": "c29bd5f227de2f254a2e7c5f35bbc61023a61d5b1d36de71d149a2c1bcca2a75"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/balanced_track_load.csv",
+      "path": "output/corridor/railsim_snow/balanced_track_load.csv",
+      "sha256": "a9957dde7a22fa6b519a3f4f1552789bbd20af7cd29e997caf00d15496e79037"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/eco_plan.json",
+      "path": "output/corridor/railsim_snow/eco_plan.json",
+      "sha256": "e2c204d44d65ce36c386ee9979d9ca718115fac37069107a09b971fa4c9bfb2e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/eco_track_load.csv",
+      "path": "output/corridor/railsim_snow/eco_track_load.csv",
+      "sha256": "90acdd6a7315507c98d138cb4f3272834a6bb2b500bd2656f7c2ddd120dee3e2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/passenger_plan.json",
+      "path": "output/corridor/railsim_snow/passenger_plan.json",
+      "sha256": "0201983cd9315dd48bd8810b55ca248d0a079a5cfd6e5967966d733ae968d941"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/passenger_track_load.csv",
+      "path": "output/corridor/railsim_snow/passenger_track_load.csv",
+      "sha256": "5e26af13b31b83fc4d3a30bf80ff1960eef5cad427725f8c7c85ae1a128d7294"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/previous_plan.json",
+      "path": "output/corridor/railsim_snow/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/resolution.json",
+      "path": "output/corridor/railsim_snow/resolution.json",
+      "sha256": "09af8d7b4abf828d359e25a31b083951dfeec25adc8c2402c4de89758bf9af02"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_snow/scenario.json",
+      "path": "output/corridor/railsim_snow/scenario.json",
+      "sha256": "bd7d2cb398b0688fe5afa6fe30b4222a7078e05ba692e4067f5d861d092bd98c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/balanced_plan.json",
+      "path": "output/corridor/railsim_theft/balanced_plan.json",
+      "sha256": "6b8af5aef0bc8d804080e23c687102f98766ec6d7da274df42a50d2f91a82074"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/balanced_track_load.csv",
+      "path": "output/corridor/railsim_theft/balanced_track_load.csv",
+      "sha256": "a2fa6cd1f030e049a33716ebb0fe2a9a1daac9accbf0e639baa203da505e60e6"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/eco_plan.json",
+      "path": "output/corridor/railsim_theft/eco_plan.json",
+      "sha256": "6bce3b6320eecd7be75d46f2e27c0e021588e39d5dc9a42eaefe93fa06f23947"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/eco_track_load.csv",
+      "path": "output/corridor/railsim_theft/eco_track_load.csv",
+      "sha256": "9adde5a4ac74fa7ad8abc33a27795bff370b3bb3ae776c7b5a126219684b6a16"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/passenger_plan.json",
+      "path": "output/corridor/railsim_theft/passenger_plan.json",
+      "sha256": "391c1f2964c152fb1ca66c4174322bca85ba97fc09880f2c589c23419f939f99"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/passenger_track_load.csv",
+      "path": "output/corridor/railsim_theft/passenger_track_load.csv",
+      "sha256": "90370dd9c679b077e730a25397e1eb644075ec049da2660048445ca19512eaf8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/previous_plan.json",
+      "path": "output/corridor/railsim_theft/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/resolution.json",
+      "path": "output/corridor/railsim_theft/resolution.json",
+      "sha256": "2f1015e3759275fffcdc08ff247a97a110996792b831d83affd68a008fa9efce"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_theft/scenario.json",
+      "path": "output/corridor/railsim_theft/scenario.json",
+      "sha256": "b26f360e8bf05f40d66dc0f301558ada666d66aa3915e33711b9f2607c7380e4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/balanced_plan.json",
+      "path": "output/corridor/railsim_wagon_defect/balanced_plan.json",
+      "sha256": "86568c28cba5d7c1c6ff6db1e771f453f76af01cd743895d52b4997dd61bedab"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/balanced_track_load.csv",
+      "path": "output/corridor/railsim_wagon_defect/balanced_track_load.csv",
+      "sha256": "3a672486b34a7b903354f54bef20b1c44ad58fd25abe45df77e730953a6d3231"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/eco_plan.json",
+      "path": "output/corridor/railsim_wagon_defect/eco_plan.json",
+      "sha256": "1e155390300f179288bf8070ec41d60ad1ce55f6c79bcab1c4c1274b5d1bb7f0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/eco_track_load.csv",
+      "path": "output/corridor/railsim_wagon_defect/eco_track_load.csv",
+      "sha256": "cd3707d34c111fa6703690cbf5857ff24d4fdd477250cb18ba55c7c6e529e481"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/passenger_plan.json",
+      "path": "output/corridor/railsim_wagon_defect/passenger_plan.json",
+      "sha256": "5762050717d1183c5e71e4181814cbf9314ae150e54217162a8adbccd828f52b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/passenger_track_load.csv",
+      "path": "output/corridor/railsim_wagon_defect/passenger_track_load.csv",
+      "sha256": "e3329eb65dd6c16f2eb1fd99900fcd3b529876e7bb1cb44e9f5231388e6995a7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/previous_plan.json",
+      "path": "output/corridor/railsim_wagon_defect/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/resolution.json",
+      "path": "output/corridor/railsim_wagon_defect/resolution.json",
+      "sha256": "81ced5e56adf6ae7a29456c4384afd8838824c3ab7299292371bc41f650ed70b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/railsim_wagon_defect/scenario.json",
+      "path": "output/corridor/railsim_wagon_defect/scenario.json",
+      "sha256": "a90ec54315c9e05c8f571775eb1fb8ed9e9f03d95995c86ab62f9ee76f1eddbc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/balanced_plan.json",
+      "path": "output/corridor/signal_failure/balanced_plan.json",
+      "sha256": "7fe3e99877f1d242483786f496fdb665deb91b9c0fc3019f227ab3d2b18723d3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/balanced_track_load.csv",
+      "path": "output/corridor/signal_failure/balanced_track_load.csv",
+      "sha256": "5d5c02540755dc36713bc90888b5ec98c698f786168cbd68af4e611478348e6a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/eco_plan.json",
+      "path": "output/corridor/signal_failure/eco_plan.json",
+      "sha256": "3268a0804d017736364ccfdd4cb96cea56ab1d54e7e7ead4f4d0311ae106aa3e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/eco_track_load.csv",
+      "path": "output/corridor/signal_failure/eco_track_load.csv",
+      "sha256": "13eb9a739d278fa6bb5be0b0d7afd50d8de529f2f820437d3e01badebaa922e4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/passenger_plan.json",
+      "path": "output/corridor/signal_failure/passenger_plan.json",
+      "sha256": "c9729d02de466d44292b2b3d9298d6b699262fb7feb85c0934371dc9f1a0e4c1"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/passenger_track_load.csv",
+      "path": "output/corridor/signal_failure/passenger_track_load.csv",
+      "sha256": "a41b06f63d7f8648d2d6a4471f1c3ed18e7f7f440d5b702f2960b3ac4bd9cdda"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/previous_plan.json",
+      "path": "output/corridor/signal_failure/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/resolution.json",
+      "path": "output/corridor/signal_failure/resolution.json",
+      "sha256": "7e157d4408286497c11c35e8eb3115eefd2bd45bb0d2fdc5d1ba32bd19a71460"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/signal_failure/scenario.json",
+      "path": "output/corridor/signal_failure/scenario.json",
+      "sha256": "1ed76f851277c8741a6056862c0f258ac9bfaec89716280572a8b1ca98cc29c3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/balanced_plan.json",
+      "path": "output/corridor/single_track_operation/balanced_plan.json",
+      "sha256": "cf5ed86eb5424b076cb9923311f36cfa3be1f4cee3e339caf868a222be29b61e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/balanced_track_load.csv",
+      "path": "output/corridor/single_track_operation/balanced_track_load.csv",
+      "sha256": "54e3ff290f09e77fe4ae52c71d576430a50a1c62f2d4be0124a4cc9b40a623ce"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/eco_plan.json",
+      "path": "output/corridor/single_track_operation/eco_plan.json",
+      "sha256": "896b63cc5c7cecf553e94d45e948c04165b54be6158140f84edef4c637d359c1"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/eco_track_load.csv",
+      "path": "output/corridor/single_track_operation/eco_track_load.csv",
+      "sha256": "349f12f24cacf69be84b4c725973c7d1698724b68f0f494c9c7db69200b24e5a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/passenger_plan.json",
+      "path": "output/corridor/single_track_operation/passenger_plan.json",
+      "sha256": "babb3664b2ff88256474d8d174b1a3f2a2a0fbffbcc932815c25a63b89bb7ead"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/passenger_track_load.csv",
+      "path": "output/corridor/single_track_operation/passenger_track_load.csv",
+      "sha256": "a699d2a7edbf440882a0a86e9ffbc9d5256e9d0f22742a256ca8c952fcf88230"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/previous_plan.json",
+      "path": "output/corridor/single_track_operation/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/resolution.json",
+      "path": "output/corridor/single_track_operation/resolution.json",
+      "sha256": "8bcbc96ccb115e6c4da2c7d3a83368d47b2a621ae585fe283c2cac33e7b88103"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/single_track_operation/scenario.json",
+      "path": "output/corridor/single_track_operation/scenario.json",
+      "sha256": "fa4e96c035685a89601ab577d6a363e5f33d87c2238ab11af560997e9256af99"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/balanced_plan.json",
+      "path": "output/corridor/speed_restriction/balanced_plan.json",
+      "sha256": "5a4dec35f32868a0674f61af881ce6c8e0adfb6c875410ca620bf241f83e9633"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/balanced_track_load.csv",
+      "path": "output/corridor/speed_restriction/balanced_track_load.csv",
+      "sha256": "b986d6e81321c1f06e0a6f7de6f871b9d84e5a45d26e084fe13d0234f8985511"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/eco_plan.json",
+      "path": "output/corridor/speed_restriction/eco_plan.json",
+      "sha256": "47c165e3215169757c9d00bb52533b1c0837e1caeeeddd0ff683f02446ff76dc"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/eco_track_load.csv",
+      "path": "output/corridor/speed_restriction/eco_track_load.csv",
+      "sha256": "f091c05bb3981e1d8f22bfe8a7bcc09663ccafd3fd1bf2f319011566bd5de03d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/passenger_plan.json",
+      "path": "output/corridor/speed_restriction/passenger_plan.json",
+      "sha256": "2ce253bc9c79137a3ed9a7de0cf057bcefb5757a4b7a07fded2036e0931c3cd0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/passenger_track_load.csv",
+      "path": "output/corridor/speed_restriction/passenger_track_load.csv",
+      "sha256": "bcca8ba652d1fe5f8fd8f5952a3d1f185cc60e460b5899102f1944b82941e2af"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/previous_plan.json",
+      "path": "output/corridor/speed_restriction/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/resolution.json",
+      "path": "output/corridor/speed_restriction/resolution.json",
+      "sha256": "c51e025841ff0f12a12318ae4485cc582c4f76876d2a715a428c7b9f73d92379"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/speed_restriction/scenario.json",
+      "path": "output/corridor/speed_restriction/scenario.json",
+      "sha256": "3a3996fcb14922631eec21e36e453b4cae0dce12fc0e4fb016de8a743bb1ffa3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/balanced_plan.json",
+      "path": "output/corridor/station_track_closure/balanced_plan.json",
+      "sha256": "9f016ec86220599414a0ee0f149d550b70080ef5f06242e31f1c298ca9dd4c89"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/balanced_track_load.csv",
+      "path": "output/corridor/station_track_closure/balanced_track_load.csv",
+      "sha256": "f7200024595a6a54bbb09298ab5bbdd1b70105a017a138187e75d4d0af72e915"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/eco_plan.json",
+      "path": "output/corridor/station_track_closure/eco_plan.json",
+      "sha256": "6a14f53b807c0fb7bbc8be27e43d52348be62427badd5f99e802043c8a58c11f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/eco_track_load.csv",
+      "path": "output/corridor/station_track_closure/eco_track_load.csv",
+      "sha256": "bb0d37f94d537095524c5926e6537387de13bf1c031dba717937f71a2c98dcca"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/passenger_plan.json",
+      "path": "output/corridor/station_track_closure/passenger_plan.json",
+      "sha256": "724d4f253bba6ab6162cb65c2fc118ca0bac8469c8bb4d0b54c86dedd3793ab3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/passenger_track_load.csv",
+      "path": "output/corridor/station_track_closure/passenger_track_load.csv",
+      "sha256": "d5a9a48fd829efa69ded5c919c25ed728b9a6f0da8b4bd05e528f6457823763a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/previous_plan.json",
+      "path": "output/corridor/station_track_closure/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/resolution.json",
+      "path": "output/corridor/station_track_closure/resolution.json",
+      "sha256": "d44a3815c149b5fa7031d3e4123dacf095bf74f20d9690bf4f32008819ba9850"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/station_track_closure/scenario.json",
+      "path": "output/corridor/station_track_closure/scenario.json",
+      "sha256": "daf8f100eb9c9444c6d6237d46807af7e3b60365a67e3774542fb9aa7d8ebd39"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/summary.json",
+      "path": "output/corridor/summary.json",
+      "sha256": "9da004ef446956f564727ab2fd7ba6e81eb15281de7a87e2986e6e2cbf9e5cbb"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/balanced_plan.json",
+      "path": "output/corridor/ten_incidents/balanced_plan.json",
+      "sha256": "d4d09516a5743a5b0a76efc8bd3b9c7b998a01c78d6c9dd5fa4374fa7a16736d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/balanced_track_load.csv",
+      "path": "output/corridor/ten_incidents/balanced_track_load.csv",
+      "sha256": "a465c4f38768e6314359390b3b9fd9a81d06f409b89bdfae09a8c1dcac5c8caa"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/eco_plan.json",
+      "path": "output/corridor/ten_incidents/eco_plan.json",
+      "sha256": "29eb3a9ac9b99d51cee780c145c6f1f44a6ae099a3d336a7a9af235182d35d3f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/eco_track_load.csv",
+      "path": "output/corridor/ten_incidents/eco_track_load.csv",
+      "sha256": "7880cfe9bee78ad5d28d4d562d1efd323b38e2bde60757084dc86454130bfb00"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/passenger_plan.json",
+      "path": "output/corridor/ten_incidents/passenger_plan.json",
+      "sha256": "b35ac2acfab844006fccb9fc0fde30ff4f6accf469e4bdea37552ab4f0b5a67d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/passenger_track_load.csv",
+      "path": "output/corridor/ten_incidents/passenger_track_load.csv",
+      "sha256": "9f005f1dadfec2a1fe4143bc4d7fcbaba242c979968e011bed9cbea92fd45838"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/previous_plan.json",
+      "path": "output/corridor/ten_incidents/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/resolution.json",
+      "path": "output/corridor/ten_incidents/resolution.json",
+      "sha256": "1f1b6a2ebea2a38a8835e330da3a335ffdcc1263ce948abbbbda2592deebc4d3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/ten_incidents/scenario.json",
+      "path": "output/corridor/ten_incidents/scenario.json",
+      "sha256": "d644969b27b85b1a384f5b54716847989a83c042b97dccc87d83a8e0da609811"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/balanced_plan.json",
+      "path": "output/corridor/train_delay/balanced_plan.json",
+      "sha256": "db695eab10c3ebabb95fdd21545bf979a6480defc8e199b293032739aee32432"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/balanced_track_load.csv",
+      "path": "output/corridor/train_delay/balanced_track_load.csv",
+      "sha256": "f6a755d0ed1c5ecf213639ee492a1dc8047ca1260fbd2d577d9c3b80c2466d76"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/eco_plan.json",
+      "path": "output/corridor/train_delay/eco_plan.json",
+      "sha256": "1047f78de0a021578e3b94956dac50013403683c4eef3b763e48feb745eff45d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/eco_track_load.csv",
+      "path": "output/corridor/train_delay/eco_track_load.csv",
+      "sha256": "ac24e359dbd5d4325418ce40fb1aa7a86c5af5b1a8a6a85b76fc6fbd192dc6a2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/passenger_plan.json",
+      "path": "output/corridor/train_delay/passenger_plan.json",
+      "sha256": "dcb45481878a3d10b81453e2e875de24fbc11e4332ba94f56b9338c69565da08"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/passenger_track_load.csv",
+      "path": "output/corridor/train_delay/passenger_track_load.csv",
+      "sha256": "68881399fc3a7c09f9d4c278b4f6b2d81535955214a46e245d1be084cf016a65"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/previous_plan.json",
+      "path": "output/corridor/train_delay/previous_plan.json",
+      "sha256": "6a98d68046a4d1bf04141d96e0a71aa88cdfa192eb1e23301d56b82561da2ed7"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/resolution.json",
+      "path": "output/corridor/train_delay/resolution.json",
+      "sha256": "d940e166d4341cd75d541ad73aec650fd9f8b9d3b46fc31fd8f0421b5b88683e"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/train_delay/scenario.json",
+      "path": "output/corridor/train_delay/scenario.json",
+      "sha256": "837950e5f0e99827461c9c7d9be5da2691ff8a3381388f314ffcd6dc6718d5d3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/corridor/verification.json",
+      "path": "output/corridor/verification.json",
+      "sha256": "f1f9c42dc3b62719922a66abf64d7323986636875fc69919acca240b58ac0e7c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/comparison.csv",
+      "path": "output/five_trains/comparison.csv",
+      "sha256": "9326c32d3c43e051ae926ae3c1a7b2b0b47fa23c363d20d00b70dcb94d2512d9"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/fcfs.json",
+      "path": "output/five_trains/fcfs.json",
+      "sha256": "811e1f05dac3803b1aba2f68958efd8b196094ccc44dfc4c99b6adb40b64a62a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/fcfs_metrics.json",
+      "path": "output/five_trains/fcfs_metrics.json",
+      "sha256": "97daf70dca73fd06cb93d83abbbd187db3fa45f71cdb7fb98d5c6ae3d78362e4"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/infrastructure_audit.json",
+      "path": "output/five_trains/infrastructure_audit.json",
+      "sha256": "c2ba9b24c9d40d3a5f47b4613f8379df804472802da966ca8ed4ac0ddbcc130f"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/normal/active_plan.json",
+      "path": "output/five_trains/normal/active_plan.json",
+      "sha256": "5d718c4102f39de81bb12280205ad4f833177a2a824d86187af5b85d1c5b4007"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/normal/balanced_track_load.csv",
+      "path": "output/five_trains/normal/balanced_track_load.csv",
+      "sha256": "b29f6fcfb0ca7c01b5949f1df370f2fd9ad39485d96ea1610736c5e9598aa166"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/normal/result.json",
+      "path": "output/five_trains/normal/result.json",
+      "sha256": "3ac569b70f7cd07320d2523e7c931be06225a3c01d7be506d196e22b002b217b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/normal/scenario.json",
+      "path": "output/five_trains/normal/scenario.json",
+      "sha256": "c9dab8df5b92d8f9ab7d23f4f7576cfb1c7bff7d41f069f6fc5526aae0ee6862"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_loco_failure/balanced_plan.json",
+      "path": "output/five_trains/railsim_loco_failure/balanced_plan.json",
+      "sha256": "03617afaac9fd071d9db2ce372d74d7d0362cdac7b4e3c91515ca640cc7c52d5"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_loco_failure/balanced_track_load.csv",
+      "path": "output/five_trains/railsim_loco_failure/balanced_track_load.csv",
+      "sha256": "37ec05f2dde488fe94a6a67e4a04bd65bc512d816c393bb0a2460295eed915ca"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_loco_failure/previous_plan.json",
+      "path": "output/five_trains/railsim_loco_failure/previous_plan.json",
+      "sha256": "5d718c4102f39de81bb12280205ad4f833177a2a824d86187af5b85d1c5b4007"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_loco_failure/resolution.json",
+      "path": "output/five_trains/railsim_loco_failure/resolution.json",
+      "sha256": "d4d7eafa9eb610dff6b4bb93498289ad9d2f3f5b0452f3bcbf2b88adeb80e6ae"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_loco_failure/scenario.json",
+      "path": "output/five_trains/railsim_loco_failure/scenario.json",
+      "sha256": "e3177dfb6d17d80ffed300117ceda8cf10ff5782568f5bfa932f9fb4d1cdb4d2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_snow/balanced_plan.json",
+      "path": "output/five_trains/railsim_snow/balanced_plan.json",
+      "sha256": "07a2202fff586eb5fa8a9f0c933228e00768222edf0f45e8f83ce87d01510baf"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_snow/balanced_track_load.csv",
+      "path": "output/five_trains/railsim_snow/balanced_track_load.csv",
+      "sha256": "606258be20d0a363a90bc6bced0063c4b6cb0f8e3b39b7f01586fd0ecd542e75"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_snow/previous_plan.json",
+      "path": "output/five_trains/railsim_snow/previous_plan.json",
+      "sha256": "5d718c4102f39de81bb12280205ad4f833177a2a824d86187af5b85d1c5b4007"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_snow/resolution.json",
+      "path": "output/five_trains/railsim_snow/resolution.json",
+      "sha256": "23e4eca6e5194d9d0117b9a0fd156dcca5bdef85ddb89f2e7e425e78bd93e771"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/railsim_snow/scenario.json",
+      "path": "output/five_trains/railsim_snow/scenario.json",
+      "sha256": "ec2f2e503bfc4329563c30f203e278bfea1074be7b0fb8f3e0b3dfc5a9abdfba"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/five_trains/summary.json",
+      "path": "output/five_trains/summary.json",
+      "sha256": "bc9c41252f7fba0252cfcbe0a89bc16fe76750c074f5d7753e5e4cfcfe36da32"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/attribution.csv",
+      "path": "output/railsim/attribution.csv",
+      "sha256": "b1c2a4b855626ca0359e17591adb34a161ed3fe3db0ad89d283e6e17daa6b32b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/auto_constraints.json",
+      "path": "output/railsim/auto_constraints.json",
+      "sha256": "348e879f5835ea8794185fb1666d256448722354fb4a84c5d4127bd0a6bd4160"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/baseline_constraints.json",
+      "path": "output/railsim/baseline_constraints.json",
+      "sha256": "a07167e375f7843e91d147c4f26684e0f9602323730b684d7edcd47cbb459130"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/configuration.json",
+      "path": "output/railsim/configuration.json",
+      "sha256": "2db920bba39b07bad950666c3e6af3d031a7aa4c0e4a32fcc7dd8d734a7cba57"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/configuration.py",
+      "path": "output/railsim/configuration.py",
+      "sha256": "547df7741c6299d2fb9f321b00768c4bc86987eab0aab934b73064ee55ea15a0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/kpi.png",
+      "path": "output/railsim/kpi.png",
+      "sha256": "f5ad0f31e3e8b51982daf7ac450160b04408c72a9f09843ca6c28d8f516d82c0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/planner_result.json",
+      "path": "output/railsim/planner_result.json",
+      "sha256": "56609622646da91177057b569cb13145cca76fd8bcb72b5b9036e237b2020544"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/planner_result_plan.json",
+      "path": "output/railsim/planner_result_plan.json",
+      "sha256": "964cd0865f6ba277c444628f0b469f4c30e685bd728b0d4e57ab9c11bec9f25d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/report.json",
+      "path": "output/railsim/report.json",
+      "sha256": "ded6c8379990dd523a584575a11258c88662a7dafb444ee7a8e6a814d1f843a2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/runs.csv",
+      "path": "output/railsim/runs.csv",
+      "sha256": "ff8bcbcc86e49845d71a1da01152c3a1b280cd43242d0cb8e1b77eb6321978d8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/shared_events.json",
+      "path": "output/railsim/shared_events.json",
+      "sha256": "08baa03ca5e2506144a6725b8cf6a28dad0193895abb3e12f47a614bce21904d"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/string_diagram.png",
+      "path": "output/railsim/string_diagram.png",
+      "sha256": "355e7719cc25904d0dbf941e57a7961a457a2bf157a89612e1abb65e23d50dfa"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/summary.csv",
+      "path": "output/railsim/summary.csv",
+      "sha256": "7b1dd88b025ca3701e82def3a7bc039a73181c127d6fb79a4d7ddaf6e8707eac"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "output/railsim/trajectories.json",
+      "path": "output/railsim/trajectories.json",
+      "sha256": "f44c747abfd67d1b4e9048bc86bb73673ed66e3e2868dbfa5878888abd3e2da0"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "parser/railway_parser.py",
+      "path": "parser/railway_parser.py",
+      "sha256": "0ec42af52a0caa3945631ea0155790dfaaa35049a71ead4db70264c994d572de"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "pyproject.toml",
+      "path": "pyproject.toml",
+      "sha256": "4c13b158dc4b97d1199e41ad22be5174a8ead9875a30d10b07c4bbd0d90934e9"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "railway_parser.py",
+      "path": "railway_parser.py",
+      "sha256": "3a309158ffb3d53463c9c46d30ddbdbb7cd480fd2c110fdad105f054040d3373"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "requirements-lock.txt",
+      "path": "requirements-lock.txt",
+      "sha256": "d69ad749b69a3c55894a81461c74877142fc00175088f744df42325afdde5e88"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "scenarios/astana-kokshetau.json",
+      "path": "scenarios/astana-kokshetau.json",
+      "sha256": "5f004eea66c351617898e288c1bd40ed510fa5f10345dd46ff819d161ddccc5c"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "scenarios/baseline-plan.json",
+      "path": "scenarios/baseline-plan.json",
+      "sha256": "cb9e4ad0a4b186a34f8b37afbe48177cfe7bddaa248d444839bba36b0503cceb"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "scenarios/kokshetau_nurly_zhol.json",
+      "path": "scenarios/kokshetau_nurly_zhol.json",
+      "sha256": "128a158911e3f0393490258df87250214b402fc1ba9fdcd2729bbc5a914bd819"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "scripts/build_corridor.py",
+      "path": "scripts/build_corridor.py",
+      "sha256": "681ccdd8d0800caec99660583b21ada377a51d54e79611ad4207dabb966c4976"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "scripts/freeze_baseline.py",
+      "path": "scripts/freeze_baseline.py",
+      "sha256": "bbb31570b53d2c8cac08c8d83b58b4dae8692f507a97f2ce3232205a591837f8"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "scripts/smoke_live.py",
+      "path": "scripts/smoke_live.py",
+      "sha256": "55177ce776d1138cbf9d87d1b63a15c17afa3fc717b5d53aa3120266a881f751"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "tests/test_railway_parser.py",
+      "path": "tests/test_railway_parser.py",
+      "sha256": "c79f211bd3936a06e066f653f685776f1a57a25334b601a9c04d282c498100ec"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "tools/build_corridor_data.py",
+      "path": "tools/build_corridor_data.py",
+      "sha256": "e62f5bf7fffee696780d8c986d7edf0ff6e1a357cbd59c22d1e89ceb7ed9a572"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/README.md",
+      "path": "vendor/railsim/README.md",
+      "sha256": "6d7d482b596444ca07618172b690eb1bbaa1255fef4b77440a274e6fafce5b04"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/config.py",
+      "path": "vendor/railsim/config.py",
+      "sha256": "c6150c6511758671cbdcc67ed13ce86cfcd84693ae35a90c6056e3978d93e45a"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/main.py",
+      "path": "vendor/railsim/main.py",
+      "sha256": "5e22a28c1ba0232565e8d40a879a0d7d113439141ca33af8c7bb80d3851ef8d1"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/__init__.py",
+      "path": "vendor/railsim/railsim/__init__.py",
+      "sha256": "88279e3684be0fb3a8a566e98b7d6490a1fc34cbdee4816e977b363b58031738"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/economics.py",
+      "path": "vendor/railsim/railsim/economics.py",
+      "sha256": "a80faf1ebc8860ef6c2798ae8c557ad1915c44050028d11f686dd22529f20d53"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/energy.py",
+      "path": "vendor/railsim/railsim/energy.py",
+      "sha256": "8c775bf12f89d9317134bd2e172e8da226f5828b1eea48f609b3fd820381e5d2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/hazards.py",
+      "path": "vendor/railsim/railsim/hazards.py",
+      "sha256": "9a80362d53e337c163444a57cdfc883577e7426b43724d509653a8c81e637af3"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/line.py",
+      "path": "vendor/railsim/railsim/line.py",
+      "sha256": "f12cd3a31147d714cd9e67af3167d74abbdf3cc8d323572d39480f41978e966b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/plots.py",
+      "path": "vendor/railsim/railsim/plots.py",
+      "sha256": "012e0cfe94acd8a987bde3d7baa6b608920022b18eb814a44f1917db5189e698"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/simulation.py",
+      "path": "vendor/railsim/railsim/simulation.py",
+      "sha256": "ae267e1eb077cf1acd6cae6222c7565049eb3de0f24027a20425e40c9e6623c5"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/terminals.py",
+      "path": "vendor/railsim/railsim/terminals.py",
+      "sha256": "66714c2de0c12f1334c3674690356cc7a4e57a312c10f9583a15e23eb2e9369b"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/trains.py",
+      "path": "vendor/railsim/railsim/trains.py",
+      "sha256": "36f4be648d6f8c8cff8611962b32808ba1192052d21a7e958535b7841182e169"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/util.py",
+      "path": "vendor/railsim/railsim/util.py",
+      "sha256": "2c5e33803a69364f3761f8258d057e6baf048e85906c512be8314aaf7fb465f2"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/validate.py",
+      "path": "vendor/railsim/railsim/validate.py",
+      "sha256": "4dc0d920e6e079420b3fa4c7a73717bfc29ea1a439a9958c1d4bb0c81fca6e60"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/railsim/wagons.py",
+      "path": "vendor/railsim/railsim/wagons.py",
+      "sha256": "ce4fa81b73e0f5af5b4c659b923b634c40fb05701cb5eb4b81f3bf0d23e91e49"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "vendor/railsim/requirements.txt",
+      "path": "vendor/railsim/requirements.txt",
+      "sha256": "3392b146148c00e55b63329c7e077eb669fdba84fd68b4d17914ee87d236e434"
+    },
+    {
+      "branch": "M_part",
+      "source_path": "Автодиспетчер_презентация 1.10.pdf",
+      "path": "Автодиспетчер_презентация 1.10.pdf",
+      "sha256": "2a2c34996a9de8f31e4c80b91298a69263ea77b8c78d47d40cabe822fca7ab38"
+    },
+    {
+      "branch": "era",
+      "source_path": "README.md",
+      "path": "docs/sources/era-README.md",
+      "sha256": "813ca865f62e25248c5a3865255768cea1db3b1b1c1eeee9ba403e1c861d06d5"
+    },
+    {
+      "branch": "era",
+      "source_path": "build_network.py",
+      "path": "build_network.py",
+      "sha256": "cb01cba1ac96a6649067c14fc3b9e3bb50c6fcd8fb3dee3d3d6b8db0f39a628d"
+    },
+    {
+      "branch": "era",
+      "source_path": "map.html",
+      "path": "map.html",
+      "sha256": "7b4b2b1ff903e29d92ae1c0d1938a7517e06b62fc1e68998c2bef77a7d99bc58"
+    },
+    {
+      "branch": "era",
+      "source_path": "map_data.js",
+      "path": "map_data.js",
+      "sha256": "0fa8ff711435362b895b1b7bb178a97d28e92e362ddbd22b6a10755f98087e0a"
+    },
+    {
+      "branch": "era",
+      "source_path": "network.json",
+      "path": "network.json",
+      "sha256": "0e2afbfdd6027e6ef0ec2ba38ce070affe8e11b82f8d2927c706d9fe197eaaeb"
+    }
+  ],
+  "note": "M_part already contains logic. Existing M_part files are preserved, including its earlier import adapters. era README is preserved under docs/sources because root README belongs to M_part.",
+  "logic_changes_already_in_M_part": [
+    "backend/app/advisory/speed.py",
+    "backend/app/cli.py",
+    "backend/app/demo_advisory.py",
+    "backend/app/demo_metrics.py",
+    "backend/app/demo_planning.py",
+    "backend/app/demo_validation.py",
+    "backend/app/domain.py",
+    "backend/app/integration.py",
+    "backend/app/main.py",
+    "backend/app/metrics/economics.py",
+    "backend/app/metrics/load.py",
+    "backend/app/metrics/quality.py",
+    "backend/app/planning/baseline.py",
+    "backend/app/planning/common.py",
+    "backend/app/planning/service.py",
+    "backend/app/planning/solver.py",
+    "backend/app/realism/configuration.py",
+    "backend/app/realism/incidents.py",
+    "backend/app/realism/service.py",
+    "backend/app/scenarios.py",
+    "backend/app/simulator.py",
+    "backend/app/storage.py",
+    "backend/app/validation/plan.py"
+  ]
+}
