@@ -5,3 +5,6 @@ data/
 .env
 .build/
 test-results/
+node_modules/
+frontend/dist/
+*.tsbuildinfo

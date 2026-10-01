@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Railflow · 3D network</title><link rel="stylesheet" href="scene.css"></head>
+<body>
+<div id="viewport" aria-label="Interactive 3D railway view"></div>
+<div id="labels" aria-hidden="true"></div>
+<header class="scene-heading"><span class="eyebrow">RAILFLOW / 3D</span><h1 id="scene-title">Railway network</h1><p id="scene-status">Loading track geometry…</p></header>
+<div class="tools" aria-label="Camera controls"><button id="follow" aria-pressed="false">Follow train</button><button id="whole-train">Whole train</button><button id="overview">Network</button><button id="fullscreen" title="Toggle fullscreen">⛶</button></div>
+<div class="places"><input id="station-search" list="station-places" aria-label="Move camera to a station" placeholder="Find a station or stop…"><datalist id="station-places"></datalist><span>© OpenStreetMap contributors · stylized buildings</span></div>
+<aside id="layers" hidden><strong>Visible layers</strong><label><input type="checkbox" data-layer="stations" checked> Stations & stops</label><label><input type="checkbox" data-layer="signals" checked> Signals & switches</label><label><input type="checkbox" data-layer="authority" checked> Occupied & reserved blocks</label><label><input type="checkbox" data-layer="labels" checked> Labels</label><small>Signals and authority come from the running simulation.</small></aside>
+<footer><span><i class="dot occupied"></i>Occupied <i class="dot reserved"></i>Reserved</span><span class="camera-hint">Drag to orbit · right-drag to pan · scroll to zoom · click a train to inspect</span><span id="scale">N ↑</span></footer>
+<div id="loading" role="status"><div class="loader"></div><strong>Building your railway view</strong><span>Loading existing tracks and low-poly models</span></div>
+<script type="module" src="scene.js"></script>
+</body></html>

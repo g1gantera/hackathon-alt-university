@@ -1,0 +1,8 @@
+{
+  "source": "network.json",
+  "sha256": "0e2afbfdd6027e6ef0ec2ba38ce070affe8e11b82f8d2927c706d9fe197eaaeb",
+  "bytes": 18011916,
+  "modelsBranch": "M_part",
+  "modelsCommit": "5522f5cf3b631c41a6f886686e44928c65e70f3b",
+  "modelsBlob": "7da14bf4b9b660ed61cf713ecdf6ee9cff15cfbe"
+}

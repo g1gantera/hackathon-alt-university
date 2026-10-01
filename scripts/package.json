@@ -1,0 +1,12 @@
+{
+  "name": "railflow-era-visuals",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:3d": "node build_scene3d.mjs",
+    "test:3d": "node --experimental-strip-types --test scene3d-tests/*.test.mjs",
+    "check:3d": "tsc -p scene3d-tsconfig.json"
+  },
+  "dependencies": {"three": "0.180.0"},
+  "devDependencies": {"@types/three": "0.180.0", "esbuild": "0.25.12", "typescript": "5.8.3"}
+}

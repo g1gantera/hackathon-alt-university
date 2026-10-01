@@ -1,0 +1,9 @@
+.scene3d-view-switch{display:inline-flex;flex-shrink:0;gap:2px;padding:3px;border:1px solid #dce5da;border-radius:7px;background:#f4f7f1}
+.map-tools .scene3d-view-switch button{min-width:32px;padding:5px 8px;border:0;border-radius:4px;background:transparent;color:#637460;font-size:10px;font-weight:700;line-height:1.2}
+.map-tools .scene3d-view-switch button[aria-pressed="true"]{background:#2e513b;color:#fff;box-shadow:0 1px 3px #193a2426}
+.map-tools .scene3d-view-switch button:focus-visible{outline:2px solid #648959;outline-offset:3px}
+.map-wrapper.is-3d{height:520px}
+.map-wrapper.is-3d .map-legend{display:none}
+.scene3d-view-hint{margin:0;padding:8px 15px;background:#f6f8f3;border-top:1px solid #e9eee5;color:#637460;font-size:10px;line-height:1.5}
+.scene3d-view-hint[hidden]{display:none}
+@media(max-width:650px){.map-panel .map-tools{flex-wrap:wrap;gap:6px}.scene3d-view-hint{padding-inline:12px}}
