@@ -34,6 +34,7 @@ def test_logic_live_state_profiles_and_decision_hold():
 
 
 def test_logic_api_plan_apply_history_csv_and_scenario(tmp_path, monkeypatch):
+    monkeypatch.setattr(main,'demo_mode',True)
     monkeypatch.setenv('DISPATCH_ENGINE','logic')
     monkeypatch.setenv('DATABASE_URL',f'sqlite:///{tmp_path / "logic.sqlite"}')
     with TestClient(main.app) as client:

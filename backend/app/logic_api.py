@@ -10,10 +10,10 @@ from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel, Field
 
 from .domain import ROOT
-from .integration import LogicSimulator, config_for, scenario_for
+from .integration import LogicSimulator, config_for, scenario_for, compact_state
 from .metrics.economics import EconomicsRates, compare_plan_costs
 from .metrics.load import calculate_track_load
-from .metrics.quality import calculate_metrics
+from .metrics.quality import MetricConfig, calculate_metrics
 from .schemas import Plan, Scenario
 from .validation.plan import validate_plan
 
@@ -60,7 +60,7 @@ def diagnose(state):
 @router.get("/metrics")
 async def native_metrics(request: Request):
     sim = simulator(request)
-    state = copy.deepcopy(sim.state)
+    state = compact_state(sim.state)
     actual = sim.snapshot()["metrics"]
     report = await asyncio.to_thread(diagnose, state)
     return {
@@ -75,7 +75,7 @@ async def native_metrics(request: Request):
 async def track_load(
     request: Request, start_s: int = Query(0, ge=0), end_s: int | None = Query(None, ge=1)
 ):
-    state = copy.deepcopy(simulator(request).state)
+    state = compact_state(simulator(request).state)
     scenario = scenario_for(state)
     plan = Plan.model_validate(state["active_plan"]["_native"])
     try:
@@ -106,7 +106,9 @@ async def example_rates(request: Request):
 @router.post("/economics")
 async def economics(body: EconomicRequest, request: Request):
     sim = simulator(request)
-    state, candidates = copy.deepcopy(sim.state), copy.deepcopy(sim.plans)
+    state = compact_state(sim.state)
+    candidates = {key: {k: v for k, v in plan.items() if k != '_profiles'}
+                  for key, plan in sim.plans.items()}
     available = {state["active_plan"]["id"]: state["active_plan"], **candidates}
     if body.reference_plan_id not in available:
         raise HTTPException(
@@ -152,7 +154,7 @@ async def realism(body: RealismRequest, request: Request):
 
     if sim.replanning or getattr(main.app.state, "realism_running", False):
         raise HTTPException(409, "A calculation is already running; retry when it completes")
-    state = copy.deepcopy(sim.state)
+    state = compact_state(sim.state)
     main.app.state.realism_running = True
     try:
         report = await asyncio.to_thread(
@@ -166,3 +168,55 @@ async def realism(body: RealismRequest, request: Request):
         "applied_to_live": False,
         "report": report,
     }
+
+
+@router.get("/metric-config")
+async def metric_config(request: Request):
+    return config_for(simulator(request).state).model_dump()
+
+
+@router.put("/metric-config")
+async def update_metric_config(body: MetricConfig, request: Request):
+    from . import main, metric_settings
+    sim = simulator(request, "admin")
+    if sim.replanning:
+        raise HTTPException(409, "Wait until calculation completes")
+    version = (sim.state["epoch"], sim.state["state_version"])
+    sim.replanning = True
+    try:
+        # Re-score an isolated copy; viewers continue receiving the current state.
+        def prepare():
+            candidate = copy.copy(sim)
+            candidate.state = compact_state(sim.state)
+            candidate.plans = {}
+            candidate.state["metric_config"] = body.model_dump()
+            candidate.update_settings(candidate.state["settings"])
+            return candidate
+        candidate = await asyncio.to_thread(prepare)
+        if version != (sim.state["epoch"], sim.state["state_version"]):
+            raise HTTPException(409, "State changed; retry saving the settings")
+        metric_settings.save(body)
+        sim.state, sim.plans = candidate.state, {}
+        sim._validation_cache = None
+        main.emit("settings.updated", {"metric_config": body.model_dump()})
+    finally:
+        sim.replanning = False
+        main.publish()
+    return body.model_dump()
+
+
+@router.get("/performance")
+async def performance(request: Request):
+    simulator(request)
+    from . import main
+    times = list(main.state_times)
+    gaps = [b-a for a,b in zip(times,times[1:])]
+    samples = list(main.paint_samples)
+    latencies = sorted(s["event_to_ack_ms"] for s in samples)
+    return {"ingestion": main.ingestion.status if main.ingestion else None,"state_events": len(times), "target_hz": 2,
+            "mean_hz": (len(gaps)/sum(gaps)) if gaps and sum(gaps) else None,
+            "max_stream_gap_ms": max(gaps, default=0)*1000,
+            "paint_samples": samples,
+            "paint_max_ms": max(latencies, default=None),
+            "paint_p95_ms": latencies[min(len(latencies)-1,int(len(latencies)*.95))] if latencies else None,
+            "measurement": "Start of snapshot construction, through normalization service, to browser acknowledgement after React commit and two animation frames; includes return network time. Visible tabs only; no guarantee on hidden tabs or other machines."}

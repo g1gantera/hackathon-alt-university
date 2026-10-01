@@ -19,8 +19,11 @@ def test_component_sources_preserved_except_documented_approved_changes():
     changes = json.loads((ROOT / "integration/backend-changes.json").read_text())
     assert set(changes) == {"backend/app/integration.py", "backend/app/main.py"}
     frontend_changes = json.loads((ROOT / "integration/frontend-changes.json").read_text())
-    assert set(frontend_changes) == {"frontend/src/types.ts", "frontend/src/App.tsx"}
+    assert set(frontend_changes) == {"frontend/src/types.ts", "frontend/src/App.tsx", "frontend/src/Map.tsx", "frontend/src/MetricSettings.tsx"}
     changes.update(frontend_changes)
+    regulation_changes = json.loads((ROOT / "integration/regulation-changes.json").read_text())
+    assert all(not p.startswith(("vendor/", "frontend/")) for p in regulation_changes)
+    changes.update(regulation_changes)
     assert all(changes.values())
     for entry in manifest["files"]:
         if entry["path"] in changes:

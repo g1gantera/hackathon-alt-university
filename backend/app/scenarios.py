@@ -112,6 +112,7 @@ def corridor_scenario(
                 id=item["id"],
                 name=item["name"],
                 clearance_s=120,
+                switch={"id": "throat", "clearance_s": 15},
                 tracks=[
                     Track(id=f"SIM-{i + 1}", length_m=item["model_track_length_m"])
                     for i in range(item["model_track_count"])

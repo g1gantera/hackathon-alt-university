@@ -59,6 +59,12 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
                 train.id,
             )
         )
+    from backend.app.switches import reservations as switch_reservations
+    for reservation in switch_reservations(scenario.model_dump(), plan.model_dump()):
+        reservations.append((reservation["resource"], reservation["start_s"],
+                             reservation["end_s"], reservation["train_id"]))
+        if reservation["end_s"] > scenario.horizon_s:
+            add("HORIZON", "Switch release exceeds planning horizon", [reservation["train_id"]])
     for train in scenario.trains:
         for origin, destination in zip(train.route, train.route[1:]):
             move = moves[(train.id, origin)]

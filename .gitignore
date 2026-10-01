@@ -29,6 +29,7 @@ coverage/
 # Runtime data and raw download cache; keep the application GeoJSON
 data/*.sqlite*
 data/*.db*
+data/*.runtime.json
 data/overpass.json
 .logs/
 *.log

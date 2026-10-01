@@ -1,6 +1,8 @@
 """Forecast-only metrics; identical normalization for every candidate plan."""
 
 import json
+import math
+from typing import Literal
 from pathlib import Path
 
 from pydantic import Field, model_validator
@@ -12,6 +14,7 @@ from backend.app.validation.plan import validate_plan
 
 
 class MetricConfig(Model):
+    formula: Literal["weighted_sum", "weighted_geometric"] = "weighted_sum"
     weights: dict[str, float] = Field(
         default_factory=lambda: {
             "punctuality": 0.30,
@@ -37,6 +40,31 @@ class MetricConfig(Model):
         if self.attention_threshold >= self.normal_threshold:
             raise ValueError("Thresholds must satisfy attention < normal")
         return self
+
+    def score(self, components):
+        known = {k: v for k, v in components.items() if v is not None and self.weights[k] > 0}
+        total = sum(self.weights[k] for k in known)
+        if not total:
+            return None
+        if self.formula == "weighted_geometric":
+            value = 0 if any(v <= 0 for v in known.values()) else math.exp(
+                sum(self.weights[k] * math.log(v) for k, v in known.items()) / total)
+        else:
+            value = sum(self.weights[k] * v for k, v in known.items()) / total
+        return round(100 * value, 2)
+
+    def category(self, score, applicable=True):
+        if score is None:
+            return "Нет данных"
+        if not applicable or score < self.attention_threshold:
+            return "Критично"
+        return "Норма" if score >= self.normal_threshold else "Внимание"
+
+    def contributions(self, components):
+        total = sum(self.weights[k] for k, v in components.items() if v is not None)
+        return {k: (100 * self.weights[k] * v / total
+                    if v is not None and total and self.formula == "weighted_sum" else None)
+                for k, v in components.items()}
 
     @classmethod
     def load(cls, path: str | Path):
@@ -165,18 +193,8 @@ def calculate_metrics(
         "conflicts": 0.0 if violations else 1.0,
         "arrival_accuracy": on_time,
     }
-    quality = (
-        round(100 * sum(config.weights[k] * v for k, v in components.items()), 2)
-        if all(v is not None for v in components.values())
-        else None
-    )
-    category = (
-        "Критично"
-        if not applicable or quality < config.attention_threshold
-        else "Норма"
-        if quality >= config.normal_threshold
-        else "Внимание"
-    )
+    quality = config.score(components) if all(v is not None for v in components.values()) else None
+    category = config.category(quality, applicable) if applicable else "Критично"
     return Metrics(
         kind="synthetic_forecast"
         if scenario.metadata.get("traffic", {}).get("source") == "synthetic"

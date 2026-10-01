@@ -214,6 +214,9 @@ def observed_conflicts(state):
             *sections[move["section_id"]]["shared_resources"],
         ):
             reserve(resource, move["start_s"], move["release_s"], move["train_id"])
+    from .switches import reservations as switch_reservations
+    for item in switch_reservations(state["scenario"], plan["_native"]):
+        reserve(item["resource"], item["start_s"], item["end_s"], item["train_id"])
     count = 0
     for entries in reservations.values():
         for i, (start, end, _) in enumerate(entries):
@@ -250,20 +253,12 @@ def actual_metrics(state, fleet, config, violations):
         "arrival_accuracy": on_time,
     }
     # Before the first arrival, accuracy is unknown; expose a provisional index.
-    known_weight = sum(config.weights[k] for k, v in components.items() if v is not None)
-    index = (
-        round(
-            100
-            * sum(config.weights[k] * v for k, v in components.items() if v is not None)
-            / known_weight,
-            2,
-        )
-        if known_weight
-        else 0.0
-    )
+    index = config.score(components)
     return {
         "kind": "synthetic_actual",
         "index": index,
+        "category": config.category(index, not conflicts),
+        "contributions": config.contributions(components),
         "components": components,
         "provisional": on_time is None,
         "config": config.model_dump(),

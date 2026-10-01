@@ -121,6 +121,19 @@ def solve_plan(
                 if key in tracks:
                     model.add(chosen == int(track.id == tracks[key]))
             model.add_exactly_one(options.values())
+            if station.switch:
+                resource = f"switch:{station_id}:{station.switch.id}"
+                clearance = station.switch.clearance_s
+                if index > 0:
+                    resources[resource].append(model.new_fixed_size_interval_var(
+                        arrival, clearance, f"switch_arrival_{key}"))
+                    model.add(arrival + clearance <= scenario.horizon_s)
+                if index < len(train.route) - 1:
+                    resources[resource].append(model.new_fixed_size_interval_var(
+                        departure, clearance, f"switch_departure_{key}"))
+                    model.add(departure + clearance <= scenario.horizon_s)
+                    if index > 0:
+                        model.add(departure >= arrival + clearance)
             stop_vars[key] = (arrival, departure, options)
             if key in seed_stops:
                 hint = seed_stops[key]

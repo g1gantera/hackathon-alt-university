@@ -8,6 +8,7 @@ import os
 import secrets
 import time
 import uuid
+from collections import deque, OrderedDict
 from concurrent.futures import ProcessPoolExecutor
 from contextlib import asynccontextmanager, suppress
 from typing import Literal
@@ -20,9 +21,10 @@ from pydantic import BaseModel, Field, model_validator, ValidationError
 
 from .domain import ROOT, movement_profile
 from .demo_metrics import DEFAULT_SETTINGS, metrics
-from .integration import build_plans, warm_worker, validate_plan, LogicSimulator, public_plan, INCIDENTS
+from .integration import build_plans, warm_worker, validate_plan, LogicSimulator, public_plan, compact_state, INCIDENTS
 from .simulator import Simulator
 from .storage import Store
+from .ingestion_client import IngestionClient
 
 logger = logging.getLogger('dispatch')
 logging.basicConfig(level=logging.INFO,format='%(message)s')
@@ -34,7 +36,13 @@ sim = None
 store = None
 pool = None
 job_task = None
-demo_mode = os.environ.get('DEMO_MODE','true').lower()=='true'
+ingestion = None
+demo_mode = os.environ.get('DEMO_MODE','false').lower()=='true'
+
+
+performance_events = OrderedDict()
+paint_samples = deque(maxlen=2000)
+state_times = deque(maxlen=2000)
 
 
 def require(request, role='dispatcher'):
@@ -48,9 +56,14 @@ def require(request, role='dispatcher'):
     return session['role']
 
 
-def emit(kind,payload):
+def emit(kind,payload,observed_at=None):
     global seq
     seq += 1
+    performance_events[seq] = observed_at or time.perf_counter()
+    if len(performance_events) > 4000:
+        performance_events.popitem(last=False)
+    if kind == 'state.updated':
+        state_times.append(time.perf_counter())
     event={'type':kind,'seq':seq,'sim_time_s':sim.state['sim_time_s'],
            'state_version':sim.state['state_version'],'plan_id':sim.state['active_plan']['id'],'payload':payload}
     for queue in tuple(clients):
@@ -65,19 +78,37 @@ def emit(kind,payload):
 
 def publish():
     global last_saved_snapshot
+    observed_at=time.perf_counter()
     snapshot=sim.snapshot()
     key=(sim.state['epoch'],sim.state['state_version'])
     if key!=last_saved_snapshot:
         store.save('snapshot',sim.state['epoch'],sim.state['sim_time_s'],snapshot)
         last_saved_snapshot=key
-    emit('state.updated',snapshot)
+    if ingestion is not None:
+        ingestion.publish(snapshot,observed_at)
+    else:
+        deliver_snapshot(snapshot)
+
+
+def deliver_snapshot(snapshot,observed_at=None):
+    # An old service response must not roll the UI back after reset or an incident.
+    if snapshot['epoch'] != sim.state['epoch'] or snapshot['state_version'] < sim.state['state_version']:
+        return
+    emit('state.updated',snapshot,observed_at)
     emit('metrics.updated',snapshot['metrics'])
 
 
 async def ticker():
+    deadline = time.monotonic()
+    previous = deadline
     while True:
-        await asyncio.sleep(1)
-        sim.tick(int(sim.state['speed']))
+        deadline += 0.5  # 2 Hz leaves headroom above the required 1 Hz
+        await asyncio.sleep(max(0, deadline - time.monotonic()))
+        now = time.monotonic()
+        sim.tick((now - previous) * sim.state['speed'])
+        previous = now
+        if now - deadline > 0.5:
+            deadline = now
         publish()
 
 
@@ -100,7 +131,12 @@ async def calculate(job_id, snapshot):
             plan['epoch']=snapshot['epoch']
             plan['constraint_version']=snapshot['constraint_version']
             sim.plans[plan['id']]=plan
-            store.save('plan',snapshot['epoch'],snapshot['sim_time_s'],plan)
+            store.save('plan',snapshot['epoch'],snapshot['sim_time_s'],public_plan(plan) | {'native': plan.get('_native')})
+        result['elapsed_s']=round(time.perf_counter()-began,3)
+        result['within_budget']=result['elapsed_s']<=5
+        for plan in result['plans']:
+            plan['calculation_s']=result['elapsed_s']
+            plan['within_budget']=result['within_budget']
         emit('replan.completed' if result['plans'] else 'replan.failed',{'job_id':job_id,**result,'plans':[public_plan(p) for p in result['plans']]})
     except Exception:
         logger.exception('Planning failed')
@@ -120,15 +156,21 @@ def queue_replan():
     job_id=str(uuid.uuid4())
     if isinstance(sim,LogicSimulator):
         sim.replanning=True
-    job_task=asyncio.create_task(calculate(job_id,copy.deepcopy(sim.state)))
+    job_task=asyncio.create_task(calculate(job_id,compact_state(sim.state) if isinstance(sim,LogicSimulator) else copy.deepcopy(sim.state)))
     return {'job_id':job_id,'status':'queued'}
 
 
 @asynccontextmanager
 async def lifespan(app):
-    global sim,store,pool
+    global sim,store,pool,ingestion,last_saved_snapshot,job_task
     sim=Simulator() if os.environ.get('DISPATCH_ENGINE','logic')=='demo' else LogicSimulator()
     store=Store()
+    last_saved_snapshot=None
+    job_task=None
+    performance_events.clear()
+    paint_samples.clear()
+    state_times.clear()
+    ingestion=IngestionClient(deliver_snapshot)
     pool=ProcessPoolExecutor(max_workers=1)
     await asyncio.get_running_loop().run_in_executor(pool,warm_worker,sim.state)
     publish()
@@ -139,8 +181,10 @@ async def lifespan(app):
         await task
     if job_task and not job_task.done():
         await job_task
+    await ingestion.close()
+    ingestion=None
     pool.shutdown(wait=True,cancel_futures=True)
-    store.engine.dispose()
+    await asyncio.to_thread(store.close)
 
 
 app=FastAPI(title='KTZH | Astana–Kokshetau dispatcher',version='0.1.0',lifespan=lifespan)
@@ -229,7 +273,12 @@ async def control(action:str,request:Request):
     elif action=='reset':
         if sim.replanning:
             raise HTTPException(409,'Wait until calculation completes before reset')
-        sim.reset()
+        sim.replanning=True
+        try:
+            fresh=await asyncio.to_thread(type(sim))
+            sim.__dict__.update(fresh.__dict__)
+        finally:
+            sim.replanning=False
     elif action=='speed':
         try:
             body=Speed.model_validate(await request.json())
@@ -290,6 +339,37 @@ async def incident(body:Incident,request:Request):
     return entry
 
 
+class IncidentBatch(BaseModel):
+    incidents: list[Incident] = Field(min_length=1, max_length=10)
+
+
+@app.post('/api/incidents/batch')
+async def incident_batch(body:IncidentBatch, request:Request):
+    require(request)
+    if not isinstance(sim,LogicSimulator):
+        raise HTTPException(409,'Batch incidents require the logic engine')
+    if sim.replanning:
+        raise HTTPException(409,'Wait until calculation completes')
+    candidate=copy.copy(sim)
+    candidate.state=compact_state(sim.state)
+    for key in ('active_plan','baseline'):
+        candidate.state[key]['_profiles']=sim.state[key]['_profiles']
+    candidate.plans={}
+    try:
+        entries=[candidate.add_incident(i.kind,i.target_id,i.duration_s) for i in body.incidents]
+    except KeyError:
+        raise HTTPException(404,'Unknown incident target; no incidents applied')
+    except ValueError as error:
+        raise HTTPException(409,str(error))
+    sim.state=candidate.state
+    sim.plans.clear()
+    sim._validation_cache=None
+    for entry in entries:
+        emit('incident.created',entry)
+    publish()
+    return {'incidents':entries, **queue_replan()}
+
+
 @app.post('/api/replan')
 async def replan(request:Request):
     require(request)
@@ -313,7 +393,7 @@ async def apply(plan_id:str,request:Request):
     errors=validate_plan(sim.state,plan)
     if errors:
         raise HTTPException(409,{'message':'Plan is no longer feasible; recalculate','violations':errors})
-    sim.state['active_plan']=copy.deepcopy(plan)
+    sim.state['active_plan']=plan
     sim.state['awaiting_plan']=False
     sim.state['state_version']+=1
     sim.plans.clear()
@@ -351,7 +431,8 @@ async def speed_profile(train_id:str,request:Request):
 async def history(request:Request,start:float=Query(0,alias='from',ge=0),end:float=Query(1e10,alias='to',ge=0)):
     require(request,'viewer')
     now=sim.state['sim_time_s']
-    return store.history(sim.state['epoch'],max(start,now-900),min(end,now))
+    await asyncio.to_thread(store.flush)
+    return await asyncio.to_thread(store.history,sim.state['epoch'],max(start,now-900),min(end,now))
 
 
 @app.get('/api/report.csv')
@@ -375,6 +456,8 @@ async def settings(request:Request):
 @app.put('/api/settings')
 async def update_settings(body:Settings,request:Request):
     require(request,'admin')
+    if sim.replanning:
+        raise HTTPException(409,'Wait until calculation completes')
     if isinstance(sim,LogicSimulator):
         sim.update_settings(body.model_dump())
     else:
@@ -404,7 +487,16 @@ async def load_logic_case(kind:str,request:Request):
         raise HTTPException(404,'Unknown scenario')
     if sim.replanning:
         raise HTTPException(409,'Wait until calculation completes')
-    sim.load_case(kind)
+    sim.replanning=True
+    try:
+        def prepare_case():
+            candidate=copy.copy(sim)
+            candidate.load_case(kind)
+            return candidate
+        candidate=await asyncio.to_thread(prepare_case)
+        sim.__dict__.update(candidate.__dict__)
+    finally:
+        sim.replanning=False
     emit('simulation.changed',{'action':'scenario','kind':kind})
     publish()
     queue_replan()
@@ -417,7 +509,7 @@ async def logic_diagnostics(request:Request):
     if not isinstance(sim,LogicSimulator):
         raise HTTPException(409,'Logic engine is not active')
     from .logic_api import diagnose
-    return await asyncio.to_thread(diagnose,copy.deepcopy(sim.state))
+    return await asyncio.to_thread(diagnose,compact_state(sim.state))
 
 
 @app.websocket('/ws')
@@ -439,7 +531,16 @@ async def websocket(ws:WebSocket):
                         'payload':sim.snapshot()})
     async def receive():
         while True:
-            await ws.receive_text()
+            data = await ws.receive_json()
+            if isinstance(data, dict) and data.get('type') == 'paint.ack':
+                event_seq = data.get('seq')
+                started = performance_events.get(event_seq) if isinstance(event_seq, int) else None
+                if started is not None:
+                    elapsed = (time.perf_counter() - started) * 1000
+                    render = data.get('render_ms')
+                    if isinstance(render, (int, float)) and 0 <= render <= 60_000:
+                        paint_samples.append({'seq':event_seq,'event_to_ack_ms':round(elapsed,2),
+                                              'client_render_ms':round(render,2)})
     receiver=asyncio.create_task(receive())
     try:
         while not receiver.done():

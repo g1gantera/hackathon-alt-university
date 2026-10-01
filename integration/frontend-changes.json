@@ -1,4 +1,6 @@
 {
   "frontend/src/types.ts": "User-approved optional fields for native distance, provisional metrics and plan applicability; existing API contracts retained.",
-  "frontend/src/App.tsx": "User-approved distance binding, energy captions, provisional-index notice, invalid-profile/forecast handling and metric-weight explanation; existing layout retained."
+  "frontend/src/App.tsx": "User-approved distance binding, energy captions, provisional-index notice, invalid-profile/forecast handling and metric-weight explanation; existing layout retained. User approved the full regulation patch: metric categories/components and post-render acknowledgements.",
+  "frontend/src/Map.tsx": "Approved regulation patch: show native per-track state and synthetic throat locks.",
+  "frontend/src/MetricSettings.tsx": "Approved regulation patch: configurable five weights, formula, normalizations and category thresholds."
 }

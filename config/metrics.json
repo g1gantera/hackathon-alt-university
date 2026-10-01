@@ -10,5 +10,6 @@
   "arrival_tolerance_s": 60,
   "energy_budget_kwh": 30000,
   "normal_threshold": 80,
-  "attention_threshold": 50
+  "attention_threshold": 50,
+  "formula": "weighted_sum"
 }

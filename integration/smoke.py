@@ -7,11 +7,18 @@ import time
 
 import httpx
 from websockets.asyncio.client import connect
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 async def main():
     base = os.environ.get("BASE_URL", "http://127.0.0.1:8000")
     async with httpx.AsyncClient(base_url=base, timeout=30) as client:
+        if (await client.get('/api/auth/me')).status_code == 401:
+            response = await client.post('/api/auth/login', json={
+                'role':'dispatcher','password':os.environ.get('DISPATCHER_PASSWORD','')})
+            response.raise_for_status()
 
         async def get(path):
             response = await client.get(path)
@@ -35,7 +42,7 @@ async def main():
         try:
             topology = await get("/api/topology")
             await post("/api/simulation/speed", {"multiplier": 60})
-            async with connect(base.replace("http", "ws", 1) + "/ws", max_size=10_000_000) as ws:
+            async with connect(base.replace("http", "ws", 1) + "/ws", max_size=10_000_000, additional_headers={"Cookie":"; ".join(f"{k}={v}" for k,v in client.cookies.items())}) as ws:
                 initial = json.loads(await ws.recv())["payload"]
                 assert len(initial["trains"]) >= 5
                 await post("/api/simulation/start")

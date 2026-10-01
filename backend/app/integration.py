@@ -11,6 +11,7 @@ import uuid
 
 import numpy as np
 
+from .switches import states as switch_states
 from .domain import ROOT
 from . import demo_planning, demo_validation
 from .metrics.quality import MetricConfig, calculate_metrics, profile_plan
@@ -36,6 +37,8 @@ def default_settings():
 
 
 def config_for(state):
+    if 'metric_config' in state:
+        return MetricConfig.model_validate(state['metric_config'])
     settings = state['settings']
     config = NATIVE_CONFIG.model_copy(deep=True)
     # The existing two UI controls divide their native combined share (0.5).
@@ -98,11 +101,20 @@ def build_plans(state):
     # Reserve time within the live five-second target for API projection and IPC.
     result = plan_alternatives(scenario, config_for(state),
                                previous=Plan.model_validate(state['active_plan']['_native']),
-                               strategies=('balanced', 'passenger', 'eco'), time_budget_s=4.2)
+                               strategies=('balanced', 'passenger', 'eco'), time_budget_s=3.2)
     plans = [project_plan(state, scenario, c.plan, c.profiles, c.metrics) for c in result.candidates]
     elapsed = time.perf_counter()-started
     return {'plans':plans, 'diagnostics':result.diagnostics, 'message':'; '.join(result.diagnostics),
             'elapsed_s':elapsed, 'within_budget':elapsed <= 5}
+
+
+def compact_state(state):
+    """Copy mutable scheduling data; workers/reporting do not need live profile arrays."""
+    data = {k: v for k, v in state.items() if k not in ('active_plan', 'baseline')}
+    for key in ('active_plan', 'baseline'):
+        if key in state:
+            data[key] = {k: v for k, v in state[key].items() if k != '_profiles'}
+    return copy.deepcopy(data)
 
 
 def warm_worker(state):
@@ -159,6 +171,10 @@ class LogicSimulator:
                       'sim_time_s':0,'state_version':0,'running':False,'speed':30,'incidents':[],
                       'settings':default_settings(),'epoch':str(uuid.uuid4()),
                       'constraint_version':0,'awaiting_plan':False, 'baseline_scenario':scenario.model_dump()}
+        from .metric_settings import load_override
+        override = load_override()
+        if override is not None:
+            self.state['metric_config'] = override.model_dump()
         self.state['fleet'] = [dict(t.model_dump(), type=t.kind, number=t.id,
             direction=1 if self._position(t.route[-1])>self._position(t.route[0]) else -1,
             destination=t.route[-1]) for t in scenario.trains]
@@ -283,7 +299,7 @@ class LogicSimulator:
         actual = actual_metrics(state, fleet, config_for(state), violations)
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
             'engine':'logic','decision_hold':state['awaiting_plan'] or self.replanning,
-            'trains':fleet,'sections':sections,'stations':stations,'switches':[], 'metrics':actual,
+            'trains':fleet,'sections':sections,'stations':stations,'switches':switch_states(state), 'metrics':actual,
             'active_plan_id':plan['id'],'plan':self.active_public_plan(),'replanning':self.replanning}
 
     def update_settings(self, settings):

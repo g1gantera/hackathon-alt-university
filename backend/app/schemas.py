@@ -14,11 +14,19 @@ class Track(Model):
     length_m: float = Field(gt=0)
 
 
+class Switch(Model):
+    """Conservative synthetic station throat; all routes share this lock."""
+
+    id: str = "throat"
+    clearance_s: int = Field(default=15, ge=1, le=300)
+
+
 class Station(Model):
     id: str = Field(min_length=1)
     name: str
     tracks: list[Track] = Field(min_length=1)
     clearance_s: int = Field(default=10, ge=1)
+    switch: Switch | None = None
 
 
 class SpeedLimit(Model):
@@ -182,6 +190,8 @@ class Scenario(Model):
             if len({t.id for t in station.tracks}) != len(station.tracks):
                 raise ValueError("Duplicate track ID")
             resources.update(f"track:{station.id}:{t.id}" for t in station.tracks)
+            if station.switch:
+                resources.add(f"switch:{station.id}:{station.switch.id}")
         for section in self.sections:
             if section.station_a not in stations or section.station_b not in stations:
                 raise ValueError("Unknown section endpoint")

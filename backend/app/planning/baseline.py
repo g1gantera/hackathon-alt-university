@@ -65,6 +65,18 @@ def build_baseline(
                     departure = max([departure, *own_releases])
                 if i == len(train.route) - 1 and departure != arrival + train.min_dwell_s:
                     shift = max(shift, departure - arrival - train.min_dwell_s)
+                if station.switch and 0 < i < len(train.route) - 1:
+                    departure = max(departure, arrival + station.switch.clearance_s)
+                if station.switch:
+                    resource = f"switch:{station_id}:{station.switch.id}"
+                    events = ([arrival] if i > 0 else []) + (
+                        [departure] if i < len(train.route) - 1 else [])
+                    for event in events:
+                        end = event + station.switch.clearance_s
+                        for other, a, b in occupied + pending:
+                            if resource == other and event < b and a < end:
+                                shift = max(shift, b - event)
+                        pending.append((resource, event, end))
                 options = []
                 for track in station.tracks:
                     if track.length_m < train.length_m:

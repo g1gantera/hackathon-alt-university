@@ -4,6 +4,7 @@ from backend.app import main
 
 
 def test_api_history_csv_roles_and_stale_plan(tmp_path,monkeypatch):
+    monkeypatch.setattr(main,'demo_mode',True)
     monkeypatch.setenv('DISPATCH_ENGINE','demo')
     monkeypatch.setenv('DATABASE_URL',f'sqlite:///{tmp_path / "test.sqlite"}')
     with TestClient(main.app) as client:
