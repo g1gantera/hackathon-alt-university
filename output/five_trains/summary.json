@@ -1,0 +1,65 @@
+{
+  "corridor": "Кокшетау-1 ↔ Астана Нурлы Жол через Астана-1",
+  "traffic_source": "synthetic",
+  "operational_exactness": false,
+  "failed_scenarios": [],
+  "scenarios": [
+    "normal",
+    "railsim_snow",
+    "railsim_loco_failure"
+  ],
+  "results": [
+    {
+      "scenario": "normal",
+      "strategy": "fcfs",
+      "kind": "synthetic_forecast",
+      "delay_s": 5796,
+      "passenger_delay_s": 5796,
+      "energy_kwh": 18172.74,
+      "quality_index": 61.74,
+      "conflicts": 0,
+      "applicable": true,
+      "changed_movements": 0,
+      "elapsed_ms": 91.2
+    },
+    {
+      "scenario": "normal",
+      "strategy": "balanced",
+      "kind": "synthetic_forecast",
+      "delay_s": 1877,
+      "passenger_delay_s": 569,
+      "energy_kwh": 18126.204,
+      "quality_index": 70.98,
+      "conflicts": 0,
+      "applicable": true,
+      "changed_movements": 0,
+      "elapsed_ms": 445.2
+    },
+    {
+      "scenario": "railsim_snow",
+      "strategy": "balanced",
+      "kind": "synthetic_forecast",
+      "delay_s": 2770,
+      "passenger_delay_s": 764,
+      "energy_kwh": 17834.945,
+      "quality_index": 70.35,
+      "conflicts": 0,
+      "applicable": true,
+      "changed_movements": 26,
+      "elapsed_ms": 316.9
+    },
+    {
+      "scenario": "railsim_loco_failure",
+      "strategy": "balanced",
+      "kind": "synthetic_forecast",
+      "delay_s": 11236,
+      "passenger_delay_s": 6359,
+      "energy_kwh": 18203.2,
+      "quality_index": 57.51,
+      "conflicts": 0,
+      "applicable": true,
+      "changed_movements": 17,
+      "elapsed_ms": 709.6
+    }
+  ]
+}

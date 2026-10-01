@@ -10,6 +10,12 @@ WORKDIR /app
 COPY backend/requirements.lock.txt backend/requirements.lock.txt
 RUN pip install --no-cache-dir -r backend/requirements.lock.txt
 COPY backend/ backend/
+COPY vendor/ vendor/
+COPY pyproject.toml ./
+COPY app/ app/
+RUN pip install --no-deps -e .
+COPY config/ config/
+COPY data/corridor/ data/corridor/
 COPY scenarios/ scenarios/
 COPY data/kazakhstan_railways.geojson data/kazakhstan_railways.geojson
 COPY --from=frontend /build/dist frontend/dist

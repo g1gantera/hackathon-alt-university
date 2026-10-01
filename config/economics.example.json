@@ -1,0 +1,9 @@
+{
+  "electricity_tenge_per_kwh": 50,
+  "passenger_delay_tenge_per_hour": 30000,
+  "freight_delay_tenge_per_hour": 10000,
+  "max_extra_passenger_delay_s": 0,
+  "max_extra_total_delay_s": null,
+  "input_status": "illustrative",
+  "assumptions_note": "Учебные ставки, не тарифы и не себестоимость КТЖ. Цена электроэнергии — условная; ставки опоздания — условная денежная оценка последствий задержки одного поезда, без повторного учёта энергии. Показатель generalized_cost_tenge не равен бухгалтерским расходам или прибыли."
+}

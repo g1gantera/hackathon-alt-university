@@ -1,0 +1,51 @@
+﻿kind,scenario_id,state_version,window_start_s,window_end_s,occupation_basis,resource,label,mapping_status,occupied_s,closed_s,available_s,entry_blocked_s,load_pct,available_load_pct,entries,a_to_b,b_to_a
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:KOKSHETAU_1:SIM-1,Кокшетау-1 · путь SIM-1,assumed_for_simulation,1275,0,43200,0,2.95,2.95,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:KOKSHETAU_1:SIM-2,Кокшетау-1 · путь SIM-2,assumed_for_simulation,2031,0,43200,0,4.7,4.7,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:RAZYEZD_17:SIM-1,Разъезд № 17 · путь SIM-1,assumed_for_simulation,600,0,43200,0,1.39,1.39,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:RAZYEZD_17:SIM-2,Разъезд № 17 · путь SIM-2,assumed_for_simulation,1485,0,43200,0,3.44,3.44,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ZHAMANTUZ:SIM-1,Джемантуз · путь SIM-1,assumed_for_simulation,2334,0,43200,0,5.4,5.4,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ZHAMANTUZ:SIM-2,Джемантуз · путь SIM-2,assumed_for_simulation,2198,0,43200,0,5.09,5.09,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:BURABAY:SIM-1,Курорт Бурабай (Курорт Боровое) · путь SIM-1,assumed_for_simulation,3051,0,43200,0,7.06,7.06,2,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:BURABAY:SIM-2,Курорт Бурабай (Курорт Боровое) · путь SIM-2,assumed_for_simulation,4512,0,43200,0,10.44,10.44,6,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ZHASYL:SIM-1,Жасыл · путь SIM-1,assumed_for_simulation,2887,0,43200,0,6.68,6.68,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ZHASYL:SIM-2,Жасыл · путь SIM-2,assumed_for_simulation,780,0,43200,0,1.81,1.81,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:MAKINKA:SIM-1,Макинка · путь SIM-1,assumed_for_simulation,1612,0,43200,0,3.73,3.73,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:MAKINKA:SIM-2,Макинка · путь SIM-2,assumed_for_simulation,2087,0,43200,0,4.83,4.83,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ELTAY:SIM-1,Ельтай · путь SIM-1,assumed_for_simulation,592,0,43200,0,1.37,1.37,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ELTAY:SIM-2,Ельтай · путь SIM-2,assumed_for_simulation,1046,0,43200,0,2.42,2.42,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:AKKOL:SIM-1,Акколь · путь SIM-1,assumed_for_simulation,1662,0,43200,0,3.85,3.85,6,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:AKKOL:SIM-2,Акколь · путь SIM-2,assumed_for_simulation,420,0,43200,0,0.97,0.97,2,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:SHORTANDY:SIM-1,Шортанды · путь SIM-1,assumed_for_simulation,960,0,43200,0,2.22,2.22,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:SHORTANDY:SIM-2,Шортанды · путь SIM-2,assumed_for_simulation,942,0,43200,0,2.18,2.18,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:TONKERIS:SIM-1,Тонкерис · путь SIM-1,assumed_for_simulation,2017,0,43200,0,4.67,4.67,5,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:TONKERIS:SIM-2,Тонкерис · путь SIM-2,assumed_for_simulation,1368,0,43200,0,3.17,3.17,3,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:RAZYEZD_39:SIM-1,Разъезд № 39 (Өндіріс) · путь SIM-1,assumed_for_simulation,1722,0,43200,0,3.99,3.99,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:RAZYEZD_39:SIM-2,Разъезд № 39 (Өндіріс) · путь SIM-2,assumed_for_simulation,2922,0,43200,0,6.76,6.76,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ASTANA_1:SIM-1,Астана-1 · путь SIM-1,assumed_for_simulation,720,0,43200,0,1.67,1.67,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:ASTANA_1:SIM-2,Астана-1 · путь SIM-2,assumed_for_simulation,1108,0,43200,0,2.56,2.56,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:NURLY_ZHOL:SIM-1,Астана Нурлы Жол · путь SIM-1,assumed_for_simulation,720,0,43200,0,1.67,1.67,4,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,track:NURLY_ZHOL:SIM-2,Астана Нурлы Жол · путь SIM-2,assumed_for_simulation,360,0,43200,0,0.83,0.83,2,,
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_KOKSHETAU_1__RAZYEZD_17:1,Кокшетау-1 — Разъезд № 17 · главный путь 1,observed_in_osm_samples,4671,0,43200,0,10.81,10.81,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_KOKSHETAU_1__RAZYEZD_17:2,Кокшетау-1 — Разъезд № 17 · главный путь 2,observed_in_osm_samples,4671,0,43200,0,10.81,10.81,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_RAZYEZD_17__ZHAMANTUZ:1,Разъезд № 17 — Джемантуз · главный путь 1,observed_in_osm_samples,4397,0,43200,0,10.18,10.18,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_RAZYEZD_17__ZHAMANTUZ:2,Разъезд № 17 — Джемантуз · главный путь 2,observed_in_osm_samples,4397,0,43200,0,10.18,10.18,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ZHAMANTUZ__BURABAY:1,Джемантуз — Курорт Бурабай (Курорт Боровое) · главный путь 1,observed_in_osm_samples,7066,0,43200,0,16.36,16.36,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ZHAMANTUZ__BURABAY:2,Джемантуз — Курорт Бурабай (Курорт Боровое) · главный путь 2,observed_in_osm_samples,7066,0,43200,0,16.36,16.36,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_BURABAY__ZHASYL:1,Курорт Бурабай (Курорт Боровое) — Жасыл · главный путь 1,observed_in_osm_samples,4333,2700,40500,0,10.03,10.7,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_BURABAY__ZHASYL:2,Курорт Бурабай (Курорт Боровое) — Жасыл · главный путь 2,observed_in_osm_samples,4333,2700,40500,0,10.03,10.7,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ZHASYL__MAKINKA:1,Жасыл — Макинка · главный путь 1,observed_in_osm_samples,4587,0,43200,0,10.62,10.62,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ZHASYL__MAKINKA:2,Жасыл — Макинка · главный путь 2,observed_in_osm_samples,4587,0,43200,0,10.62,10.62,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_MAKINKA__ELTAY:1,Макинка — Ельтай · главный путь 1,observed_in_osm_samples,9007,0,43200,0,20.85,20.85,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_MAKINKA__ELTAY:2,Макинка — Ельтай · главный путь 2,observed_in_osm_samples,9007,0,43200,0,20.85,20.85,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ELTAY__AKKOL:1,Ельтай — Акколь · главный путь 1,observed_in_osm_samples,8895,0,43200,0,20.59,20.59,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ELTAY__AKKOL:2,Ельтай — Акколь · главный путь 2,observed_in_osm_samples,8895,0,43200,0,20.59,20.59,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_AKKOL__SHORTANDY:1,Акколь — Шортанды · главный путь 1,observed_in_osm_samples,8142,0,43200,0,18.85,18.85,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_AKKOL__SHORTANDY:2,Акколь — Шортанды · главный путь 2,observed_in_osm_samples,8142,0,43200,0,18.85,18.85,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_SHORTANDY__TONKERIS:1,Шортанды — Тонкерис · главный путь 1,observed_in_osm_samples,7647,0,43200,0,17.7,17.7,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_SHORTANDY__TONKERIS:2,Шортанды — Тонкерис · главный путь 2,observed_in_osm_samples,7647,0,43200,0,17.7,17.7,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_TONKERIS__RAZYEZD_39:1,Тонкерис — Разъезд № 39 (Өндіріс) · главный путь 1,observed_in_osm_samples,5983,0,43200,0,13.85,13.85,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_TONKERIS__RAZYEZD_39:2,Тонкерис — Разъезд № 39 (Өндіріс) · главный путь 2,observed_in_osm_samples,5983,0,43200,0,13.85,13.85,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_RAZYEZD_39__ASTANA_1:1,Разъезд № 39 (Өндіріс) — Астана-1 · главный путь 1,assumed,2057,0,43200,0,4.76,4.76,4,4,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_RAZYEZD_39__ASTANA_1:2,Разъезд № 39 (Өндіріс) — Астана-1 · главный путь 2,assumed,2057,0,43200,0,4.76,4.76,4,0,4
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ASTANA_1__NURLY_ZHOL:1,Астана-1 — Астана Нурлы Жол · главный путь 1,assumed,2499,0,43200,0,5.78,5.78,3,3,0
+synthetic_forecast,kokshetau-nurly-zhol,2,0,43200,reservations_including_clearance,main_track:SECTION_ASTANA_1__NURLY_ZHOL:2,Астана-1 — Астана Нурлы Жол · главный путь 2,assumed,2499,0,43200,0,5.78,5.78,3,0,3

@@ -1,0 +1,2755 @@
+{
+  "id": "kokshetau-nurly-zhol",
+  "state_version": 2,
+  "now_s": 372,
+  "horizon_s": 86400,
+  "evaluation_end_s": 43200,
+  "stations": [
+    {
+      "id": "KOKSHETAU_1",
+      "name": "Кокшетау-1",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "RAZYEZD_17",
+      "name": "Разъезд № 17",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "ZHAMANTUZ",
+      "name": "Джемантуз",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "BURABAY",
+      "name": "Курорт Бурабай (Курорт Боровое)",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "ZHASYL",
+      "name": "Жасыл",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "MAKINKA",
+      "name": "Макинка",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "ELTAY",
+      "name": "Ельтай",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "AKKOL",
+      "name": "Акколь",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "SHORTANDY",
+      "name": "Шортанды",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "TONKERIS",
+      "name": "Тонкерис",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "RAZYEZD_39",
+      "name": "Разъезд № 39 (Өндіріс)",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "ASTANA_1",
+      "name": "Астана-1",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    },
+    {
+      "id": "NURLY_ZHOL",
+      "name": "Астана Нурлы Жол",
+      "tracks": [
+        {
+          "id": "SIM-1",
+          "length_m": 1500.0
+        },
+        {
+          "id": "SIM-2",
+          "length_m": 1500.0
+        }
+      ],
+      "clearance_s": 120
+    }
+  ],
+  "sections": [
+    {
+      "id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "station_a": "KOKSHETAU_1",
+      "station_b": "RAZYEZD_17",
+      "length_m": 19845.11,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "station_a": "RAZYEZD_17",
+      "station_b": "ZHAMANTUZ",
+      "length_m": 18429.37,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_ZHAMANTUZ__BURABAY",
+      "station_a": "ZHAMANTUZ",
+      "station_b": "BURABAY",
+      "length_m": 32117.4,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_BURABAY__ZHASYL",
+      "station_a": "BURABAY",
+      "station_b": "ZHASYL",
+      "length_m": 18108.42,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [
+        {
+          "id": "railsim_snow:SECTION_BURABAY__ZHASYL:speed:0",
+          "start_s": 3484,
+          "end_s": 10684,
+          "speed_factor": 0.6,
+          "reason": "snow"
+        }
+      ],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_ZHASYL__MAKINKA",
+      "station_a": "ZHASYL",
+      "station_b": "MAKINKA",
+      "length_m": 19402.54,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_MAKINKA__ELTAY",
+      "station_a": "MAKINKA",
+      "station_b": "ELTAY",
+      "length_m": 42072.24,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_ELTAY__AKKOL",
+      "station_a": "ELTAY",
+      "station_b": "AKKOL",
+      "length_m": 41495.63,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_AKKOL__SHORTANDY",
+      "station_a": "AKKOL",
+      "station_b": "SHORTANDY",
+      "length_m": 37646.27,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_SHORTANDY__TONKERIS",
+      "station_a": "SHORTANDY",
+      "station_b": "TONKERIS",
+      "length_m": 35103.75,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_TONKERIS__RAZYEZD_39",
+      "station_a": "TONKERIS",
+      "station_b": "RAZYEZD_39",
+      "length_m": 26564.1,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "station_a": "RAZYEZD_39",
+      "station_b": "ASTANA_1",
+      "length_m": 6426.95,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    },
+    {
+      "id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "station_a": "ASTANA_1",
+      "station_b": "NURLY_ZHOL",
+      "length_m": 14609.56,
+      "max_speed_mps": 22.22222222222222,
+      "main_tracks": [
+        {
+          "id": "1",
+          "direction": "a_to_b"
+        },
+        {
+          "id": "2",
+          "direction": "b_to_a"
+        }
+      ],
+      "headway_s": 60,
+      "tail_clearance_speed_mps": 5.0,
+      "speed_limits": [],
+      "entry_speed_limits": [],
+      "grade_permille": 0.0,
+      "shared_resources": []
+    }
+  ],
+  "trains": [
+    {
+      "id": "SYN-P01",
+      "kind": "passenger",
+      "priority": 3,
+      "route": [
+        "KOKSHETAU_1",
+        "RAZYEZD_17",
+        "ZHAMANTUZ",
+        "BURABAY",
+        "ZHASYL",
+        "MAKINKA",
+        "ELTAY",
+        "AKKOL",
+        "SHORTANDY",
+        "TONKERIS",
+        "RAZYEZD_39",
+        "ASTANA_1",
+        "NURLY_ZHOL"
+      ],
+      "release_s": 0,
+      "due_s": 15898,
+      "min_dwell_s": 60,
+      "length_m": 350.0,
+      "mass_kg": 500000.0,
+      "max_speed_mps": 22.22222222222222,
+      "acceleration_mps2": 0.45,
+      "braking_mps2": 0.55,
+      "traction_efficiency": 0.88,
+      "rolling_coefficient": 0.0015,
+      "drag_n_per_mps2": 5.0,
+      "auxiliary_power_w": 35000.0,
+      "davis_resistance": {
+        "a": 1.5,
+        "b": 0.01,
+        "c": 0.00035
+      },
+      "section_hold_s": {},
+      "section_recovery_all_tracks": [],
+      "not_before_s": {}
+    },
+    {
+      "id": "SYN-P02",
+      "kind": "passenger",
+      "priority": 3,
+      "route": [
+        "NURLY_ZHOL",
+        "ASTANA_1",
+        "RAZYEZD_39",
+        "TONKERIS",
+        "SHORTANDY",
+        "AKKOL",
+        "ELTAY",
+        "MAKINKA",
+        "ZHASYL",
+        "BURABAY",
+        "ZHAMANTUZ",
+        "RAZYEZD_17",
+        "KOKSHETAU_1"
+      ],
+      "release_s": 300,
+      "due_s": 16198,
+      "min_dwell_s": 60,
+      "length_m": 350.0,
+      "mass_kg": 500000.0,
+      "max_speed_mps": 22.22222222222222,
+      "acceleration_mps2": 0.45,
+      "braking_mps2": 0.55,
+      "traction_efficiency": 0.88,
+      "rolling_coefficient": 0.0015,
+      "drag_n_per_mps2": 5.0,
+      "auxiliary_power_w": 35000.0,
+      "davis_resistance": {
+        "a": 1.5,
+        "b": 0.01,
+        "c": 0.00035
+      },
+      "section_hold_s": {},
+      "section_recovery_all_tracks": [],
+      "not_before_s": {}
+    },
+    {
+      "id": "SYN-F03",
+      "kind": "freight",
+      "priority": 1,
+      "route": [
+        "KOKSHETAU_1",
+        "RAZYEZD_17",
+        "ZHAMANTUZ",
+        "BURABAY",
+        "ZHASYL",
+        "MAKINKA",
+        "ELTAY",
+        "AKKOL",
+        "SHORTANDY",
+        "TONKERIS",
+        "RAZYEZD_39",
+        "ASTANA_1"
+      ],
+      "release_s": 900,
+      "due_s": 21380,
+      "min_dwell_s": 120,
+      "length_m": 750.0,
+      "mass_kg": 2000000.0,
+      "max_speed_mps": 16.666666666666668,
+      "acceleration_mps2": 0.22,
+      "braking_mps2": 0.3,
+      "traction_efficiency": 0.88,
+      "rolling_coefficient": 0.0015,
+      "drag_n_per_mps2": 5.0,
+      "auxiliary_power_w": 15000.0,
+      "davis_resistance": {
+        "a": 1.5,
+        "b": 0.01,
+        "c": 0.00035
+      },
+      "section_hold_s": {},
+      "section_recovery_all_tracks": [],
+      "not_before_s": {}
+    },
+    {
+      "id": "SYN-P04",
+      "kind": "passenger",
+      "priority": 3,
+      "route": [
+        "NURLY_ZHOL",
+        "ASTANA_1",
+        "RAZYEZD_39",
+        "TONKERIS",
+        "SHORTANDY",
+        "AKKOL",
+        "ELTAY",
+        "MAKINKA",
+        "ZHASYL",
+        "BURABAY",
+        "ZHAMANTUZ",
+        "RAZYEZD_17",
+        "KOKSHETAU_1"
+      ],
+      "release_s": 1200,
+      "due_s": 17098,
+      "min_dwell_s": 60,
+      "length_m": 350.0,
+      "mass_kg": 500000.0,
+      "max_speed_mps": 22.22222222222222,
+      "acceleration_mps2": 0.45,
+      "braking_mps2": 0.55,
+      "traction_efficiency": 0.88,
+      "rolling_coefficient": 0.0015,
+      "drag_n_per_mps2": 5.0,
+      "auxiliary_power_w": 35000.0,
+      "davis_resistance": {
+        "a": 1.5,
+        "b": 0.01,
+        "c": 0.00035
+      },
+      "section_hold_s": {},
+      "section_recovery_all_tracks": [],
+      "not_before_s": {}
+    },
+    {
+      "id": "SYN-P05",
+      "kind": "passenger",
+      "priority": 3,
+      "route": [
+        "KOKSHETAU_1",
+        "RAZYEZD_17",
+        "ZHAMANTUZ",
+        "BURABAY",
+        "ZHASYL",
+        "MAKINKA",
+        "ELTAY",
+        "AKKOL",
+        "SHORTANDY",
+        "TONKERIS",
+        "RAZYEZD_39",
+        "ASTANA_1",
+        "NURLY_ZHOL"
+      ],
+      "release_s": 1800,
+      "due_s": 17698,
+      "min_dwell_s": 60,
+      "length_m": 350.0,
+      "mass_kg": 500000.0,
+      "max_speed_mps": 22.22222222222222,
+      "acceleration_mps2": 0.45,
+      "braking_mps2": 0.55,
+      "traction_efficiency": 0.88,
+      "rolling_coefficient": 0.0015,
+      "drag_n_per_mps2": 5.0,
+      "auxiliary_power_w": 35000.0,
+      "davis_resistance": {
+        "a": 1.5,
+        "b": 0.01,
+        "c": 0.00035
+      },
+      "section_hold_s": {},
+      "section_recovery_all_tracks": [],
+      "not_before_s": {}
+    }
+  ],
+  "blocks": [],
+  "metadata": {
+    "corridor": "Кокшетау-1 ↔ Астана Нурлы Жол через Астана-1",
+    "geometry_length_m": 311821.34,
+    "terminal_ids": [
+      "KOKSHETAU_1",
+      "NURLY_ZHOL"
+    ],
+    "traffic": {
+      "source": "synthetic",
+      "train_count": 5,
+      "departure_interval_s": 900,
+      "note": "Условные поезда SYN-*; это не расписание КТЖ"
+    },
+    "operational_exactness": false,
+    "realism": {
+      "source": "vendor/railsim",
+      "calibration_status": "illustrative",
+      "parameter_file": "config/railsim.example.json",
+      "note": "Все вероятности, коэффициенты сопротивления, длительности, режимы блокировки и цены — учебные допущения; config.py источника не заполнен. Износ и аварийность КТЖ не измерены. Нулевые затраты на происшествия означают, что их денежный ущерб не оценён. Произвольная процентная экономия энергии и рекуперация отключены.",
+      "minimum_trains": 5
+    },
+    "audit": {
+      "corridor": "Кокшетау-1 ↔ Астана Нурлы Жол через Астана-1",
+      "geometry_length_km": 311.821,
+      "station_count": 13,
+      "section_count": 12,
+      "operational_exactness": false,
+      "traffic_source": "synthetic",
+      "gaps": [
+        {
+          "object": "KOKSHETAU_1",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "RAZYEZD_17",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "ZHAMANTUZ",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "BURABAY",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "ZHASYL",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "MAKINKA",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "ELTAY",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "AKKOL",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "SHORTANDY",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "TONKERIS",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "RAZYEZD_39",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "ASTANA_1",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "NURLY_ZHOL",
+          "field": "usable_station_tracks",
+          "reason": "Нет подтверждённого ТРА, полезных длин и маршрутов приёма"
+        },
+        {
+          "object": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_ZHAMANTUZ__BURABAY",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_BURABAY__ZHASYL",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_ZHASYL__MAKINKA",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_MAKINKA__ELTAY",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_ELTAY__AKKOL",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_AKKOL__SHORTANDY",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_SHORTANDY__TONKERIS",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_TONKERIS__RAZYEZD_39",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_RAZYEZD_39__ASTANA_1",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        },
+        {
+          "object": "SECTION_ASTANA_1__NURLY_ZHOL",
+          "field": "operating_track_configuration",
+          "reason": "OSM не подтверждает блок-участки, направления и стрелочные маршруты"
+        }
+      ],
+      "stations": [
+        {
+          "id": "KOKSHETAU_1",
+          "name": "Кокшетау-1",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "RAZYEZD_17",
+          "name": "Разъезд № 17",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "ZHAMANTUZ",
+          "name": "Джемантуз",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "BURABAY",
+          "name": "Курорт Бурабай (Курорт Боровое)",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "ZHASYL",
+          "name": "Жасыл",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "MAKINKA",
+          "name": "Макинка",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "ELTAY",
+          "name": "Ельтай",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "AKKOL",
+          "name": "Акколь",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "SHORTANDY",
+          "name": "Шортанды",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "TONKERIS",
+          "name": "Тонкерис",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "RAZYEZD_39",
+          "name": "Разъезд № 39 (Өндіріс)",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "ASTANA_1",
+          "name": "Астана-1",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        },
+        {
+          "id": "NURLY_ZHOL",
+          "name": "Астана Нурлы Жол",
+          "simulation_tracks": 2,
+          "operating_track_count": null,
+          "capacity_status": "assumed_for_simulation"
+        }
+      ],
+      "sections": [
+        {
+          "id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_ZHAMANTUZ__BURABAY",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_BURABAY__ZHASYL",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_ZHASYL__MAKINKA",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_MAKINKA__ELTAY",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_ELTAY__AKKOL",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_AKKOL__SHORTANDY",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_SHORTANDY__TONKERIS",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_TONKERIS__RAZYEZD_39",
+          "mapped_main_tracks": 2,
+          "simulation_tracks": 2,
+          "status": "observed_in_osm_samples"
+        },
+        {
+          "id": "SECTION_RAZYEZD_39__ASTANA_1",
+          "mapped_main_tracks": null,
+          "simulation_tracks": 2,
+          "status": "assumed"
+        },
+        {
+          "id": "SECTION_ASTANA_1__NURLY_ZHOL",
+          "mapped_main_tracks": 4,
+          "simulation_tracks": 2,
+          "status": "assumed"
+        }
+      ]
+    },
+    "mapping_evidence": {
+      "station:KOKSHETAU_1": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "4026381503",
+        "mapped_observation": {
+          "distance_m": 150,
+          "lat": 53.28781464059959,
+          "lon": 69.42468360951256,
+          "half_width_m": 150,
+          "mapped_track_count": 19,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "421381246"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 4.57,
+              "osm_way_ids": [
+                "313251540"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 9.61,
+              "osm_way_ids": [
+                "421381270"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 21.85,
+              "osm_way_ids": [
+                "234557539"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 27.13,
+              "osm_way_ids": [
+                "1019395542"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 32.79,
+              "osm_way_ids": [
+                "1019395547"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 38.47,
+              "osm_way_ids": [
+                "1019395543"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 44.94,
+              "osm_way_ids": [
+                "1019395548"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 50.53,
+              "osm_way_ids": [
+                "1019395544"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 56.01,
+              "osm_way_ids": [
+                "1019395545"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 60.02,
+              "osm_way_ids": [
+                "231384637"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 66.48,
+              "osm_way_ids": [
+                "1019395552"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 71.1,
+              "osm_way_ids": [
+                "1019395553"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 75.84,
+              "osm_way_ids": [
+                "1019395556"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 82.44,
+              "osm_way_ids": [
+                "1019395555"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 87.55,
+              "osm_way_ids": [
+                "1019395554"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 93.0,
+              "osm_way_ids": [
+                "234557538"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 96.67,
+              "osm_way_ids": [
+                "1019395557"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 127.32,
+              "osm_way_ids": [
+                "231384644"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:RAZYEZD_17": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "3805455712",
+        "mapped_observation": {
+          "distance_m": 19995.11,
+          "lat": 53.191036841616274,
+          "lon": 69.67043894403415,
+          "half_width_m": 150,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.96,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:ZHAMANTUZ": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "3805457185",
+        "mapped_observation": {
+          "distance_m": 38424.48,
+          "lat": 53.086639080461794,
+          "lon": 69.86875965576573,
+          "half_width_m": 150,
+          "mapped_track_count": 5,
+          "intersections": [
+            {
+              "offset_m": -15.41,
+              "osm_way_ids": [
+                "429587478"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -8.16,
+              "osm_way_ids": [
+                "429611600"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "429611631"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 4.94,
+              "osm_way_ids": [
+                "429587463"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 10.46,
+              "osm_way_ids": [
+                "429587488"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:BURABAY": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "5810748819",
+        "mapped_observation": {
+          "distance_m": 70541.88,
+          "lat": 52.920829231755015,
+          "lon": 70.1838758675537,
+          "half_width_m": 150,
+          "mapped_track_count": 12,
+          "intersections": [
+            {
+              "offset_m": -78.97,
+              "osm_way_ids": [
+                "421653585"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            },
+            {
+              "offset_m": -67.89,
+              "osm_way_ids": [
+                "421653601"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -56.68,
+              "osm_way_ids": [
+                "421653579"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -52.15,
+              "osm_way_ids": [
+                "421653609"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -45.75,
+              "osm_way_ids": [
+                "421653636"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -36.24,
+              "osm_way_ids": [
+                "421653622"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -30.31,
+              "osm_way_ids": [
+                "421653637"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -22.78,
+              "osm_way_ids": [
+                "421381335"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -18.06,
+              "osm_way_ids": [
+                "421653634"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -12.4,
+              "osm_way_ids": [
+                "421381338"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -7.3,
+              "osm_way_ids": [
+                "421653624"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "421381278"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:ZHASYL": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "4041217725",
+        "mapped_observation": {
+          "distance_m": 88650.3,
+          "lat": 52.792195228849025,
+          "lon": 70.28958808303342,
+          "half_width_m": 150,
+          "mapped_track_count": 4,
+          "intersections": [
+            {
+              "offset_m": -5.53,
+              "osm_way_ids": [
+                "330692847"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "429623563"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 7.66,
+              "osm_way_ids": [
+                "429623597"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 12.77,
+              "osm_way_ids": [
+                "330692846"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:MAKINKA": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "4209174690",
+        "mapped_observation": {
+          "distance_m": 108052.84,
+          "lat": 52.634374081931554,
+          "lon": 70.41099254845761,
+          "half_width_m": 150,
+          "mapped_track_count": 11,
+          "intersections": [
+            {
+              "offset_m": -50.13,
+              "osm_way_ids": [
+                "414901011"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -44.3,
+              "osm_way_ids": [
+                "414901014"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -37.35,
+              "osm_way_ids": [
+                "414901015"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -28.84,
+              "osm_way_ids": [
+                "414901017"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -22.17,
+              "osm_way_ids": [
+                "414901024"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -16.8,
+              "osm_way_ids": [
+                "415095436"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -11.06,
+              "osm_way_ids": [
+                "415095432"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -5.67,
+              "osm_way_ids": [
+                "414901025"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "421381324"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.37,
+              "osm_way_ids": [
+                "421381311"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 11.32,
+              "osm_way_ids": [
+                "414901022"
+              ],
+              "tracks_represented": 1,
+              "usage": "branch",
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:ELTAY": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "4025083259",
+        "mapped_observation": {
+          "distance_m": 150125.08,
+          "lat": 52.27681466573433,
+          "lon": 70.59209230595638,
+          "half_width_m": 150,
+          "mapped_track_count": 5,
+          "intersections": [
+            {
+              "offset_m": -5.93,
+              "osm_way_ids": [
+                "313242777"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "429623586"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 6.98,
+              "osm_way_ids": [
+                "429623600"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 11.95,
+              "osm_way_ids": [
+                "326335678"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": 17.83,
+              "osm_way_ids": [
+                "326335680"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:AKKOL": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "3191477785",
+        "mapped_observation": {
+          "distance_m": 191620.71,
+          "lat": 52.01315833742452,
+          "lon": 70.93950344833682,
+          "half_width_m": 150,
+          "mapped_track_count": 11,
+          "intersections": [
+            {
+              "offset_m": -7.31,
+              "osm_way_ids": [
+                "513115542"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            },
+            {
+              "offset_m": -5.72,
+              "osm_way_ids": [
+                "313242133"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "326335558"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 7.52,
+              "osm_way_ids": [
+                "313242129"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 13.36,
+              "osm_way_ids": [
+                "421603265"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 18.31,
+              "osm_way_ids": [
+                "421603258"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 25.61,
+              "osm_way_ids": [
+                "421603263"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": 30.57,
+              "osm_way_ids": [
+                "421603264"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": 35.35,
+              "osm_way_ids": [
+                "421603260"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": 41.84,
+              "osm_way_ids": [
+                "313242130"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            },
+            {
+              "offset_m": 100.46,
+              "osm_way_ids": [
+                "421603267"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:SHORTANDY": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "3207666940",
+        "mapped_observation": {
+          "distance_m": 229266.98,
+          "lat": 51.70079156389623,
+          "lon": 70.99782790252452,
+          "half_width_m": 150,
+          "mapped_track_count": 7,
+          "intersections": [
+            {
+              "offset_m": -86.0,
+              "osm_way_ids": [
+                "1492437519"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            },
+            {
+              "offset_m": -18.48,
+              "osm_way_ids": [
+                "1492437533"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            },
+            {
+              "offset_m": -10.8,
+              "osm_way_ids": [
+                "1492437534"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -5.37,
+              "osm_way_ids": [
+                "1492437530"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "429611622"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 7.79,
+              "osm_way_ids": [
+                "429611574"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 13.84,
+              "osm_way_ids": [
+                "429463187"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:TONKERIS": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "2629466566",
+        "mapped_observation": {
+          "distance_m": 264370.73,
+          "lat": 51.447244467515674,
+          "lon": 71.19227704431053,
+          "half_width_m": 150,
+          "mapped_track_count": 4,
+          "intersections": [
+            {
+              "offset_m": -16.52,
+              "osm_way_ids": [
+                "353433097"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": null
+            },
+            {
+              "offset_m": -10.4,
+              "osm_way_ids": [
+                "429611619"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -4.47,
+              "osm_way_ids": [
+                "429611580"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "429463198"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:RAZYEZD_39": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "3805439410",
+        "mapped_observation": {
+          "distance_m": 290934.83,
+          "lat": 51.235000917435094,
+          "lon": 71.36088003302253,
+          "half_width_m": 150,
+          "mapped_track_count": 10,
+          "intersections": [
+            {
+              "offset_m": -33.65,
+              "osm_way_ids": [
+                "257090408"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -26.39,
+              "osm_way_ids": [
+                "257090412"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -18.15,
+              "osm_way_ids": [
+                "257090418"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -11.02,
+              "osm_way_ids": [
+                "257090410"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -5.71,
+              "osm_way_ids": [
+                "429316695"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "257090416"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.75,
+              "osm_way_ids": [
+                "429316690"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 11.53,
+              "osm_way_ids": [
+                "257090411"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 25.63,
+              "osm_way_ids": [
+                "737833564"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            },
+            {
+              "offset_m": 31.27,
+              "osm_way_ids": [
+                "737833565"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "spur"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:ASTANA_1": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "4020137343",
+        "mapped_observation": {
+          "distance_m": 297361.78,
+          "lat": 51.195224823529955,
+          "lon": 71.41185703523726,
+          "half_width_m": 150,
+          "mapped_track_count": 23,
+          "intersections": [
+            {
+              "offset_m": -42.57,
+              "osm_way_ids": [
+                "1059611906"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "yard"
+            },
+            {
+              "offset_m": -6.45,
+              "osm_way_ids": [
+                "1058661198"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "975268316"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 15.98,
+              "osm_way_ids": [
+                "1058647245"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 21.81,
+              "osm_way_ids": [
+                "257154371"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 26.9,
+              "osm_way_ids": [
+                "1058647244"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 31.39,
+              "osm_way_ids": [
+                "1058647249"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 36.81,
+              "osm_way_ids": [
+                "272757222"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 42.22,
+              "osm_way_ids": [
+                "1058688805"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 49.11,
+              "osm_way_ids": [
+                "1058688804"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 54.06,
+              "osm_way_ids": [
+                "1058688803"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 60.08,
+              "osm_way_ids": [
+                "1059971352"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 65.09,
+              "osm_way_ids": [
+                "1058688802"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 69.56,
+              "osm_way_ids": [
+                "1058688801"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 75.45,
+              "osm_way_ids": [
+                "1058688800"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 80.37,
+              "osm_way_ids": [
+                "1058688799"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 86.38,
+              "osm_way_ids": [
+                "312801213"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 92.31,
+              "osm_way_ids": [
+                "1059680400"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 97.45,
+              "osm_way_ids": [
+                "1059680401"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 102.41,
+              "osm_way_ids": [
+                "1059680402"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 107.69,
+              "osm_way_ids": [
+                "312801216"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 114.21,
+              "osm_way_ids": [
+                "1059680406",
+                "1059680407"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 120.86,
+              "osm_way_ids": [
+                "1059680409"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "station:NURLY_ZHOL": {
+        "status": "assumed_for_simulation",
+        "osm_node_id": "13676555260",
+        "mapped_observation": {
+          "distance_m": 311811.34,
+          "lat": 51.11256986953731,
+          "lon": 71.53161459457974,
+          "half_width_m": 150,
+          "mapped_track_count": 6,
+          "intersections": [
+            {
+              "offset_m": -17.83,
+              "osm_way_ids": [
+                "497358004"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "1058647271"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.56,
+              "osm_way_ids": [
+                "1058647267"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 21.77,
+              "osm_way_ids": [
+                "507905429"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 27.57,
+              "osm_way_ids": [
+                "507905455"
+              ],
+              "tracks_represented": 1,
+              "usage": null,
+              "service": "siding"
+            },
+            {
+              "offset_m": 43.04,
+              "osm_way_ids": [
+                "497358003"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ],
+          "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+          "operational_usable_track_count": null,
+          "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity.",
+          "train_stop_position_node_ids": [
+            "13676555261",
+            "13676555262",
+            "13676555263",
+            "13676555264",
+            "13676555265",
+            "13676555266"
+          ],
+          "mapped_train_stop_positions": 6
+        },
+        "note": "SIM-* — ресурсы учебной модели, не реальные номера станционных путей"
+      },
+      "section:SECTION_KOKSHETAU_1__RAZYEZD_17": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "257416499",
+          "313251539",
+          "313251543",
+          "421381220",
+          "421381228",
+          "421381246"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "257416499",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "313251548",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_RAZYEZD_17__ZHAMANTUZ": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "257416499",
+          "429611629",
+          "429611631"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "257416499",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "313251548",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611629",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611631",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_ZHAMANTUZ__BURABAY": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "326335555",
+          "326335676",
+          "326335679",
+          "337047545",
+          "337047547",
+          "421381208",
+          "421381278",
+          "429611627",
+          "429611631",
+          "429611633"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "278754977",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335555",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335676",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335679",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "337047545",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "337047547",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611597",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611627",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611631",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611633",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_BURABAY__ZHASYL": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "286183978",
+          "421381215",
+          "421381278",
+          "421653587",
+          "421653643",
+          "421653644",
+          "429623563"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "286183978",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335568",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429623563",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_ZHASYL__MAKINKA": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "286183974",
+          "286338912",
+          "286338913",
+          "421381294",
+          "421381324",
+          "429623563",
+          "429623580"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "286338912",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335569",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "421381284",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "421381294",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429623563",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429623580",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_MAKINKA__ELTAY": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "265281804",
+          "421381324",
+          "429623586",
+          "429623594"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "265281804",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335557",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_ELTAY__AKKOL": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "326335558",
+          "326335563",
+          "326335565",
+          "326335567",
+          "429623571",
+          "429623577",
+          "429623586"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "313242129",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335558",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335566",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335567",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429623571",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429623574",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_AKKOL__SHORTANDY": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "322672159",
+          "326335558",
+          "429611622",
+          "691573390"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "313242129",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "326335558",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "691573390",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_SHORTANDY__TONKERIS": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "313251550",
+          "322672160",
+          "429463188",
+          "429463198",
+          "429611578",
+          "429611580",
+          "429611622",
+          "429611624"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "256738524",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "313251550",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611624",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_TONKERIS__RAZYEZD_39": {
+        "status": "observed_in_osm_samples",
+        "osm_way_ids": [
+          "257090416",
+          "429316686",
+          "429463198",
+          "429611571",
+          "429611585",
+          "975252042"
+        ],
+        "mapped_main_track_count": 2,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": [
+          {
+            "osm_way_id": "429611585",
+            "tag": "maxspeed",
+            "value": "230"
+          },
+          {
+            "osm_way_id": "429611616",
+            "tag": "maxspeed",
+            "value": "230"
+          }
+        ]
+      },
+      "section:SECTION_RAZYEZD_39__ASTANA_1": {
+        "status": "assumed",
+        "osm_way_ids": [
+          "1058647243",
+          "257090404",
+          "257090416",
+          "313251541",
+          "313251545",
+          "313251549",
+          "407073086",
+          "415742918",
+          "975252043",
+          "975268315"
+        ],
+        "mapped_main_track_count": null,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": []
+      },
+      "section:SECTION_ASTANA_1__NURLY_ZHOL": {
+        "status": "assumed",
+        "osm_way_ids": [
+          "1058647252",
+          "1058647271",
+          "165836206",
+          "272757217",
+          "497358002",
+          "789216811",
+          "789216812",
+          "975252017",
+          "975268315",
+          "975268316",
+          "975314466",
+          "975314467"
+        ],
+        "mapped_main_track_count": 4,
+        "direction_source": "simulation_assumption",
+        "speed_source": "simulation_assumption",
+        "observed_maxspeed_tags": []
+      }
+    },
+    "assumptions": [
+      "Станционная вместимость и полезные длины заданы для симуляции и требуют ТРА",
+      "Номера и направления главных путей условные; количество сопоставлено с OSM",
+      "Каждый путь перегона эксклюзивен; автоблокировка внутри перегона не моделируется",
+      "Остановка на каждой моделируемой станции, скорость не выше 80 км/ч",
+      "Грузовые синтетические рейсы ограничены Астаной-1",
+      "Запас до целевого конечного прибытия 10 минут, ровный профиль пути",
+      "Сопротивление Davis A+Bv+Cv² из railsim; коэффициенты учебные, рекуперация не задана"
+    ],
+    "incident": {
+      "kind": "railsim_snow",
+      "label": "Снежный занос",
+      "detected_s": 372,
+      "source_module": "railsim.hazards",
+      "calibration_status": "illustrative",
+      "resource": "section:SECTION_BURABAY__ZHASYL",
+      "injection": "controlled_stress_case_with_announced_future_constraint",
+      "source_event": {
+        "hid": 0,
+        "kind": "snow",
+        "seg_idx": 3,
+        "start": 0.9677777777777777,
+        "duration": 2.0,
+        "u_detect": 0.0
+      },
+      "expected_resolution": "Ограничить скорость при входе во время явления, восстановить после его окончания",
+      "speed_semantics": "factor sampled at section entry, as in source railsim"
+    }
+  }
+}

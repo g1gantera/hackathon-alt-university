@@ -1,0 +1,3095 @@
+{
+  "id": "KOKSHETAU_NURLY_ZHOL",
+  "name": "Кокшетау-1 ↔ Астана Нурлы Жол через Астана-1",
+  "terminal_ids": [
+    "KOKSHETAU_1",
+    "NURLY_ZHOL"
+  ],
+  "length_m": 311821.34,
+  "operational_exactness": false,
+  "limitations": [
+    "Геометрия и наблюдения путей взяты из OSM; полнота карты и эксплуатационная пригодность не подтверждены КТЖ.",
+    "Количество главных путей проверено поперечными срезами карты, а не непрерывной сверкой с ТРА.",
+    "На каждой станции 2 модельных пути длиной 1500 м — явное допущение симуляции; фактическая доступная вместимость неизвестна.",
+    "Нагрузка синтетическая. Отсутствуют данные фактической занятости, полный график грузовых поездов и блок-участки.",
+    "Станционные маршруты, полезные длины, допустимые направления, профиль уклонов и неуказанные скорости требуют исходных данных КТЖ.",
+    "Километраж рассчитан вдоль связной геометрии OSM; он не является официальным железнодорожным пикетажем."
+  ],
+  "stations": [
+    {
+      "id": "KOKSHETAU_1",
+      "name": "Кокшетау-1",
+      "osm_node_id": "4026381503",
+      "lat": 53.2888337,
+      "lon": 69.4231821,
+      "distance_m": 0,
+      "projection_offset_m": 15.19,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/4026381503"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 150,
+        "lat": 53.28781464059959,
+        "lon": 69.42468360951256,
+        "half_width_m": 150,
+        "mapped_track_count": 19,
+        "intersections": [
+          {
+            "offset_m": 0.0,
+            "osm_way_ids": [
+              "421381246"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 4.57,
+            "osm_way_ids": [
+              "313251540"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 9.61,
+            "osm_way_ids": [
+              "421381270"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 21.85,
+            "osm_way_ids": [
+              "234557539"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 27.13,
+            "osm_way_ids": [
+              "1019395542"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 32.79,
+            "osm_way_ids": [
+              "1019395547"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 38.47,
+            "osm_way_ids": [
+              "1019395543"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 44.94,
+            "osm_way_ids": [
+              "1019395548"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 50.53,
+            "osm_way_ids": [
+              "1019395544"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 56.01,
+            "osm_way_ids": [
+              "1019395545"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 60.02,
+            "osm_way_ids": [
+              "231384637"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 66.48,
+            "osm_way_ids": [
+              "1019395552"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 71.1,
+            "osm_way_ids": [
+              "1019395553"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 75.84,
+            "osm_way_ids": [
+              "1019395556"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 82.44,
+            "osm_way_ids": [
+              "1019395555"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 87.55,
+            "osm_way_ids": [
+              "1019395554"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 93.0,
+            "osm_way_ids": [
+              "234557538"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 96.67,
+            "osm_way_ids": [
+              "1019395557"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 127.32,
+            "osm_way_ids": [
+              "231384644"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "RAZYEZD_17",
+      "name": "Разъезд № 17",
+      "osm_node_id": "3805455712",
+      "lat": 53.1921964,
+      "lon": 69.6692304,
+      "distance_m": 19845.11,
+      "projection_offset_m": 24.66,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/3805455712"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 19995.11,
+        "lat": 53.191036841616274,
+        "lon": 69.67043894403415,
+        "half_width_m": 150,
+        "mapped_track_count": 2,
+        "intersections": [
+          {
+            "offset_m": -3.96,
+            "osm_way_ids": [
+              "313251548"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 0.0,
+            "osm_way_ids": [
+              "257416499"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "ZHAMANTUZ",
+      "name": "Джемантуз",
+      "osm_node_id": "3805457185",
+      "lat": 53.0875179,
+      "lon": 69.8669598,
+      "distance_m": 38274.48,
+      "projection_offset_m": 38.7,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/3805457185"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 38424.48,
+        "lat": 53.086639080461794,
+        "lon": 69.86875965576573,
+        "half_width_m": 150,
+        "mapped_track_count": 5,
+        "intersections": [
+          {
+            "offset_m": -15.41,
+            "osm_way_ids": [
+              "429587478"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -8.16,
+            "osm_way_ids": [
+              "429611600"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "429611631"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 4.94,
+            "osm_way_ids": [
+              "429587463"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 10.46,
+            "osm_way_ids": [
+              "429587488"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "BURABAY",
+      "name": "Курорт Бурабай (Курорт Боровое)",
+      "osm_node_id": "5810748819",
+      "lat": 52.9210247,
+      "lon": 70.1816572,
+      "distance_m": 70391.88,
+      "projection_offset_m": 9.84,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/5810748819"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 70541.88,
+        "lat": 52.920829231755015,
+        "lon": 70.1838758675537,
+        "half_width_m": 150,
+        "mapped_track_count": 12,
+        "intersections": [
+          {
+            "offset_m": -78.97,
+            "osm_way_ids": [
+              "421653585"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          },
+          {
+            "offset_m": -67.89,
+            "osm_way_ids": [
+              "421653601"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -56.68,
+            "osm_way_ids": [
+              "421653579"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -52.15,
+            "osm_way_ids": [
+              "421653609"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -45.75,
+            "osm_way_ids": [
+              "421653636"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -36.24,
+            "osm_way_ids": [
+              "421653622"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -30.31,
+            "osm_way_ids": [
+              "421653637"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -22.78,
+            "osm_way_ids": [
+              "421381335"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -18.06,
+            "osm_way_ids": [
+              "421653634"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -12.4,
+            "osm_way_ids": [
+              "421381338"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": -7.3,
+            "osm_way_ids": [
+              "421653624"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "421381278"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "ZHASYL",
+      "name": "Жасыл",
+      "osm_node_id": "4041217725",
+      "lat": 52.7935662,
+      "lon": 70.2891508,
+      "distance_m": 88500.3,
+      "projection_offset_m": 39.99,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/4041217725"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 88650.3,
+        "lat": 52.792195228849025,
+        "lon": 70.28958808303342,
+        "half_width_m": 150,
+        "mapped_track_count": 4,
+        "intersections": [
+          {
+            "offset_m": -5.53,
+            "osm_way_ids": [
+              "330692847"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 0.0,
+            "osm_way_ids": [
+              "429623563"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 7.66,
+            "osm_way_ids": [
+              "429623597"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 12.77,
+            "osm_way_ids": [
+              "330692846"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "MAKINKA",
+      "name": "Макинка",
+      "osm_node_id": "4209174690",
+      "lat": 52.6357172,
+      "lon": 70.4107836,
+      "distance_m": 107902.84,
+      "projection_offset_m": 2.64,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/4209174690"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 108052.84,
+        "lat": 52.634374081931554,
+        "lon": 70.41099254845761,
+        "half_width_m": 150,
+        "mapped_track_count": 11,
+        "intersections": [
+          {
+            "offset_m": -50.13,
+            "osm_way_ids": [
+              "414901011"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -44.3,
+            "osm_way_ids": [
+              "414901014"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -37.35,
+            "osm_way_ids": [
+              "414901015"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -28.84,
+            "osm_way_ids": [
+              "414901017"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -22.17,
+            "osm_way_ids": [
+              "414901024"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -16.8,
+            "osm_way_ids": [
+              "415095436"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -11.06,
+            "osm_way_ids": [
+              "415095432"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -5.67,
+            "osm_way_ids": [
+              "414901025"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "421381324"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 5.37,
+            "osm_way_ids": [
+              "421381311"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 11.32,
+            "osm_way_ids": [
+              "414901022"
+            ],
+            "tracks_represented": 1,
+            "usage": "branch",
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "ELTAY",
+      "name": "Ельтай",
+      "osm_node_id": "4025083259",
+      "lat": 52.2779798,
+      "lon": 70.5909711,
+      "distance_m": 149975.08,
+      "projection_offset_m": 10.36,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/4025083259"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 150125.08,
+        "lat": 52.27681466573433,
+        "lon": 70.59209230595638,
+        "half_width_m": 150,
+        "mapped_track_count": 5,
+        "intersections": [
+          {
+            "offset_m": -5.93,
+            "osm_way_ids": [
+              "313242777"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 0.0,
+            "osm_way_ids": [
+              "429623586"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 6.98,
+            "osm_way_ids": [
+              "429623600"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 11.95,
+            "osm_way_ids": [
+              "326335678"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": 17.83,
+            "osm_way_ids": [
+              "326335680"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "AKKOL",
+      "name": "Акколь",
+      "osm_node_id": "3191477785",
+      "lat": 52.0144911,
+      "lon": 70.939158,
+      "distance_m": 191470.71,
+      "projection_offset_m": 4.02,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/3191477785"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 191620.71,
+        "lat": 52.01315833742452,
+        "lon": 70.93950344833682,
+        "half_width_m": 150,
+        "mapped_track_count": 11,
+        "intersections": [
+          {
+            "offset_m": -7.31,
+            "osm_way_ids": [
+              "513115542"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          },
+          {
+            "offset_m": -5.72,
+            "osm_way_ids": [
+              "313242133"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "326335558"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 7.52,
+            "osm_way_ids": [
+              "313242129"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 13.36,
+            "osm_way_ids": [
+              "421603265"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 18.31,
+            "osm_way_ids": [
+              "421603258"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 25.61,
+            "osm_way_ids": [
+              "421603263"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": 30.57,
+            "osm_way_ids": [
+              "421603264"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": 35.35,
+            "osm_way_ids": [
+              "421603260"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": 41.84,
+            "osm_way_ids": [
+              "313242130"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          },
+          {
+            "offset_m": 100.46,
+            "osm_way_ids": [
+              "421603267"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "SHORTANDY",
+      "name": "Шортанды",
+      "osm_node_id": "3207666940",
+      "lat": 51.7021313,
+      "lon": 70.9976243,
+      "distance_m": 229116.98,
+      "projection_offset_m": 4.04,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/3207666940"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 229266.98,
+        "lat": 51.70079156389623,
+        "lon": 70.99782790252452,
+        "half_width_m": 150,
+        "mapped_track_count": 7,
+        "intersections": [
+          {
+            "offset_m": -86.0,
+            "osm_way_ids": [
+              "1492437519"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          },
+          {
+            "offset_m": -18.48,
+            "osm_way_ids": [
+              "1492437533"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          },
+          {
+            "offset_m": -10.8,
+            "osm_way_ids": [
+              "1492437534"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -5.37,
+            "osm_way_ids": [
+              "1492437530"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "429611622"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 7.79,
+            "osm_way_ids": [
+              "429611574"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 13.84,
+            "osm_way_ids": [
+              "429463187"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "TONKERIS",
+      "name": "Тонкерис",
+      "osm_node_id": "2629466566",
+      "lat": 51.4486105,
+      "lon": 71.1923303,
+      "distance_m": 264220.73,
+      "projection_offset_m": 25.63,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/2629466566"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 264370.73,
+        "lat": 51.447244467515674,
+        "lon": 71.19227704431053,
+        "half_width_m": 150,
+        "mapped_track_count": 4,
+        "intersections": [
+          {
+            "offset_m": -16.52,
+            "osm_way_ids": [
+              "353433097"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": null
+          },
+          {
+            "offset_m": -10.4,
+            "osm_way_ids": [
+              "429611619"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": -4.47,
+            "osm_way_ids": [
+              "429611580"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "429463198"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "RAZYEZD_39",
+      "name": "Разъезд № 39 (Өндіріс)",
+      "osm_node_id": "3805439410",
+      "lat": 51.2364054,
+      "lon": 71.3606757,
+      "distance_m": 290784.83,
+      "projection_offset_m": 45.74,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/3805439410"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 290934.83,
+        "lat": 51.235000917435094,
+        "lon": 71.36088003302253,
+        "half_width_m": 150,
+        "mapped_track_count": 10,
+        "intersections": [
+          {
+            "offset_m": -33.65,
+            "osm_way_ids": [
+              "257090408"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -26.39,
+            "osm_way_ids": [
+              "257090412"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -18.15,
+            "osm_way_ids": [
+              "257090418"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -11.02,
+            "osm_way_ids": [
+              "257090410"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -5.71,
+            "osm_way_ids": [
+              "429316695"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "257090416"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 5.75,
+            "osm_way_ids": [
+              "429316690"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 11.53,
+            "osm_way_ids": [
+              "257090411"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 25.63,
+            "osm_way_ids": [
+              "737833564"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          },
+          {
+            "offset_m": 31.27,
+            "osm_way_ids": [
+              "737833565"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "spur"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "ASTANA_1",
+      "name": "Астана-1",
+      "osm_node_id": "4020137343",
+      "lat": 51.1958965,
+      "lon": 71.4099867,
+      "distance_m": 297211.78,
+      "projection_offset_m": 7.84,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/4020137343"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 297361.78,
+        "lat": 51.195224823529955,
+        "lon": 71.41185703523726,
+        "half_width_m": 150,
+        "mapped_track_count": 23,
+        "intersections": [
+          {
+            "offset_m": -42.57,
+            "osm_way_ids": [
+              "1059611906"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "yard"
+          },
+          {
+            "offset_m": -6.45,
+            "osm_way_ids": [
+              "1058661198"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": -0.0,
+            "osm_way_ids": [
+              "975268316"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 15.98,
+            "osm_way_ids": [
+              "1058647245"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 21.81,
+            "osm_way_ids": [
+              "257154371"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 26.9,
+            "osm_way_ids": [
+              "1058647244"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 31.39,
+            "osm_way_ids": [
+              "1058647249"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 36.81,
+            "osm_way_ids": [
+              "272757222"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 42.22,
+            "osm_way_ids": [
+              "1058688805"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 49.11,
+            "osm_way_ids": [
+              "1058688804"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 54.06,
+            "osm_way_ids": [
+              "1058688803"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 60.08,
+            "osm_way_ids": [
+              "1059971352"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 65.09,
+            "osm_way_ids": [
+              "1058688802"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 69.56,
+            "osm_way_ids": [
+              "1058688801"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 75.45,
+            "osm_way_ids": [
+              "1058688800"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 80.37,
+            "osm_way_ids": [
+              "1058688799"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 86.38,
+            "osm_way_ids": [
+              "312801213"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 92.31,
+            "osm_way_ids": [
+              "1059680400"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 97.45,
+            "osm_way_ids": [
+              "1059680401"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 102.41,
+            "osm_way_ids": [
+              "1059680402"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 107.69,
+            "osm_way_ids": [
+              "312801216"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 114.21,
+            "osm_way_ids": [
+              "1059680406",
+              "1059680407"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 120.86,
+            "osm_way_ids": [
+              "1059680409"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity."
+      }
+    },
+    {
+      "id": "NURLY_ZHOL",
+      "name": "Астана Нурлы Жол",
+      "osm_node_id": "13676555260",
+      "lat": 51.1124516,
+      "lon": 71.5317705,
+      "distance_m": 311821.34,
+      "projection_offset_m": 13.64,
+      "model_track_count": 2,
+      "model_track_length_m": 1500,
+      "station_capacity_status": "assumed_for_simulation",
+      "source_urls": [
+        "https://www.openstreetmap.org/node/13676555260"
+      ],
+      "mapped_track_observation": {
+        "distance_m": 311811.34,
+        "lat": 51.11256986953731,
+        "lon": 71.53161459457974,
+        "half_width_m": 150,
+        "mapped_track_count": 6,
+        "intersections": [
+          {
+            "offset_m": -17.83,
+            "osm_way_ids": [
+              "497358004"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 0.0,
+            "osm_way_ids": [
+              "1058647271"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 5.56,
+            "osm_way_ids": [
+              "1058647267"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 21.77,
+            "osm_way_ids": [
+              "507905429"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          },
+          {
+            "offset_m": 27.57,
+            "osm_way_ids": [
+              "507905455"
+            ],
+            "tracks_represented": 1,
+            "usage": null,
+            "service": "siding"
+          },
+          {
+            "offset_m": 43.04,
+            "osm_way_ids": [
+              "497358003"
+            ],
+            "tracks_represented": 1,
+            "usage": "main",
+            "service": null
+          }
+        ],
+        "method": "transverse OSM geometry sample 150 m towards Nurly Zhol from station projection; terminal sample clipped to route",
+        "operational_usable_track_count": null,
+        "warning": "Counts mapped geometry at one cross-section; yard/spur tracks may be present; not complete station inventory or usable capacity.",
+        "train_stop_position_node_ids": [
+          "13676555261",
+          "13676555262",
+          "13676555263",
+          "13676555264",
+          "13676555265",
+          "13676555266"
+        ],
+        "mapped_train_stop_positions": 6
+      }
+    }
+  ],
+  "sections": [
+    {
+      "id": "SECTION_KOKSHETAU_1__RAZYEZD_17",
+      "station_a": "KOKSHETAU_1",
+      "station_b": "RAZYEZD_17",
+      "length_m": 19845.11,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "257416499",
+        "313251539",
+        "313251543",
+        "421381220",
+        "421381228",
+        "421381246"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/257416499",
+        "https://www.openstreetmap.org/way/313251539",
+        "https://www.openstreetmap.org/way/313251543",
+        "https://www.openstreetmap.org/way/313251548",
+        "https://www.openstreetmap.org/way/421381220",
+        "https://www.openstreetmap.org/way/421381228",
+        "https://www.openstreetmap.org/way/421381246"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "257416499",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "313251548",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 4961.28,
+          "lat": 53.264753331213846,
+          "lon": 69.48499500987744,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.95,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 9922.56,
+          "lat": 53.24579272799102,
+          "lon": 69.55250503224907,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.96,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 14883.83,
+          "lat": 53.22365457456507,
+          "lon": 69.61662259322388,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.96,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_RAZYEZD_17__ZHAMANTUZ",
+      "station_a": "RAZYEZD_17",
+      "station_b": "ZHAMANTUZ",
+      "length_m": 18429.37,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "257416499",
+        "429611629",
+        "429611631"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/257416499",
+        "https://www.openstreetmap.org/way/313251548",
+        "https://www.openstreetmap.org/way/429611629",
+        "https://www.openstreetmap.org/way/429611631"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "257416499",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "313251548",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611629",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611631",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 24452.45,
+          "lat": 53.16007782215621,
+          "lon": 69.71281199569493,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.96,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 29059.8,
+          "lat": 53.12585306252668,
+          "lon": 69.74684994817474,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.96,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 33667.14,
+          "lat": 53.10448606402025,
+          "lon": 69.80400599883447,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.97,
+              "osm_way_ids": [
+                "313251548"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "257416499"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_ZHAMANTUZ__BURABAY",
+      "station_a": "ZHAMANTUZ",
+      "station_b": "BURABAY",
+      "length_m": 32117.4,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "326335555",
+        "326335676",
+        "326335679",
+        "337047545",
+        "337047547",
+        "421381208",
+        "421381278",
+        "429611627",
+        "429611631",
+        "429611633"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/278754977",
+        "https://www.openstreetmap.org/way/326335555",
+        "https://www.openstreetmap.org/way/326335676",
+        "https://www.openstreetmap.org/way/326335679",
+        "https://www.openstreetmap.org/way/337047545",
+        "https://www.openstreetmap.org/way/337047547",
+        "https://www.openstreetmap.org/way/421381208",
+        "https://www.openstreetmap.org/way/421381278",
+        "https://www.openstreetmap.org/way/429611597",
+        "https://www.openstreetmap.org/way/429611627",
+        "https://www.openstreetmap.org/way/429611631",
+        "https://www.openstreetmap.org/way/429611633"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "278754977",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335555",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335676",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335679",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "337047545",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "337047547",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611597",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611627",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611631",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611633",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 46303.83,
+          "lat": 53.04825938153157,
+          "lon": 69.95587012057226,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.97,
+              "osm_way_ids": [
+                "429611597"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "429611633"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 54333.18,
+          "lat": 53.01050747608268,
+          "lon": 70.03226031587765,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.98,
+              "osm_way_ids": [
+                "278754977"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "337047547"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 62362.53,
+          "lat": 52.95467562703773,
+          "lon": 70.0843791812377,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -8.45,
+              "osm_way_ids": [
+                "278754977"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "337047547"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_BURABAY__ZHASYL",
+      "station_a": "BURABAY",
+      "station_b": "ZHASYL",
+      "length_m": 18108.42,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "286183978",
+        "421381215",
+        "421381278",
+        "421653587",
+        "421653643",
+        "421653644",
+        "429623563"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/286183978",
+        "https://www.openstreetmap.org/way/326335568",
+        "https://www.openstreetmap.org/way/421381215",
+        "https://www.openstreetmap.org/way/421381278",
+        "https://www.openstreetmap.org/way/421653587",
+        "https://www.openstreetmap.org/way/421653643",
+        "https://www.openstreetmap.org/way/421653644",
+        "https://www.openstreetmap.org/way/429623563"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "286183978",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335568",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429623563",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 74918.99,
+          "lat": 52.90613337164816,
+          "lon": 70.22952786506309,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "286183978"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.98,
+              "osm_way_ids": [
+                "326335568"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 79446.09,
+          "lat": 52.86674168486823,
+          "lon": 70.2300437112835,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "286183978"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.99,
+              "osm_way_ids": [
+                "326335568"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 83973.2,
+          "lat": 52.83008820055435,
+          "lon": 70.25938236161096,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "286183978"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 4.49,
+              "osm_way_ids": [
+                "326335568"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_ZHASYL__MAKINKA",
+      "station_a": "ZHASYL",
+      "station_b": "MAKINKA",
+      "length_m": 19402.54,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "286183974",
+        "286338912",
+        "286338913",
+        "421381294",
+        "421381324",
+        "429623563",
+        "429623580"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/286183974",
+        "https://www.openstreetmap.org/way/286338912",
+        "https://www.openstreetmap.org/way/286338913",
+        "https://www.openstreetmap.org/way/326335569",
+        "https://www.openstreetmap.org/way/421381284",
+        "https://www.openstreetmap.org/way/421381294",
+        "https://www.openstreetmap.org/way/421381324",
+        "https://www.openstreetmap.org/way/429623563",
+        "https://www.openstreetmap.org/way/429623580"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "286338912",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335569",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "421381284",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "421381294",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429623563",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429623580",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 93350.93,
+          "lat": 52.7541428221846,
+          "lon": 70.32001408842939,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "286338912"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 6.39,
+              "osm_way_ids": [
+                "326335569"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 98201.57,
+          "lat": 52.714880792139425,
+          "lon": 70.35141910587531,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "286338912"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 4.37,
+              "osm_way_ids": [
+                "326335569"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 103052.21,
+          "lat": 52.67559260918312,
+          "lon": 70.38270191346415,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "421381294"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.18,
+              "osm_way_ids": [
+                "421381284"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_MAKINKA__ELTAY",
+      "station_a": "MAKINKA",
+      "station_b": "ELTAY",
+      "length_m": 42072.24,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "265281804",
+        "421381324",
+        "429623586",
+        "429623594"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/265281804",
+        "https://www.openstreetmap.org/way/326335557",
+        "https://www.openstreetmap.org/way/421381324",
+        "https://www.openstreetmap.org/way/429623586",
+        "https://www.openstreetmap.org/way/429623594"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "265281804",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335557",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 118420.9,
+          "lat": 52.5416579844791,
+          "lon": 70.42408789026983,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "265281804"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.95,
+              "osm_way_ids": [
+                "326335557"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 128938.96,
+          "lat": 52.45281503173372,
+          "lon": 70.47623352976566,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "265281804"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.96,
+              "osm_way_ids": [
+                "326335557"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 139457.02,
+          "lat": 52.36351239405319,
+          "lon": 70.52506394140435,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "265281804"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.97,
+              "osm_way_ids": [
+                "326335557"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_ELTAY__AKKOL",
+      "station_a": "ELTAY",
+      "station_b": "AKKOL",
+      "length_m": 41495.63,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "326335558",
+        "326335563",
+        "326335565",
+        "326335567",
+        "429623571",
+        "429623577",
+        "429623586"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/313242129",
+        "https://www.openstreetmap.org/way/326335558",
+        "https://www.openstreetmap.org/way/326335563",
+        "https://www.openstreetmap.org/way/326335565",
+        "https://www.openstreetmap.org/way/326335566",
+        "https://www.openstreetmap.org/way/326335567",
+        "https://www.openstreetmap.org/way/429623571",
+        "https://www.openstreetmap.org/way/429623574",
+        "https://www.openstreetmap.org/way/429623577",
+        "https://www.openstreetmap.org/way/429623586"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "313242129",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335558",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335566",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335567",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429623571",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429623574",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 160348.99,
+          "lat": 52.19438928363601,
+          "lon": 70.658599581488,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "429623571"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.98,
+              "osm_way_ids": [
+                "429623574"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 170722.89,
+          "lat": 52.109346847217,
+          "lon": 70.71931766719325,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "326335567"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.99,
+              "osm_way_ids": [
+                "326335566"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 181096.8,
+          "lat": 52.05564689466924,
+          "lon": 70.81568428547368,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "326335558"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.99,
+              "osm_way_ids": [
+                "313242129"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_AKKOL__SHORTANDY",
+      "station_a": "AKKOL",
+      "station_b": "SHORTANDY",
+      "length_m": 37646.27,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "322672159",
+        "326335558",
+        "429611622",
+        "691573390"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/313242129",
+        "https://www.openstreetmap.org/way/322672159",
+        "https://www.openstreetmap.org/way/326335558",
+        "https://www.openstreetmap.org/way/429611622",
+        "https://www.openstreetmap.org/way/691573390"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "313242129",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "326335558",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "691573390",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 200882.28,
+          "lat": 51.93158902394115,
+          "lon": 70.96673770569193,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "326335558"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.6,
+              "osm_way_ids": [
+                "313242129"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 210293.85,
+          "lat": 51.85165743519264,
+          "lon": 70.97622521701109,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "326335558"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 3.0,
+              "osm_way_ids": [
+                "313242129"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 219705.41,
+          "lat": 51.78157220239388,
+          "lon": 71.0144783821303,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "326335558"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 6.51,
+              "osm_way_ids": [
+                "313242129"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_SHORTANDY__TONKERIS",
+      "station_a": "SHORTANDY",
+      "station_b": "TONKERIS",
+      "length_m": 35103.75,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "313251550",
+        "322672160",
+        "429463188",
+        "429463198",
+        "429611578",
+        "429611580",
+        "429611622",
+        "429611624"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/256738524",
+        "https://www.openstreetmap.org/way/313251550",
+        "https://www.openstreetmap.org/way/322672160",
+        "https://www.openstreetmap.org/way/429463188",
+        "https://www.openstreetmap.org/way/429463198",
+        "https://www.openstreetmap.org/way/429611578",
+        "https://www.openstreetmap.org/way/429611580",
+        "https://www.openstreetmap.org/way/429611622",
+        "https://www.openstreetmap.org/way/429611624"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "256738524",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "313251550",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611624",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 237892.92,
+          "lat": 51.634206130811464,
+          "lon": 71.04992512549431,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "313251550"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 2.83,
+              "osm_way_ids": [
+                "256738524"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 246668.85,
+          "lat": 51.567569976872626,
+          "lon": 71.09279630604911,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "313251550"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.56,
+              "osm_way_ids": [
+                "256738524"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 255444.79,
+          "lat": 51.498454726439284,
+          "lon": 71.12384017793607,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "313251550"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.98,
+              "osm_way_ids": [
+                "256738524"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_TONKERIS__RAZYEZD_39",
+      "station_a": "TONKERIS",
+      "station_b": "RAZYEZD_39",
+      "length_m": 26564.1,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 2,
+      "status": "observed_in_osm_samples",
+      "osm_way_ids": [
+        "257090416",
+        "429316686",
+        "429463198",
+        "429611571",
+        "429611585",
+        "975252042"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/257090416",
+        "https://www.openstreetmap.org/way/429316686",
+        "https://www.openstreetmap.org/way/429463198",
+        "https://www.openstreetmap.org/way/429611571",
+        "https://www.openstreetmap.org/way/429611585",
+        "https://www.openstreetmap.org/way/429611616",
+        "https://www.openstreetmap.org/way/975252042"
+      ],
+      "observed_maxspeed_tags": [
+        {
+          "osm_way_id": "429611585",
+          "tag": "maxspeed",
+          "value": "230"
+        },
+        {
+          "osm_way_id": "429611616",
+          "tag": "maxspeed",
+          "value": "230"
+        }
+      ],
+      "mapped_track_samples": [
+        {
+          "distance_m": 270861.76,
+          "lat": 51.4011311555455,
+          "lon": 71.24837175561518,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -4.23,
+              "osm_way_ids": [
+                "429611616"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "429611585"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 277502.78,
+          "lat": 51.346686148061295,
+          "lon": 71.28728735161562,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -4.27,
+              "osm_way_ids": [
+                "429611616"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "429611585"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 284143.8,
+          "lat": 51.29150379261312,
+          "lon": 71.32383940457983,
+          "half_width_m": 40,
+          "mapped_track_count": 2,
+          "intersections": [
+            {
+              "offset_m": -3.15,
+              "osm_way_ids": [
+                "429611616"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "429611585"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_RAZYEZD_39__ASTANA_1",
+      "station_a": "RAZYEZD_39",
+      "station_b": "ASTANA_1",
+      "length_m": 6426.95,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": null,
+      "status": "assumed",
+      "osm_way_ids": [
+        "1058647243",
+        "257090404",
+        "257090416",
+        "313251541",
+        "313251545",
+        "313251549",
+        "407073086",
+        "415742918",
+        "975252043",
+        "975268315"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/1058647243",
+        "https://www.openstreetmap.org/way/243379603",
+        "https://www.openstreetmap.org/way/257090404",
+        "https://www.openstreetmap.org/way/257090416",
+        "https://www.openstreetmap.org/way/313251541",
+        "https://www.openstreetmap.org/way/313251545",
+        "https://www.openstreetmap.org/way/313251549",
+        "https://www.openstreetmap.org/way/407073080",
+        "https://www.openstreetmap.org/way/407073086",
+        "https://www.openstreetmap.org/way/415742918",
+        "https://www.openstreetmap.org/way/975252043",
+        "https://www.openstreetmap.org/way/975268315"
+      ],
+      "observed_maxspeed_tags": [],
+      "mapped_track_samples": [
+        {
+          "distance_m": 292391.57,
+          "lat": 51.22247105453705,
+          "lon": 71.3636363594777,
+          "half_width_m": 40,
+          "mapped_track_count": 1,
+          "intersections": [
+            {
+              "offset_m": -0.0,
+              "osm_way_ids": [
+                "313251549"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 293998.31,
+          "lat": 51.209453848898335,
+          "lon": 71.3693150110946,
+          "half_width_m": 40,
+          "mapped_track_count": 1,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "257090404"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 295605.04,
+          "lat": 51.202397115474646,
+          "lon": 71.38939350934193,
+          "half_width_m": 40,
+          "mapped_track_count": 3,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "407073086"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 6.01,
+              "osm_way_ids": [
+                "407073080"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 10.47,
+              "osm_way_ids": [
+                "243379603"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    },
+    {
+      "id": "SECTION_ASTANA_1__NURLY_ZHOL",
+      "station_a": "ASTANA_1",
+      "station_b": "NURLY_ZHOL",
+      "length_m": 14609.56,
+      "model_main_track_count": 2,
+      "mapped_main_track_count": 4,
+      "status": "assumed",
+      "osm_way_ids": [
+        "1058647252",
+        "1058647271",
+        "165836206",
+        "272757217",
+        "497358002",
+        "789216811",
+        "789216812",
+        "975252017",
+        "975268315",
+        "975268316",
+        "975314466",
+        "975314467"
+      ],
+      "source_urls": [
+        "https://www.openstreetmap.org/way/1058647252",
+        "https://www.openstreetmap.org/way/1058647271",
+        "https://www.openstreetmap.org/way/165836206",
+        "https://www.openstreetmap.org/way/272757217",
+        "https://www.openstreetmap.org/way/301426876",
+        "https://www.openstreetmap.org/way/430454680",
+        "https://www.openstreetmap.org/way/497358002",
+        "https://www.openstreetmap.org/way/497358005",
+        "https://www.openstreetmap.org/way/789216808",
+        "https://www.openstreetmap.org/way/789216811",
+        "https://www.openstreetmap.org/way/789216812",
+        "https://www.openstreetmap.org/way/975252017",
+        "https://www.openstreetmap.org/way/975262477",
+        "https://www.openstreetmap.org/way/975262479",
+        "https://www.openstreetmap.org/way/975268315",
+        "https://www.openstreetmap.org/way/975268316",
+        "https://www.openstreetmap.org/way/975314465",
+        "https://www.openstreetmap.org/way/975314466",
+        "https://www.openstreetmap.org/way/975314467",
+        "https://www.openstreetmap.org/way/975496401",
+        "https://www.openstreetmap.org/way/975496402"
+      ],
+      "observed_maxspeed_tags": [],
+      "mapped_track_samples": [
+        {
+          "distance_m": 300864.17,
+          "lat": 51.180987682816564,
+          "lon": 71.45667789303499,
+          "half_width_m": 40,
+          "mapped_track_count": 4,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "272757217"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 8.89,
+              "osm_way_ids": [
+                "975262477"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 12.58,
+              "osm_way_ids": [
+                "975496402"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 18.96,
+              "osm_way_ids": [
+                "975496401"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 304516.56,
+          "lat": 51.164290949483316,
+          "lon": 71.50176774535902,
+          "half_width_m": 40,
+          "mapped_track_count": 4,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "975314466"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 8.79,
+              "osm_way_ids": [
+                "975314465"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 13.35,
+              "osm_way_ids": [
+                "975262479"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 18.64,
+              "osm_way_ids": [
+                "430454680"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        },
+        {
+          "distance_m": 308168.95,
+          "lat": 51.14407479214673,
+          "lon": 71.5372076547714,
+          "half_width_m": 40,
+          "mapped_track_count": 4,
+          "intersections": [
+            {
+              "offset_m": 0.0,
+              "osm_way_ids": [
+                "789216811"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 5.95,
+              "osm_way_ids": [
+                "497358005"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 11.15,
+              "osm_way_ids": [
+                "789216808"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            },
+            {
+              "offset_m": 17.36,
+              "osm_way_ids": [
+                "301426876"
+              ],
+              "tracks_represented": 1,
+              "usage": "main",
+              "service": null
+            }
+          ]
+        }
+      ],
+      "operational_track_directions_verified": false,
+      "model_capacity_note": "Two tracks in the simulation; nearby mapped main tracks may serve other routes. Route-specific operational capacity is unverified."
+    }
+  ]
+}

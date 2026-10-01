@@ -1,7 +1,7 @@
 import json
 import math
 from pathlib import Path
-from .advisory import profile
+from .demo_advisory import profile
 
 ROOT = Path(__file__).resolve().parents[2]
 DWELL = 90

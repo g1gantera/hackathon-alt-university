@@ -2,7 +2,7 @@ name: Tests and build
 
 on:
   push:
-    branches: [main]
+    branches: [main, M_part, logic]
   pull_request:
   workflow_dispatch:
 
@@ -31,7 +31,7 @@ jobs:
           cache: pip
           cache-dependency-path: backend/requirements.lock.txt
       - name: Install locked dependencies
-        run: python -m pip install -r backend/requirements.lock.txt
+        run: python -m pip install -r backend/requirements.lock.txt -e .
       - name: Test simulator and parser
         run: python -m pytest backend/tests tests -q
 

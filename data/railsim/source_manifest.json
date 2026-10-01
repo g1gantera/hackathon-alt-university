@@ -1,0 +1,88 @@
+{
+  "source_directory": "/home/sam/Documents/railsim",
+  "vendored_directory": "vendor/railsim",
+  "reviewed_files": 16,
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "6d7d482b596444ca07618172b690eb1bbaa1255fef4b77440a274e6fafce5b04",
+      "bytes": 9030
+    },
+    {
+      "path": "config.py",
+      "sha256": "c6150c6511758671cbdcc67ed13ce86cfcd84693ae35a90c6056e3978d93e45a",
+      "bytes": 25497
+    },
+    {
+      "path": "main.py",
+      "sha256": "5e22a28c1ba0232565e8d40a879a0d7d113439141ca33af8c7bb80d3851ef8d1",
+      "bytes": 4687
+    },
+    {
+      "path": "railsim/__init__.py",
+      "sha256": "88279e3684be0fb3a8a566e98b7d6490a1fc34cbdee4816e977b363b58031738",
+      "bytes": 150
+    },
+    {
+      "path": "railsim/economics.py",
+      "sha256": "a80faf1ebc8860ef6c2798ae8c557ad1915c44050028d11f686dd22529f20d53",
+      "bytes": 4315
+    },
+    {
+      "path": "railsim/energy.py",
+      "sha256": "8c775bf12f89d9317134bd2e172e8da226f5828b1eea48f609b3fd820381e5d2",
+      "bytes": 1766
+    },
+    {
+      "path": "railsim/hazards.py",
+      "sha256": "9a80362d53e337c163444a57cdfc883577e7426b43724d509653a8c81e637af3",
+      "bytes": 6073
+    },
+    {
+      "path": "railsim/line.py",
+      "sha256": "f12cd3a31147d714cd9e67af3167d74abbdf3cc8d323572d39480f41978e966b",
+      "bytes": 7656
+    },
+    {
+      "path": "railsim/plots.py",
+      "sha256": "012e0cfe94acd8a987bde3d7baa6b608920022b18eb814a44f1917db5189e698",
+      "bytes": 5915
+    },
+    {
+      "path": "railsim/simulation.py",
+      "sha256": "ae267e1eb077cf1acd6cae6222c7565049eb3de0f24027a20425e40c9e6623c5",
+      "bytes": 6610
+    },
+    {
+      "path": "railsim/terminals.py",
+      "sha256": "66714c2de0c12f1334c3674690356cc7a4e57a312c10f9583a15e23eb2e9369b",
+      "bytes": 4670
+    },
+    {
+      "path": "railsim/trains.py",
+      "sha256": "36f4be648d6f8c8cff8611962b32808ba1192052d21a7e958535b7841182e169",
+      "bytes": 11987
+    },
+    {
+      "path": "railsim/util.py",
+      "sha256": "2c5e33803a69364f3761f8258d057e6baf048e85906c512be8314aaf7fb465f2",
+      "bytes": 1582
+    },
+    {
+      "path": "railsim/validate.py",
+      "sha256": "4dc0d920e6e079420b3fa4c7a73717bfc29ea1a439a9958c1d4bb0c81fca6e60",
+      "bytes": 6324
+    },
+    {
+      "path": "railsim/wagons.py",
+      "sha256": "ce4fa81b73e0f5af5b4c659b923b634c40fb05701cb5eb4b81f3bf0d23e91e49",
+      "bytes": 5100
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "3392b146148c00e55b63329c7e077eb669fdba84fd68b4d17914ee87d236e434",
+      "bytes": 63
+    }
+  ],
+  "configuration_status": "unfilled_template_not_operational_data"
+}

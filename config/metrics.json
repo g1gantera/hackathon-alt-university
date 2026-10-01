@@ -1,0 +1,14 @@
+{
+  "weights": {
+    "punctuality": 0.3,
+    "throughput": 0.2,
+    "energy": 0.2,
+    "conflicts": 0.15,
+    "arrival_accuracy": 0.15
+  },
+  "delay_scale_s": 3600,
+  "arrival_tolerance_s": 60,
+  "energy_budget_kwh": 30000,
+  "normal_threshold": 80,
+  "attention_threshold": 50
+}

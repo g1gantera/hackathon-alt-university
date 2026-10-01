@@ -4,12 +4,12 @@ import time
 import numpy as np
 import pytest
 
-from backend.app.advisory import profile, sample
+from backend.app.demo_advisory import profile, sample
 from backend.app.domain import topology, trains, ROOT
-from backend.app.metrics import DEFAULT_SETTINGS
-from backend.app.planning import build_plans, heuristic
+from backend.app.demo_metrics import DEFAULT_SETTINGS
+from backend.app.demo_planning import build_plans, heuristic
 from backend.app.simulator import Simulator
-from backend.app.validation import validate_plan
+from backend.app.demo_validation import validate_plan
 
 
 @pytest.fixture(scope='module')
