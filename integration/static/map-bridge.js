@@ -1,4 +1,4 @@
-import { createLocator, trackIndex } from './coordinates.mjs';
+import { createLocator, trackIndex, connectorFeatures } from './coordinates.mjs';
 
 // map and L are the original era map's existing Leaflet bindings.
 const panel = document.createElement('section');
@@ -123,6 +123,7 @@ if (typeof L === 'undefined' || typeof map === 'undefined' || typeof map.addLaye
       if (!topology) {
         topology = await api('/topology');
         locate = createLocator(topology);
+        L.geoJSON(connectorFeatures(topology), {style:{color:"#9260ad",weight:3}}).addTo(layers);
         for (const section of topology.sections) {
           for (const track of section.main_tracks || [{id: '1'}]) {
             sectionLayers.set(`${section.id}:${track.id}`, L.polyline((track.geometry || section.geometry).map(([lon, lat]) => [lat, lon]),

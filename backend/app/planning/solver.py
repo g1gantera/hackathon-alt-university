@@ -18,6 +18,7 @@ from backend.app.planning.common import (
     wear_cost,
 )
 from backend.app.schemas import Movement, Plan, PlanResult, Scenario, Stop
+from backend.app.traffic_control import dispatch_weight
 from backend.app.validation.plan import validate_plan
 
 
@@ -162,9 +163,7 @@ def solve_plan(
             model.add_hint(
                 delay, max(0, seed_stops[train.id, train.route[-1]].arrival_s - train.due_s)
             )
-        weight = train.priority * (
-            5 if strategy == "passenger" and train.kind == "passenger" else 1
-        )
+        weight = dispatch_weight(train, strategy)
         cost_terms.extend([100 * weight * delay, final_arrival])
         for origin, destination in zip(train.route, train.route[1:]):
             section = section_for(scenario, origin, destination)

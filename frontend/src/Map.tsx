@@ -3,7 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type {Topology,Snapshot,Train} from './types';
 import {useDispatch} from './store';
-import {createLocator,trackIndex} from '../../integration/static/coordinates.mjs';
+import {createLocator,trackIndex,connectorFeatures} from '../../integration/static/coordinates.mjs';
 import {trackCategories,trackCategory} from '../../integration/static/track-colors.mjs';
 import {trainNotice,incidentNotices} from '../../integration/static/map-alerts.mjs';
 import './tracks.css';
@@ -28,6 +28,8 @@ function trackFeatures(topology:Topology,snapshot?:Snapshot):FeatureCollection{
 
 export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapshot:Snapshot;allCountry:boolean}){
  const container=useRef<HTMLDivElement>(null),map=useRef<maplibregl.Map|null>(null);
+ const prior=useRef<Snapshot|null>(null);
+ const controls=useRef(new Map<string,maplibregl.Marker>());
  const markers=useRef(new Map<string,maplibregl.Marker>()),alarms=useRef(new Map<string,maplibregl.Marker>());
  const {selected,select}=useDispatch();
  const locate=useMemo(()=>createLocator(topology),[topology]);
@@ -42,6 +44,8 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
   m.on('load',()=>{
    m.addSource('corridor',{type:'geojson',data:trackFeatures(topology)});
    m.addLayer({id:'corridor',source:'corridor',type:'line',paint:{'line-color':'#253047','line-width':2,'line-opacity':.7,'line-dasharray':[4,3]}});
+   m.addSource('turnouts',{type:'geojson',data:connectorFeatures(topology)});
+   m.addLayer({id:'turnouts',source:'turnouts',type:'line',paint:{'line-color':'#9260ad','line-width':3}});
    m.addLayer({id:'wear',source:'corridor',type:'line',filter:['>=',['get','wear'],0],paint:{'line-color':['step',['get','wear'],'#4a9b73',40,'#d8a528',65,'#e77d2d',85,'#c6403a'],'line-width':6,'line-opacity':.55}});
    m.addLayer({id:'restrictions',source:'corridor',type:'line',filter:['in',['get','status'],['literal',['closed','signal_failure']]],paint:{'line-color':'#e55449','line-width':4,'line-dasharray':[2,2]}});
    for(const station of topology.stations){const element=document.createElement('div');element.className='map-station';const dot=document.createElement('i');const label=document.createElement('span');label.textContent=station.name;element.append(dot,label);element.title=`${station.tracks} пути в модели · ${station.mapped_tracks??'—'} линий в сечении OSM`;new maplibregl.Marker({element,anchor:'left'}).setLngLat(station.coordinate).addTo(m);}
@@ -55,7 +59,7 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
    setReady(true);
   });
   const resize=new ResizeObserver(()=>m.resize());resize.observe(container.current);
-  return()=>{resize.disconnect();markers.current.clear();alarms.current.clear();m.remove();map.current=null;};
+  return()=>{resize.disconnect();markers.current.clear();alarms.current.clear();controls.current.clear();m.remove();map.current=null;};
  },[topology]);
  useEffect(()=>{if(ready)map.current?.fitBounds(allCountry?[[46,40.3],[88,56]]:[[69.1,51.05],[71.8,53.5]],{padding:55,duration:700});},[ready,allCountry]);
  useEffect(()=>{
@@ -65,6 +69,24 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
  useEffect(()=>{
   const m=map.current;if(!ready||!m)return;
   (m.getSource('corridor') as maplibregl.GeoJSONSource)?.setData(trackFeatures(topology,snapshot));
+  const controlIds=new Set<string>();
+  const putControl=(id:string,position:[number,number],label:string,title:string,css:string)=>{
+   controlIds.add(id);let marker=controls.current.get(id);
+   if(!marker){const el=document.createElement('div');marker=new maplibregl.Marker({element:el,anchor:'bottom'}).setLngLat(position).addTo(m);controls.current.set(id,marker);}
+   marker.setLngLat(position);const el=marker.getElement();el.className='maplibregl-marker traffic-control '+css;el.textContent=label;el.title=title;
+  };
+  for(const signal of snapshot.signals||[]){
+   const section=topology.sections.find(s=>s.id===signal.section_id);if(!section)continue;
+   const from=signal.station_id===section.from_station;
+   const station=topology.stations.find(s=>s.id===signal.station_id)!;
+   const position=locate({on_network:true,position_m:station.position_m+(from?250:-250),section_id:section.id,main_track_id:signal.main_track_id} as Train);
+   if(position)putControl(signal.id,position,signal.aspect==='green'?'● ↑':'● ⊣',`${signal.id} · ${signal.reason}${signal.train_id?' · '+signal.train_id:''} · модельный сигнал`,signal.aspect);
+  }
+  for(const sw of snapshot.switches){const station=topology.stations.find(s=>s.id===sw.station_id);if(station)putControl('post:'+sw.station_id,station.coordinate,`${sw.position==='reverse'?'⑂':'⑃'} ${sw.available?'свободна':'замкнута'}`,`Модельный пост ${station.name} · стрелка ${sw.position==='reverse'?'боковой путь':'прямо'}${sw.train_id?' · маршрут '+sw.train_id:''}. Управление через назначение пути и проверенный план.`, 'post');}
+  for(const [id,marker] of controls.current)if(!controlIds.has(id)){marker.remove();controls.current.delete(id);}
+  const previous=prior.current;
+  const animate=previous?.epoch===snapshot.epoch&&snapshot.sim_time_s>previous.sim_time_s&&snapshot.sim_time_s-previous.sim_time_s<=60;
+  const animations:{marker:maplibregl.Marker;train:Train;start:number;end:number}[]=[];
   const present=new Set<string>();
   for(const train of snapshot.trains){
    const position=locate(train);if(!position)continue;
@@ -76,7 +98,13 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
     element.addEventListener('click',()=>select(train.id));
     marker=new maplibregl.Marker({element,anchor:'center'}).setLngLat(position).addTo(m);markers.current.set(train.id,marker);
    }
-   marker.setLngLat(position);
+   const old=animate?previous?.trains.find(t=>t.id===train.id):undefined;
+   if(old?.on_network!==false&&old&&old.position_m!==train.position_m){
+    const section=topology.sections.find(s=>s.id===(train.section_id||old.section_id));
+    if(section&&((old.section_id&&old.section_id===train.section_id)||(!old.section_id&&old.station_id===(train.direction===1?section.from_station:section.to_station))||(!train.section_id&&train.station_id===(train.direction===1?section.to_station:section.from_station)))){
+     animations.push({marker,train:train.section_id?train:old,start:old.position_m,end:train.position_m});
+    }else marker.setLngLat(position);
+   }else marker.setLngLat(position);
    const element=marker.getElement(),lane=trackIndex(train,topology);
    const notice=trainNotice(train,snapshot.plan.applicable!==false&&!snapshot.awaiting_plan);
    element.className=`maplibregl-marker track-train ${train.type} lane-${lane%2} ${notice.level} ${selected===train.id?'selected':''}`;
@@ -93,9 +121,14 @@ export function RailMap({topology,snapshot,allCountry}:{topology:Topology;snapsh
   }
   for(const [id,marker] of alarms.current)if(!active.has(id)){marker.remove();alarms.current.delete(id);}
 
+  prior.current=snapshot;
+  let frame=0;const started=performance.now();
+  const render=(now:number)=>{const ratio=Math.min(1,(now-started)/300);for(const item of animations){const point=locate({...item.train,station_id:null,position_m:item.start+(item.end-item.start)*ratio});if(point)item.marker.setLngLat(point);}if(ratio<1)frame=requestAnimationFrame(render);};
+  if(animations.length)frame=requestAnimationFrame(render);
+  return()=>cancelAnimationFrame(frame);
  },[snapshot,ready,selected,topology,select,locate]);
  return <><div className="map-wrapper"><div ref={container} className="map-canvas"/>
-  <details className="track-legend" open><summary>Типы путей</summary>{trackCategories.map(([id,label,color])=><label key={id}><input type="checkbox" checked={visible.has(id)} onChange={()=>setVisible(old=>{const next=new Set(old);if(next.has(id))next.delete(id);else next.add(id);return next;})}/><i style={{borderColor:color,borderTopStyle:id==='crossover'?'dashed':'solid'}}/>{label}</label>)}<p>Пунктир — пути модели.<br/>Сплошные — геометрия OSM.</p><p>Учебный износ: 🟢 &lt;40 · 🟡 40–64 · 🟠 65–84 · 🔴 ≥85%. Без оценки — без подсветки.</p></details>
+  <details className="track-legend" open><summary>Типы путей</summary>{trackCategories.map(([id,label,color])=><label key={id}><input type="checkbox" checked={visible.has(id)} onChange={()=>setVisible(old=>{const next=new Set(old);if(next.has(id))next.delete(id);else next.add(id);return next;})}/><i style={{borderColor:color,borderTopStyle:id==='crossover'?'dashed':'solid'}}/>{label}</label>)}<p>Пунктир — пути модели.<br/>Сплошные — геометрия OSM.<br/>Фиолетовый — модельные съезды.<br/>● Светофор: разрешение только указанному поезду.<br/>⑂ Пост и положение стрелки (модель).</p><p>Учебный износ: 🟢 &lt;40 · 🟡 40–64 · 🟠 65–84 · 🔴 ≥85%. Без оценки — без подсветки.</p></details>
   <div className="map-caption"><span className="dot green"/>{networkState}</div><div className="map-distance"><strong>{(topology.length_m/1000).toFixed(1)}</strong><span>км маршрута</span></div></div>
   <MapWarnings topology={topology} snapshot={snapshot}/><Queue snapshot={snapshot}/><p className="track-note">{topology.track_geometry_note||'Назначенные пути — из активного плана.'}</p></>;
 }
@@ -105,9 +138,19 @@ export function TrackDiagram({topology,snapshot}:{topology:Topology;snapshot:Sna
  const scroll=useRef<HTMLDivElement>(null);
  const width=topology.stations.length*210, stationX=(i:number)=>100+i*210, laneY=(i:number)=>115+i*80;
  const x=(position:number)=>{let i=topology.stations.findIndex(s=>s.position_m>=position);if(i<=0)return i===0?stationX(0):stationX(topology.stations.length-1);const a=topology.stations[i-1],b=topology.stations[i];return stationX(i-1)+(position-a.position_m)/(b.position_m-a.position_m)*210;};
+ const trainY=(t:Train)=>{
+  if(t.station_id)return laneY(trackIndex(t,topology));
+  const section=topology.sections.find(s=>s.id===t.section_id);if(!section)return laneY(0);
+  const a=topology.stations.find(s=>s.id===section.from_station)!,b=topology.stations.find(s=>s.id===section.to_station)!;
+  const f=Math.max(0,Math.min(1,(t.position_m-a.position_m)/(b.position_m-a.position_m)));
+  const y=laneY(trackIndex(t,topology)),forward=t.direction!==-1;
+  const from=a.track_layout?.findIndex(p=>p.id===(forward?t.departure_track_id:t.arrival_track_id))??0;
+  const to=b.track_layout?.findIndex(p=>p.id===(forward?t.arrival_track_id:t.departure_track_id))??0;
+  return f<.22?laneY(Math.max(0,from))+(y-laneY(Math.max(0,from)))*f/.22:f>.78?y+(laneY(Math.max(0,to))-y)*(f-.78)/.22:y;
+ };
  return <><div className="scheme-scroll"><button onClick={()=>scroll.current?.scrollBy({left:-500,behavior:'smooth'})}>← По схеме</button><span>Прокрутка внизу схемы · Shift + колесо</span><button onClick={()=>scroll.current?.scrollBy({left:500,behavior:'smooth'})}>По схеме →</button></div><div className="schematic" ref={scroll} tabIndex={0}><svg style={{minWidth:width}} viewBox={`0 0 ${width} 340`} aria-label="Пути и фактические назначения поездов">
  {topology.sections.map((section,i)=>{const state=snapshot.sections.find(s=>s.id===section.id);return <g key={section.id}>
-  {(section.main_tracks||[{id:'1',direction:'both'}]).map((track,j)=>{const status=state?.tracks?.find(t=>t.id===track.id)?.status||state?.status;return <g key={track.id}><line x1={stationX(i)+45} y1={laneY(j)} x2={stationX(i+1)-45} y2={laneY(j)} stroke={['closed','signal_failure'].includes(status||'')?'#e55449':'#253047'} strokeWidth={status==='occupied'?5:3}/><text x={stationX(i)+105} y={laneY(j)+22} textAnchor="middle" fontSize="11">{track.direction==='b_to_a'?'←':'→'} путь {track.id}{snapshot.track_wear?.[`main_track:${section.id}:${track.id}`]?` · ${snapshot.track_wear[`main_track:${section.id}:${track.id}`].wear_pct}%`:" · н/д"}</text></g>;})}
+  {(section.main_tracks||[{id:'1',direction:'both'}]).map((track,j)=>{const status=state?.tracks?.find(t=>t.id===track.id)?.status||state?.status;return <g key={track.id}>{[0,1].map(lane=><g key={lane}><line x1={stationX(i)} y1={laneY(lane)} x2={stationX(i)+46.2} y2={laneY(j)} stroke="#9260ad" strokeWidth="1"/><line x1={stationX(i+1)-46.2} y1={laneY(j)} x2={stationX(i+1)} y2={laneY(lane)} stroke="#9260ad" strokeWidth="1"/></g>)}<line x1={stationX(i)+45} y1={laneY(j)} x2={stationX(i+1)-45} y2={laneY(j)} stroke={['closed','signal_failure'].includes(status||'')?'#e55449':'#253047'} strokeWidth={status==='occupied'?5:3}/>{(snapshot.signals||[]).filter(sig=>sig.section_id===section.id&&sig.main_track_id===track.id).map(sig=><circle key={sig.id} cx={sig.station_id===section.from_station?stationX(i)+50:stationX(i+1)-50} cy={laneY(j)-12} r="5" fill={sig.aspect==='green'?'#149954':'#ce4135'}><title>{sig.reason} {sig.train_id}</title></circle>)}<text x={stationX(i)+105} y={laneY(j)+22} textAnchor="middle" fontSize="11">{track.direction==='b_to_a'?'←':'→'} путь {track.id}{snapshot.track_wear?.[`main_track:${section.id}:${track.id}`]?` · ${snapshot.track_wear[`main_track:${section.id}:${track.id}`].wear_pct}%`:" · н/д"}</text></g>;})}
   <text x={stationX(i)+105} y="255" textAnchor="middle" fontSize="12">{(section.length_m/1000).toFixed(1)} км</text></g>;})}
  {topology.stations.map((s,i)=><g key={s.id}>
   <title>{s.name}</title><text x={stationX(i)} y="42" textAnchor="middle" fontSize="13">{s.name.length>25?s.name.slice(0,23)+'…':s.name}</text>
@@ -115,7 +158,7 @@ export function TrackDiagram({topology,snapshot}:{topology:Topology;snapshot:Sna
   <text x={stationX(i)} y="290" textAnchor="middle" fontSize="11">{s.tracks} пути модели · {s.mapped_tracks??'—'} в сечении OSM</text>
   <text x={stationX(i)} y="310" textAnchor="middle" fontSize="11">Горловина: {snapshot.switches.find(w=>w.station_id===s.id)?.available?'свободна':'маршрут замкнут / запрет'}</text>
  </g>)}
- {snapshot.trains.filter(t=>t.on_network!==false).map(t=><g key={t.id} role="button" tabIndex={0} aria-label={trainTitle(t)} onClick={()=>select(t.id)} onKeyDown={e=>{if(e.key==='Enter')select(t.id)}} style={{cursor:'pointer'}}><title>{trainTitle(t)} {trainNotice(t,snapshot.plan.applicable!==false).text}</title><rect x={x(t.position_m)-45} y={laneY(trackIndex(t,topology))-12} width="90" height="24" rx="5" fill={trainNotice(t,snapshot.plan.applicable!==false).level==='danger'?'#c8483c':t.type==='passenger'?'#137f70':'#bd8524'} stroke={selected===t.id?'#122f39':'white'} strokeWidth="2"/><text x={x(t.position_m)} y={laneY(trackIndex(t,topology))+4} textAnchor="middle" fontSize="11" fill="white">{t.direction>0?'›':'‹'} {t.number}</text></g>)}
+ {snapshot.trains.filter(t=>t.on_network!==false).map(t=><g key={t.id} role="button" tabIndex={0} aria-label={trainTitle(t)} onClick={()=>select(t.id)} onKeyDown={e=>{if(e.key==='Enter')select(t.id)}} style={{cursor:'pointer'}}><title>{trainTitle(t)} {trainNotice(t,snapshot.plan.applicable!==false).text}</title><rect x={x(t.position_m)-45} y={trainY(t)-12} width="90" height="24" rx="5" fill={trainNotice(t,snapshot.plan.applicable!==false).level==='danger'?'#c8483c':t.type==='passenger'?'#137f70':'#bd8524'} stroke={selected===t.id?'#122f39':'white'} strokeWidth="2"/><text x={x(t.position_m)} y={trainY(t)+4} textAnchor="middle" fontSize="11" fill="white">{t.direction>0?'›':'‹'} {t.number}</text></g>)}
  </svg></div><MapWarnings topology={topology} snapshot={snapshot}/><Queue snapshot={snapshot}/><p className="track-note">Каждая полоса — отдельный ресурс плана. Обгон и пропуск — на станциях, после освобождения пути и горловины.</p></>;
 }
 

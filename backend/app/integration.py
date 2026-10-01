@@ -12,6 +12,7 @@ import uuid
 import numpy as np
 
 from .switches import states as switch_states
+from .traffic_control import CATEGORIES, control_state, journal_events
 from .domain import ROOT
 from . import demo_planning, demo_validation
 from .metrics.quality import MetricConfig, calculate_metrics, profile_plan
@@ -59,7 +60,7 @@ def scenario_for(state):
     scenario.now_s = int(state['sim_time_s'])
     scenario.state_version = state['constraint_version'] + 1
     for train in scenario.trains:
-        train.priority = max(1, round(state['settings'][train.kind + '_weight']))
+        train.priority = CATEGORIES[train.dispatch_category][1] if train.dispatch_category else max(1, round(state['settings'][train.kind + '_weight']))
     return scenario
 
 
@@ -303,9 +304,11 @@ class LogicSimulator:
         sections, stations = resource_states(state)
         violations = self.plan_violations()
         actual = actual_metrics(state, fleet, config_for(state), violations)
+        switches = switch_states(state)
+        signals, yields = control_state(state, fleet, switches, not violations and not state['awaiting_plan'] and not self.replanning)
         return {k:state[k] for k in ('sim_time_s','state_version','epoch','running','speed','incidents','awaiting_plan')} | {
             'track_wear':state['scenario'].get('metadata',{}).get('track_wear',{}),'engine':'logic','decision_hold':state['awaiting_plan'] or self.replanning,
-            'trains':fleet,'sections':sections,'stations':stations,'switches':switch_states(state), 'metrics':actual,
+            'trains':fleet,'sections':sections,'stations':stations,'switches':switches, 'signals':signals, 'dispatch_events':sorted({e['id']:e for e in journal_events(state, yields)+state.get('_dispatch_journal', [])}.values(), key=lambda e:e['sim_time_s'])[-500:], 'metrics':actual,
             'active_plan_id':plan['id'],'plan':self.active_public_plan(),'replanning':self.replanning}
 
     def update_settings(self, settings):

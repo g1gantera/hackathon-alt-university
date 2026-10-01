@@ -3,6 +3,7 @@
 import copy
 import math
 import uuid
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field
@@ -228,3 +229,26 @@ async def save_condition(body: Condition, request: Request):
         "accepted": True,
         "message": "Оценка износа сохранена. Движение ожидает проверенного плана.",
     }
+
+
+class CategoryChange(BaseModel):
+    epoch: str
+    train_id: str
+    category: Literal["emergency", "passenger", "express_freight", "freight", "service"]
+
+
+@router.post("/category")
+async def save_category(body: CategoryChange, request: Request):
+    sim = get_sim(request)
+    try:
+        scenario = checked_scenario(sim, body.epoch)
+        train = next((t for t in scenario.trains if t.id == body.train_id), None)
+        if train is None:
+            raise ValueError("Поезд не найден")
+        for item in scenario.trains:
+            item.dispatch_category = item.dispatch_category or item.kind
+        train.dispatch_category = body.category
+    except ValueError as error:
+        raise HTTPException(409, str(error)) from error
+    commit(sim, scenario, "category")
+    return {"accepted": True}

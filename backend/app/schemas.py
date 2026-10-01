@@ -112,6 +112,7 @@ class Section(Model):
 class Train(Model):
     id: str = Field(min_length=1)
     kind: Literal["passenger", "freight"]
+    dispatch_category: Literal["emergency", "passenger", "express_freight", "freight", "service"] | None = None
     priority: int = Field(default=1, ge=1, le=100)
     route: list[str] = Field(min_length=2)
     release_s: int = Field(ge=0)

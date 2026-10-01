@@ -80,6 +80,14 @@ def publish():
     global last_saved_snapshot
     observed_at=time.perf_counter()
     snapshot=sim.snapshot()
+    journal = sim.state.setdefault('_dispatch_journal', [])
+    seen = {e['id'] for e in journal}
+    for event in snapshot.get('dispatch_events', []):
+        if event['id'] not in seen:
+            seen.add(event['id'])
+            journal.append(event)
+            emit(event['type'], event)
+    snapshot['dispatch_events'] = sorted(journal, key=lambda e:e['sim_time_s'])[-500:]
     key=(sim.state['epoch'],sim.state['state_version'])
     if key!=last_saved_snapshot:
         store.save('snapshot',sim.state['epoch'],sim.state['sim_time_s'],snapshot)

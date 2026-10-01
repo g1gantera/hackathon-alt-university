@@ -72,3 +72,22 @@ test('movement joins its reserved station track in both directions without an en
     assert.ok(Math.abs(at({...train,position_m:.01})[1]-51.0001)<1e-8);
   }
 });
+
+test('every throat position lies on the same explicit connector drawn on the map', async () => {
+  const {movementGeometry,connectorFeatures}=await import('../static/coordinates.mjs');
+  const model=structuredClone(topology);
+  model.stations[0].track_layout=[{id:'side',coordinate:[70,51.001]}];
+  model.stations[1].track_layout=[{id:'side',coordinate:[70.1,50.999]}];
+  const knots=movementGeometry(model,model.sections[0],undefined,'side','side');
+  const at=createLocator(model);
+  for(const direction of [1,-1])for(let metre=0;metre<=1000;metre+=5){
+    const p=at({position_m:metre,section_id:'ab',direction,departure_track_id:'side',arrival_track_id:'side'});
+    const f=metre/1000,i=knots.findIndex(k=>k.fraction>=f);
+    const a=knots[Math.max(0,i-1)].coordinate,b=knots[i].coordinate;
+    const cross=(p[0]-a[0])*(b[1]-a[1])-(p[1]-a[1])*(b[0]-a[0]);
+    assert.ok(Math.abs(cross)<1e-12);
+  }
+  const features=connectorFeatures(model).features;
+  assert.deepEqual(features[0].geometry.coordinates,knots.slice(0,2).map(k=>k.coordinate));
+  assert.deepEqual(at({position_m:1000,section_id:'ab',direction:1,arrival_track_id:'side'}),model.stations[1].track_layout[0].coordinate);
+});
