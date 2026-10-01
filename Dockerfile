@@ -17,8 +17,13 @@ COPY app/ app/
 RUN pip install --no-deps -e .
 COPY config/ config/
 COPY data/corridor/ data/corridor/
+COPY data/akmola/ data/akmola/
+COPY data/region/ data/region/
+COPY data/traffic/ data/traffic/
+COPY data/railsim/ data/railsim/
 COPY scenarios/ scenarios/
 COPY data/kazakhstan_railways.geojson data/kazakhstan_railways.geojson
+COPY map.html map_data.js network.json build_network.py ./
 COPY --from=frontend /build/frontend/dist frontend/dist
 EXPOSE 8000
 CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

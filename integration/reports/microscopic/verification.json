@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-02",
+  "source_branch": "era",
+  "source_commit": "d0a56951f87e96b82d4e60721b9f3be2e5707048",
+  "delivery": "isolated execution trial, not replacement of primary logic",
+  "verification": {
+    "full_python_tests": 332,
+    "final_api_and_wiring_tests": 9,
+    "javascript_tests": 12,
+    "frontend_build": "passed",
+    "live_api": {
+      "scenario": "passing",
+      "seconds": 60,
+      "trains": 2,
+      "invariant_errors": 0,
+      "breakdown_and_clearance": "passed",
+      "primary_plan_and_time": "unchanged"
+    },
+    "visual_browser": "unavailable: Chrome connection missing",
+    "container_build": "not run"
+  },
+  "import": {
+    "kokshetau_burabay": "8 trains imported with intermediate stops and not-before departures",
+    "kokshetau": "rejected atomically: directed routing near Tonkeris",
+    "atbasar_esil": "rejected atomically: repeated edge/reversal",
+    "native_incidents": "rejected until mapping is implemented"
+  },
+  "limitations": [
+    "SIM-to-OSM track mapping not implemented",
+    "Native fleet roster, wear, gradients and regeneration not enforced in trial",
+    "Synthetic block/signal locations",
+    "No complete shunting or guaranteed deadlock recovery"
+  ]
+}

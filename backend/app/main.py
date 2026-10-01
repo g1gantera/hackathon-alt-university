@@ -602,6 +602,8 @@ from .fleet_edit import router as fleet_router
 app.include_router(fleet_router)
 from .dispatch_policy import router as dispatch_router
 app.include_router(dispatch_router)
+from .microscopic_api import router as execution_router
+app.include_router(execution_router)
 
 if (ROOT/'frontend/dist').exists():
     app.mount('/',StaticFiles(directory=ROOT/'frontend/dist',html=True),name='frontend')
