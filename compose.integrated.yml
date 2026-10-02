@@ -1,0 +1,23 @@
+services:
+  dispatch:
+    build:
+      context: .
+      dockerfile: Dockerfile.integrated
+    environment:
+      INGEST_URL: http://ingestion:8001
+      INGEST_TOKEN: ${INGEST_TOKEN:?Run scripts/setup_local.py first}
+    depends_on:
+      ingestion:
+        condition: service_healthy
+  ingestion:
+    build:
+      context: .
+      dockerfile: Dockerfile.integrated
+    command: ["uvicorn", "backend.ingestion.service:app", "--host", "0.0.0.0", "--port", "8001"]
+    environment:
+      INGEST_TOKEN: ${INGEST_TOKEN:?Run scripts/setup_local.py first}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 5s
+      timeout: 2s
+      retries: 10

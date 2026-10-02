@@ -1,0 +1,10 @@
+#railflow-live { position: absolute; z-index: 1000; right: 60px; bottom: 30px; width: 330px; padding: 14px; background: var(--panel, white); color: var(--text, #173e43); border: 1px solid var(--line, #d7e2e3); border-radius: 10px; box-shadow: 0 4px 24px #0002; font: 13px/1.5 system-ui, sans-serif; }
+#railflow-live h2 { margin: 0 0 7px; font-size: 15px; }
+#railflow-live p { margin: 5px 0; }
+#railflow-live .actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+#railflow-live button { font: inherit; padding: 5px 9px; cursor: pointer; }
+#railflow-live button:disabled { opacity: .5; cursor: default; }
+#railflow-live .note { color: var(--muted, #597579); font-size: 11px; }
+#railflow-live[data-connected="false"] #railflow-values { opacity: .5; }
+.railflow-train-label { font: 11px system-ui, sans-serif; padding: 2px 5px; }
+@media (max-width: 700px) { #railflow-live { right: 8px; bottom: 55px; width: 260px; padding: 9px; } }

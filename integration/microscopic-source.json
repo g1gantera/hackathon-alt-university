@@ -1,0 +1,62 @@
+{
+  "repository": "https://github.com/g1gantera/hackathon-alt-university",
+  "commit": "d0a56951f87e96b82d4e60721b9f3be2e5707048",
+  "files": [
+    {
+      "source": "backend/__init__.py",
+      "target": "backend/app/microscopic/__init__.py",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "backend/ato.py",
+      "target": "backend/app/microscopic/ato.py",
+      "original_sha256": "863a65471062779bac220bfb28e6dd1824f2396eb5de9539891370bcc9d48151"
+    },
+    {
+      "source": "backend/blocks.py",
+      "target": "backend/app/microscopic/blocks.py",
+      "original_sha256": "0f5d3756d736bac944be0ec3f0bc56d614c98615f5e633bfb810b47282a24ccf"
+    },
+    {
+      "source": "backend/dispatch.py",
+      "target": "backend/app/microscopic/dispatch.py",
+      "original_sha256": "ff95126fe8d29de34a34110668b57ad7b2c2c3be20628da0b73b2a3684a97a1b"
+    },
+    {
+      "source": "backend/engine.py",
+      "target": "backend/app/microscopic/engine.py",
+      "original_sha256": "80e7ee82356e4bf08c52fcecc38db09f2832591779cd14d8e000e82feef96d6b"
+    },
+    {
+      "source": "backend/history.py",
+      "target": "backend/app/microscopic/history.py",
+      "original_sha256": "d5a494b514dee3e5e63ca279e4c396c67fe27149ff4ff43a5b879b3610917da2"
+    },
+    {
+      "source": "backend/meets.py",
+      "target": "backend/app/microscopic/meets.py",
+      "original_sha256": "74906fc3a616792df844fd5a5c3881d5f48de76486cc45f84650180a4a6e2376"
+    },
+    {
+      "source": "backend/models.py",
+      "target": "backend/app/microscopic/models.py",
+      "original_sha256": "fcff1db9b9795beee0f675364da706434610cf7899a8472df1b4cc3eb84e7c3e"
+    },
+    {
+      "source": "backend/network.py",
+      "target": "backend/app/microscopic/network.py",
+      "original_sha256": "ec762c9056cce632d60b203bf4860e9f05be524ec32a01e623ea56737aee5e60"
+    },
+    {
+      "source": "backend/quality.py",
+      "target": "backend/app/microscopic/quality.py",
+      "original_sha256": "5b78cf656e9633115e58862b7f4df4e5d50f819dca17f9a595f914c5c8f30836"
+    }
+  ],
+  "adaptations": {
+    "backend/app/microscopic/network.py": "Repository root adjusted; original network/map files unchanged.",
+    "backend/app/microscopic/models.py": "Intermediate earliest departure and up to 150 stops for regional service import.",
+    "backend/app/microscopic/engine.py": "Imported intermediate departures are hard not-before times; arrival targets remain advisory.",
+    "bridge": "Atomic OSM station binding and route validation; no SIM-to-OSM track equivalence is assumed. Native priority 1..100 is linearly mapped to era importance 1..10."
+  }
+}

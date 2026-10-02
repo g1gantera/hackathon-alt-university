@@ -1,0 +1,19 @@
+services:
+  dispatch:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      DISPATCH_ENGINE: ${DISPATCH_ENGINE:-logic}
+      DEMO_MODE: ${DEMO_MODE:-false}
+      RETENTION_HOURS: ${RETENTION_HOURS:-48}
+      VIEWER_PASSWORD: ${VIEWER_PASSWORD:-}
+      DISPATCHER_PASSWORD: ${DISPATCHER_PASSWORD:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      METRIC_CONFIG_PATH: /storage/metrics.runtime.json
+      DATABASE_URL: sqlite:////storage/dispatch.sqlite
+    volumes:
+      - dispatch-data:/storage
+volumes:
+  dispatch-data:

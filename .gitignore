@@ -1,0 +1,49 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+KTZH.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage*
+htmlcov/
+*.egg-info/
+
+# JavaScript dependencies and generated output
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+.pnpm-store/
+coverage/
+
+# Local configuration and credentials (templates are versioned)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime data and raw download cache; keep the application GeoJSON
+data/*.sqlite*
+data/*.db*
+data/*.runtime.json
+data/overpass.json
+.logs/
+*.log
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.tmp
+
+# Algorithm experiment output
+output/*
+!output/.gitkeep
+.directory

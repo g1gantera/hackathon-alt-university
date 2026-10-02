@@ -1,0 +1,90 @@
+{
+  "engine": "logic",
+  "trains": 8,
+  "switch_count": 13,
+  "live_category": "Норма",
+  "auth": {
+    "role": "admin",
+    "demo": true
+  },
+  "runs": [
+    {
+      "case": "closure",
+      "constraints": 1,
+      "plans": 3,
+      "declared_calculation_s": 3.333,
+      "within_budget": true,
+      "replan_started_to_received_s": 3.3453,
+      "request_to_received_s": 3.3752,
+      "api_state_max_ms": 41.17,
+      "api_state_median_ms": 8.06,
+      "api_samples": 22,
+      "api_errors": 0,
+      "max_state_stream_gap_s": 0.5036,
+      "applied_valid_plan": true
+    },
+    {
+      "case": "five_incidents",
+      "constraints": 5,
+      "plans": 3,
+      "declared_calculation_s": 3.303,
+      "within_budget": true,
+      "replan_started_to_received_s": 3.318,
+      "request_to_received_s": 3.3602,
+      "api_state_max_ms": 30.74,
+      "api_state_median_ms": 7.6,
+      "api_samples": 22,
+      "api_errors": 0,
+      "max_state_stream_gap_s": 0.5056,
+      "applied_valid_plan": true
+    },
+    {
+      "case": "batch_ten",
+      "constraints": 10,
+      "plans": 3,
+      "declared_calculation_s": 3.315,
+      "within_budget": true,
+      "replan_started_to_received_s": 3.3251,
+      "request_to_received_s": 3.3685,
+      "api_state_max_ms": 26.34,
+      "api_state_median_ms": 8.0,
+      "api_samples": 22,
+      "api_errors": 0,
+      "max_state_stream_gap_s": 0.5037,
+      "applied_valid_plan": true
+    },
+    {
+      "case": "ten_incidents",
+      "constraints": 10,
+      "plans": 3,
+      "declared_calculation_s": 3.422,
+      "within_budget": true,
+      "replan_started_to_received_s": 3.4616,
+      "request_to_received_s": 4.2778,
+      "api_state_max_ms": 96.09,
+      "api_state_median_ms": 9.39,
+      "api_samples": 26,
+      "api_errors": 0,
+      "max_state_stream_gap_s": 0.5569,
+      "applied_valid_plan": true
+    }
+  ],
+  "idle_state_stream": {
+    "intervals": 15,
+    "mean_interval_s": 0.4991,
+    "max_interval_s": 0.5095,
+    "hz": 2.0036
+  },
+  "ingestion": {
+    "mode": "service",
+    "accepted": 261,
+    "dropped": 0,
+    "error": null
+  },
+  "ui_event_to_paint": {
+    "verified": false,
+    "samples": [],
+    "max_ms": null,
+    "note": "Requires a visible browser tab; HTTP timings do not prove UI paint latency."
+  }
+}

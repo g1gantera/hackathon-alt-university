@@ -1,0 +1,10 @@
+import {create} from 'zustand';
+import type {Snapshot} from './types';
+export const useDispatch=create<{snapshot:Snapshot|null;selected:string;connected:boolean;lastUpdate:number;setSnapshot:(s:Snapshot)=>void;select:(s:string)=>void;setConnected:(s:boolean)=>void}>(set=>({snapshot:null,selected:'T01',connected:false,lastUpdate:0,setSnapshot:s=>set({snapshot:s,lastUpdate:Date.now()}),select:s=>set({selected:s}),setConnected:s=>set({connected:s})}));
+export async function api<T=unknown>(path:string,method='GET',body?:unknown):Promise<T>{
+ const result=await fetch('/api'+path,{method,headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});
+ if(!result.ok){const value=await result.json().catch(()=>({detail:result.statusText}));throw new Error(typeof value.detail==='string'?value.detail:JSON.stringify(value.detail));}
+ return result.json();
+}
+export const clock=(seconds:number)=>{const s=Math.max(0,Math.floor(seconds));return `${String(8+Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor(s%3600/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;};
+export const minutes=(seconds:number)=>`${(seconds/60).toFixed(1)} мин`;

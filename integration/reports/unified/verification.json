@@ -1,0 +1,261 @@
+{
+  "date": "2026-10-02",
+  "timezone": "Asia/Almaty",
+  "python_full_suite": {
+    "passed": 344,
+    "log_summary": "344 passed, 1 Starlette deprecation warning, 153.09s",
+    "note": "Before final manual-assignment adapter; its focused suite subsequently passed 19 tests."
+  },
+  "final_manual_assignment_suite": {
+    "passed": 19
+  },
+  "javascript_tests": {
+    "passed": 13
+  },
+  "frontend_build": "passed",
+  "eight_train_completion": {
+    "end_sim_time_s": 32683.8,
+    "metrics": {
+      "kind": "synthetic_actual",
+      "index": 35.0,
+      "category": "Критично",
+      "contributions": {
+        "punctuality": 0.0,
+        "throughput": 20.0,
+        "energy": 0.0,
+        "conflicts": 15.0,
+        "arrival_accuracy": 0.0
+      },
+      "components": {
+        "punctuality": 0.0,
+        "throughput": 1.0,
+        "energy": 0.0,
+        "conflicts": 1.0,
+        "arrival_accuracy": 0.0
+      },
+      "provisional": false,
+      "config": {
+        "formula": "weighted_sum",
+        "weights": {
+          "punctuality": 0.3,
+          "throughput": 0.2,
+          "energy": 0.2,
+          "conflicts": 0.15,
+          "arrival_accuracy": 0.15
+        },
+        "delay_scale_s": 3600.0,
+        "arrival_tolerance_s": 60,
+        "energy_budget_kwh": 30000.0,
+        "normal_threshold": 80.0,
+        "attention_threshold": 50.0
+      },
+      "total_delay_s": 67762.4,
+      "max_delay_s": 13999.8,
+      "weighted_delay_s": 3850538.0,
+      "passenger_delay_s": 49905.799999999996,
+      "energy_kwh": 31334.29775886379,
+      "cancelled_energy_kwh": 0.0,
+      "completed_trips": 8,
+      "scheduled_trips": 8,
+      "completed_by_window": 8,
+      "scheduled_by_window": 8,
+      "on_time_pct": 0.0,
+      "conflicts": 0,
+      "plan_violation_count": 0,
+      "plan_applicable": true,
+      "applicable": true
+    },
+    "checks": "Actual blocks and receiving reservations checked after every physics step; plans validated independently before installation."
+  },
+  "overtake": {
+    "status": "passed",
+    "station": "B",
+    "slow_arrival_s": 179.8,
+    "fast_arrival_s": 265.0,
+    "fast_departure_s": 266.0,
+    "slow_departure_s": 500.0,
+    "conflicts": 0
+  },
+  "scenario_activation_smoke": {
+    "scope": "Each of 19 cases loaded from physically executed baseline, then advanced 30 simulation seconds. This is NOT completion of all 19 failures under load.",
+    "results": [
+      {
+        "case": "main_track_closure",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.662
+      },
+      {
+        "case": "signal_failure",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.565
+      },
+      {
+        "case": "station_track_closure",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.597
+      },
+      {
+        "case": "train_delay",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.593
+      },
+      {
+        "case": "speed_restriction",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.629
+      },
+      {
+        "case": "single_track_operation",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.626
+      },
+      {
+        "case": "ten_incidents",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.568
+      },
+      {
+        "case": "railsim_rail_defect",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.725
+      },
+      {
+        "case": "railsim_theft",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.736
+      },
+      {
+        "case": "railsim_flood",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.861
+      },
+      {
+        "case": "railsim_snow",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.624
+      },
+      {
+        "case": "railsim_sand",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.557
+      },
+      {
+        "case": "railsim_heat",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.522
+      },
+      {
+        "case": "railsim_loco_failure",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.604
+      },
+      {
+        "case": "railsim_wagon_defect",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.582
+      },
+      {
+        "case": "railsim_crossing",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.571
+      },
+      {
+        "case": "railsim_people",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.544
+      },
+      {
+        "case": "railsim_maintenance",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.526
+      },
+      {
+        "case": "railsim_derailment",
+        "time_s": 402.0,
+        "trains": 8,
+        "conflicts": [],
+        "elapsed_s": 1.538
+      }
+    ]
+  },
+  "regional_startup_smoke": {
+    "scope": "Initialize 28/56/84 trains and advance first 120 seconds; NOT a full-day throughput or combined failure/load test.",
+    "results": [
+      {
+        "multiplier": 1,
+        "trains": 28,
+        "time_s": 120.0,
+        "conflicts": [],
+        "elapsed_s": 3.677
+      },
+      {
+        "multiplier": 2,
+        "trains": 56,
+        "time_s": 120.0,
+        "conflicts": [],
+        "elapsed_s": 6.678
+      },
+      {
+        "multiplier": 3,
+        "trains": 84,
+        "time_s": 120.0,
+        "conflicts": [],
+        "elapsed_s": 10.475
+      }
+    ]
+  },
+  "limitations": [
+    "Synthetic infrastructure, signalling and train demand; no certification of KTZ infrastructure.",
+    "Station-boundary replanning is conservative and can increase delays; all eight trains were late in this verification.",
+    "Soft planning budget is 10 seconds for corridors, 15 for region; five seconds is not guaranteed.",
+    "Chrome extension unavailable; visual smoothness was not manually verified."
+  ],
+  "live_http_and_websocket": {
+    "time_s": 480.0,
+    "trains": 8,
+    "moving": 1,
+    "distance_m": 2120.6805794705538,
+    "conflicts": 0,
+    "planning_budget_s": 10,
+    "websocket_revision": 18,
+    "history_frames": 11,
+    "track_load_status": 200,
+    "profile_status": 200
+  }
+}
