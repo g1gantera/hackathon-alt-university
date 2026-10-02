@@ -14,6 +14,13 @@ rail network is visible on the map; the simulation is limited to a connected
 - [Latest technical verification](docs/compliance-verification.md): independent ingestion services, compressed retention and visible paint timing.
 
 Current local demo: **http://127.0.0.1:8001/**. Docker uses port **8000** by default.
+Use the language selector on the login screen or in the dashboard header to choose
+**Қазақша**, **Русский** or **English**. The choice is remembered in this browser
+and also applies to the dispatcher demo. Switching updates interface text, charts,
+station labels and supported server messages without restarting the simulation
+or recreating the map. Place names embedded in OpenStreetMap raster tiles keep
+their original labels; downloaded report data and API field names are unchanged.
+
 All eight feature stages and final local verification are complete. The reports
 describe measured limits and deployment qualifications. Presentation work is deferred.
 
@@ -21,11 +28,17 @@ After installing dependencies and building the frontend as described in the
 [runbook](docs/runbook.md), start the full service deployment with:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/run_local.py
+.\run.cmd
 ```
 
-This starts the website on 8001 plus movement, infrastructure and timetable
-ingestion on 8101–8103. Use `--env-file .env` to load role configuration.
+On Linux, macOS or Git Bash, use `bash run.sh`. Both launchers use the project's
+`.venv`, load `.env` automatically and enable UTF-8. No virtual-environment
+activation is needed. They start the website on 8001 plus movement, infrastructure
+and timetable ingestion on 8101–8103. Keep the terminal open; **Ctrl+C** stops
+the services started by that terminal. If the app is already running, use its
+existing browser tab or stop the previous launcher before starting another copy.
+Optional supervisor arguments work too, for example
+`.\run.cmd --api-port 8002 --service-base 8201` or `.\run.cmd --help`.
 `http://127.0.0.1:8001/api/health` shows readiness and storage statistics.
 
 ![Verified dispatcher dashboard](docs/dispatcher-current.png)
@@ -458,22 +471,47 @@ a fresh build. If the server was started before the first build, restart it.
   The left column shows the quality index, section KPIs and replanning status; the
   right column lists trains with search and status filters, and selecting a train
   opens its card with route progress. The bottom bar starts/pauses, resets, sets the
-  time multiplier and adds incidents. The bottom-right dock switches **География** /
-  **Схема путей**, toggles **Весь Казахстан** and shows the legend. Scenario settings
+  time multiplier and adds incidents. The bottom-right dock switches **Карта 2D** /
+  **Карта 3D** / **Схема путей**, toggles **Весь Казахстан** and shows the legend. Scenario settings
   and the stage-3 demo are under **⋯**. Manual plan review/application is on
   **Диспетчер**; charts and detailed quality metrics are on **Аналитика**. Escape
   closes the open panel.
 - The sun/moon button in the header switches light and dark themes; **⋯ → Тема →
   Как в системе** follows the OS setting. The choice is stored per browser. Dark mode
-  shows the same map through a night filter on the map canvas; markers are unchanged.
+  darkens the basemap separately from the trains, so their colours remain readable.
   Panels use a liquid-glass material; in Chromium the header and bottom bars also
   refract what is behind them.
-- **3D-вид** in the map dock draws the same live trains on the real corridor geometry:
+- **Карта 3D** draws trains directly over the geographic map in one MapLibre canvas:
   TE33A-style diesels (freight trains double-headed), coal gondolas and boxcars sized from
-  each train's simulated length, passenger coaches, stations with passing loops, ballast,
-  sleepers and overhead line. Two fixed cameras follow the selected train: **2D сверху**
-  (north-up plan) and **3D** (three-quarter view ahead of the locomotive); the mouse wheel
-  only zooms. Click a train label to select it. Models are approximate, not engineering data.
+  each train's simulated length, passenger coaches and illustrative station buildings.
+  Close views include steel rails, ballast and sleepers, with sidings at stations.
+  Rail meshes load only around the visible area and use a bounded GPU cache.
+  The full Kazakhstan network, station labels, section status and train selection stay
+  available in both map modes. Entering 3D zooms to the selected train; models appear
+  at zoom 14 and above, while markers remain visible at overview scale.
+  Drag to pan, use the wheel to zoom, and right-drag (or Ctrl-drag) to rotate/tilt.
+  **За поездом** follows the selected train through wheel/pinch zoom and rotation;
+  dragging the map cancels following. Clicking a train in the list selects it, moves
+  the camera to it and enables following. Clicking it again recenters the camera.
+  **Весь Казахстан** stops following and fits the network; **К маршруту** fits the corridor.
+  **Карта 2D** levels the same map. The schematic opens over it without recreating it.
+  Live 2D markers, 3D models and the follow camera share a frame-by-frame animation
+  along the rail polyline between confirmed positions (normally about 500 ms of
+  visual delay). Telemetry remains authoritative and updates immediately. Animation
+  stops at the last confirmed position if the feed stops; it never extrapolates.
+  Pause, reset, reconnect and archive seeks snap to the supplied snapshot. Hidden
+  views suspend animation and resume at the current position, without replaying a backlog.
+  Outside yards, head coordinates settle exactly on the snapshot and carriages follow
+  the section polyline in their travel direction. In yards, trains are displayed on
+  separate illustrative sidings, with the same offset used for markers and carriages.
+  Assignments remain stable until the whole consist clears the switches; trains join
+  the main line along tapered curves. The backend does not provide track numbers:
+  these display assignments do not change operating capacity, telemetry or conflicts.
+  If a snapshot exceeds declared station capacity, extra display sidings keep all
+  trains visible; they do not add dispatcher capacity or suppress conflict indicators.
+  Models are approximate, not engineering data; station
+  buildings are illustrative and do not represent actual surveyed footprints.
+  If WebGL2 model rendering fails, a message appears and the map remains usable.
 - Geometry is real OSM linework; the operating model is synthetic: single-track
   sections, 90 km/h limit (72 for freight), 90-second intermediate dwell, two
   intermediate station tracks, eight terminal tracks. Station anchor coordinates

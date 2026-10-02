@@ -112,8 +112,9 @@ body{overflow:hidden;background:var(--rf-stage);color:var(--rf-text);transition:
 .rf-stage .map-selected,.rf-stage .map-distance{display:none}
 .rf-stage .map-caption{z-index:2;left:12px;bottom:-12px;padding:6px 11px;border-radius:999px;font-size:11px;color:var(--rf-muted);background:var(--lg-tint);-webkit-backdrop-filter:var(--lg-filter);backdrop-filter:var(--lg-filter);border:0;box-shadow:var(--lg-shadow);pointer-events:auto}
 .rf-stage .map-caption button{color:var(--rf-accent-text)}
-/* Dark mode shows the same map through a night filter on the map canvas; markers are untouched. */
-[data-theme=dark] .rf-stage .maplibregl-canvas{filter:invert(.9) hue-rotate(180deg) saturate(1.6) brightness(1.08)}
+.viewer-hidden{visibility:hidden;pointer-events:none}
+.viewer-overlap{display:block;margin-top:3px;color:var(--rf-muted)}
+.viewer-hint{position:absolute;left:50%;bottom:30px;translate:-50% 0;z-index:2;max-width:calc(100% - 100px);padding:7px 13px;border-radius:12px;background:var(--lg-tint-dense);color:var(--rf-text);font-size:11px;text-align:center;pointer-events:none;box-shadow:var(--lg-shadow)}
 .rf-scheme{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:var(--rf-top) calc(var(--rf-side) + 24px) 84px;background:radial-gradient(circle at 25% 20%,#d6eee6,transparent 50%),radial-gradient(circle at 80% 85%,#dbe8f1,transparent 50%),#edf2f0}
 .rf-scheme .schematic{width:100%;max-width:1180px;height:auto;padding:20px 12px 6px;border-radius:24px;background:var(--lg-tint-dense);box-shadow:var(--lg-shadow)}
 .rf-scheme .schematic p{font-size:12px;color:var(--rf-muted)}
@@ -465,7 +466,7 @@ body{overflow:hidden;background:var(--rf-stage);color:var(--rf-text);transition:
  .rf-controls .ant-btn.rf-run{min-width:0}
  .rf-controls .rf-incident>span:not(.ant-btn-icon){display:none}
  .rf-speed>button{min-width:38px}
- .rf-mapdock{top:calc(var(--rf-top) + 96px);bottom:auto;right:8px;padding:4px}
+ .rf-mapdock{top:calc(var(--rf-top) + 96px);bottom:auto;right:8px;left:8px;padding:4px;flex-wrap:wrap;justify-content:center;border-radius:18px}
  .rf-seg button{padding:6px 9px}
  .rf-legend{top:calc(var(--rf-top) + 146px);bottom:auto;right:8px;width:min(290px,calc(100% - 16px))}
  .rf-detail,.rf-sheet{top:auto;left:0;right:0;bottom:0;width:auto;max-height:82%;border-radius:26px 26px 0 0;padding-top:18px;z-index:24}
@@ -474,6 +475,10 @@ body{overflow:hidden;background:var(--rf-stage);color:var(--rf-text);transition:
  .rf-sheet-body{padding:10px}
  .rf-app .archive-player{bottom:8px}
  .ant-drawer-right>.ant-drawer-content-wrapper{top:8px;bottom:8px;right:8px;max-width:calc(100% - 16px)}
+}
+@media(min-width:821px) and (max-width:1150px){
+ .rf-mapdock{bottom:70px}
+ .rf-legend{bottom:126px}
 }
 @media(min-width:821px) and (max-height:640px){
  .rf-advisory{display:none}
