@@ -8,6 +8,8 @@ A working FastAPI + Leaflet railway simulation around the original Kazakhstan OS
 
 Python 3.11+ is required; tested with Python 3.14.4. No Node build is needed for the application.
 
+The dashboard uses a fullscreen map with floating liquid-glass panels. Use **Simulation** at the bottom-left to choose a scenario, the train list to select a service, and **View driving advisory** for its details. The **•••** menu contains history, configuration, guides, and sign-out. On phones, panels become collapsible bottom sheets. The interface supports system dark mode, reduced motion, and keyboard navigation; Plus Jakarta Sans is bundled locally. This presentation layer preserves the original map assets, simulation, dispatch weights, and live/replay data.
+
 ```bash
 ./run.sh
 # Open http://127.0.0.1:8000
@@ -80,6 +82,9 @@ Optional presentation rebuild instructions are in [docs/PRESENTATION.md](docs/PR
 .venv/bin/python scripts/browser_check.py
 # Alternative with installed Firefox and Node 22+:
 node scripts/browser_firefox.mjs
+# Glass UI checks: use an isolated server on port 8013 (creates demo state).
+# RAIL_DATA_DIR=.build/glass-check-data .venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 8013
+node scripts/glass-browser.mjs
 # Localization checks (Node 22+); browser check requires an isolated demo server:
 node --test scripts/i18n.test.mjs
 RAIL_TEST_URL=http://127.0.0.1:8012 node scripts/i18n-browser.mjs
