@@ -21,6 +21,8 @@ python3 -m venv .venv
 .venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000 --workers 1
 ```
 
+Choose **KZ**, **RU**, or **ENG** on the sign-in screen or in the dashboard header for Kazakh, Russian, or English. The selection updates the dashboard and both map views immediately and is remembered in this browser. Switching languages preserves open forms, filters, and replay state. User-entered names and notes, source place names, API values, and exported journal data retain their original content.
+
 | Role | Username | Default mock password |
 |---|---|---|
 | Dispatcher | `dispatcher` | `demo-dispatch` |
@@ -78,6 +80,9 @@ Optional presentation rebuild instructions are in [docs/PRESENTATION.md](docs/PR
 .venv/bin/python scripts/browser_check.py
 # Alternative with installed Firefox and Node 22+:
 node scripts/browser_firefox.mjs
+# Localization checks (Node 22+); browser check requires an isolated demo server:
+node --test scripts/i18n.test.mjs
+RAIL_TEST_URL=http://127.0.0.1:8012 node scripts/i18n-browser.mjs
 # Read-only SSE cadence and resynchronization check:
 .venv/bin/python scripts/stream_check.py
 ```

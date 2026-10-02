@@ -7,20 +7,22 @@
   const wrapper=frame?.closest('.map-wrapper');
   if(!frame||!loading||!tools||!wrapper)return;
 
-  const originalTitle=frame.title;
+  const t=(source)=>window.RailI18n?.t(source)??source;
+  const originalTitle=frame.getAttribute('data-i18n-title')||frame.title;
   let mode='2d';
   const group=document.createElement('div');
   group.className='scene3d-view-switch';
   group.setAttribute('role','group');
-  group.setAttribute('aria-label','Map view');
+  group.setAttribute('aria-label',t('Map view'));
   const buttons=new Map();
-  for(const [value,label,title] of [
+  const views=[
     ['2d','2D','Geographic railway map'],
     ['3d','3D','Low-poly railway view'],
-  ]){
+  ];
+  for(const [value,label,title] of views){
     const button=document.createElement('button');
-    button.type='button';button.textContent=label;button.title=title;
-    button.setAttribute('aria-label',title);
+    button.type='button';button.textContent=label;button.title=t(title);
+    button.setAttribute('aria-label',t(title));
     button.setAttribute('aria-controls','rail-map');
     button.setAttribute('aria-pressed',String(value===mode));
     button.addEventListener('click',()=>show(value));
@@ -29,9 +31,18 @@
   tools.prepend(group);
   const hint=document.createElement('p');
   hint.className='scene3d-view-hint';hint.hidden=true;
-  hint.textContent='3D models show the same trains, routes and signals as the selected live or replay view.';
+  hint.textContent=t('3D models show the same trains, routes and signals as the selected live or replay view.');
   wrapper.after(hint);
   frame.setAttribute('allowfullscreen','');
+
+  function translate(){
+    group.setAttribute('aria-label',t('Map view'));
+    for(const [value,,title] of views){const button=buttons.get(value);button.title=t(title);button.setAttribute('aria-label',t(title));}
+    hint.textContent=t('3D models show the same trains, routes and signals as the selected live or replay view.');
+    frame.title=t(mode==='3d'?'3D railway view with live simulation overlays':originalTitle);
+    loading.textContent=t(mode==='3d'?'Loading 3D railway view…':'Loading original railway map…');
+  }
+  window.addEventListener('railflow:languagechange',translate);
 
   function show(next){
     if(next===mode)return;
@@ -40,9 +51,9 @@
     wrapper.classList.toggle('is-3d',is3D);
     hint.hidden=!is3D;
     for(const [value,button] of buttons)button.setAttribute('aria-pressed',String(value===mode));
-    frame.title=is3D?'3D railway view with live simulation overlays':originalTitle;
+    frame.title=t(is3D?'3D railway view with live simulation overlays':originalTitle);
     frame.setAttribute('aria-busy','true');
-    loading.textContent=is3D?'Loading 3D railway view…':'Loading original railway map…';
+    loading.textContent=t(is3D?'Loading 3D railway view…':'Loading original railway map…');
     loading.setAttribute('role','status');loading.hidden=false;
     // Keep the iframe identity: app.js validates messages against its window
     // and sends the currently selected live/replay snapshot on map-ready.

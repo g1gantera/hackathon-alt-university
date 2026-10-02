@@ -6,6 +6,11 @@ import {decodeNetwork, project, projectLatLon, createRouteSampler, routeSignatur
 import {TrainMotionBuffer} from './motion.ts';
 import {buildTrackDetail} from './track.ts';
 
+declare global {
+ interface Window {RailI18n?:{t:(source:string,params?:Record<string,string|number>)=>string;message:(source:string)=>string;language:string;setLanguage:(language:string,persist?:boolean)=>boolean;translate:()=>void}}
+}
+const t=(source:string,params?:Record<string,string|number>)=>window.RailI18n?.t(source,params)??source;
+const localizedNumber=(value:number)=>value.toLocaleString(window.RailI18n?.language==='kk'?'kk-KZ':window.RailI18n?.language==='ru'?'ru-RU':'en-US');
 const $ = <T extends HTMLElement = HTMLElement>(id:string) => document.getElementById(id) as T;
 const origin = location.origin;
 const post = (message:object) => {if(parent !== window) parent.postMessage(message,origin);};
@@ -14,6 +19,7 @@ type Path = {points:[number,number][];category:string;edge:number;minX:number;ma
 type TrainView = {model:RailConsist;label:HTMLElement;sampler:RouteSampler|null;motion:TrainMotionBuffer;train:EraTrain;length:number;head:THREE.Vector3};
 let pending:StateMessage|null = null, receive:((data:StateMessage)=>void)|null = null;
 let focus:()=>void = ()=>{}, toggleLayers:()=>void = ()=>{};
+let refreshLanguage:()=>void=()=>{},activeError:string|null=null;
 window.addEventListener('message',event=>{
   if(event.origin!==origin||event.source!==parent||!event.data)return;
   if(event.data.type==='state'){pending=event.data;if(receive)receive(event.data);}
@@ -22,6 +28,11 @@ window.addEventListener('message',event=>{
 });
 
 async function main(){
+ try {if(parent!==window&&parent.RailI18n)window.RailI18n?.setLanguage(parent.RailI18n.language,false);}catch{/* The parent may be cross-origin when opened externally. */}
+ window.RailI18n?.translate();
+ refreshLanguage=()=>{$('scene-title').textContent=t('Railway network');$('scene-status').textContent=t('Loading track geometry…');$('follow').textContent=t('Follow train');};
+ refreshLanguage();
+ window.addEventListener('railflow:languagechange',()=>{refreshLanguage();if(activeError)showError(activeError);});
  const renderer = new THREE.WebGLRenderer({antialias:true,alpha:false,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
  renderer.setClearColor(0xe9eee7);
@@ -62,7 +73,7 @@ async function main(){
    stations.visible=layerState.stations;signalGroup.visible=layerState.signals;authority.visible=layerState.authority;
    $('labels').hidden=!layerState.labels;dirty=true;
  }));
- function updateFollow(){$('follow').setAttribute('aria-pressed',String(follow));$('follow').textContent=follow?'Following train':'Follow train';}
+ function updateFollow(){$('follow').setAttribute('aria-pressed',String(follow));$('follow').textContent=t(follow?'Following train':'Follow train');}
  const activeId=()=>selected&&trainViews.has(selected)?selected:trainViews.keys().next().value||'';
  $('follow').onclick=()=>{if(!trainViews.size)return;follow=!follow;updateFollow();if(follow)focusTrain(activeId());dirty=true;};
  $('fullscreen').onclick=()=>{const action=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();action.catch(()=>{});};
@@ -88,7 +99,7 @@ async function main(){
  const response=await fetch('network.json.gz');if(!response.ok||!response.body)throw new Error('Track geometry could not be loaded.');
  const raw=await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).json();
  network=decodeNetwork(raw);
- const sectionCount=network.edges.filter(e=>!e.synthetic).length.toLocaleString();
+ const sectionCount=network.edges.filter(e=>!e.synthetic).length;
  const stationPlaces=new Map<string,typeof network.stations[number]>();
  for(const station of network.stations){if(!station.name&&!station.name_en||station.type==='tram_stop')continue;
   const label=`${station.name_en||station.name}${station.name_en&&station.name_en!==station.name?' / '+station.name:''} · ${station.id}`;
@@ -139,7 +150,7 @@ async function main(){
    if(edge){const index=vertex===edge.v?edge.geometry.length-2:0;const a=project(edge.geometry[index]),b=project(edge.geometry[index+1]);angle=Math.atan2(b[0]-a[0],b[1]-a[1]);}
    const model=createStation(station.type==='halt'||station.type==='stop'?'halt':/Астана|Astana|Кокшетау|Kokshetau/i.test(station.name+' '+station.name_en)?'terminal':'station');
    model.position.set(x+Math.cos(angle)*8,.04,z-Math.sin(angle)*8);model.rotation.y=angle;stationBuildings.add(model);
-   const label=document.createElement('div');label.className='label station';label.textContent=station.name_en||station.name||'Rail stop';$('labels').append(label);
+   const label=document.createElement('div');label.className='label station';label.textContent=station.name_en||station.name||t('Rail stop');if(!station.name_en&&!station.name)label.dataset.i18n='Rail stop';$('labels').append(label);
    stationLabels.push({element:label,position:new THREE.Vector3(x,18,z)});
    // Decorative planting around buildings; never interpreted as graph assets.
    for(let i=0;i<3;i++){const tree=createTree();tree.position.set(x+Math.cos(angle)*(31+i*6)+Math.sin(angle)*18,0,z-Math.sin(angle)*(31+i*6)+Math.cos(angle)*18);stationBuildings.add(tree);}
@@ -177,13 +188,24 @@ async function main(){
   const label=document.createElement('div');label.className='label train';$('labels').append(label);
   return {model,label,sampler:null,motion:new TrainMotionBuffer(),train,length:train.spec.length_m,head:new THREE.Vector3()};
  }
+ function updateTrainLabel(view:TrainView){
+  const train=view.train;
+  view.label.replaceChildren(document.createTextNode(train.name||train.id));
+  const sub=document.createElement('small');sub.textContent=`${train.id} · ${train.speed_kmh.toFixed(0)} ${t('km/h')} · ${t(train.state.replaceAll('_',' '))}`;view.label.append(sub);
+ }
+ function updateHeading(){
+  $('scene-title').textContent=selected&&trainViews.has(selected)?trainViews.get(selected)!.train.name:t('Railway network');
+  $('scene-status').textContent=snapshot?t('{mode} · {trains} trains · {sections} track sections',{mode:t(replay?'REPLAY':snapshot.running?'LIVE':'PAUSED'),trains:localizedNumber(trainViews.size),sections:localizedNumber(sectionCount)}):t('{stations} stations & stops · waiting for live state',{stations:localizedNumber(network.stations.length)});
+ }
+ function updateScale(){const distance=camera.position.distanceTo(controls.target);$('scale').textContent=t('{distance} {unit} view',{distance:distance>10000?(distance/1000).toFixed(0):distance.toFixed(0),unit:t(distance>10000?'km':'m')});}
+ refreshLanguage=()=>{updateFollow();updateHeading();trainViews.forEach(updateTrainLabel);updateScale();dirty=true;};
  receive=data=>{
   // Selection can change without a new snapshot version.
   selected=data.selected;dirty=true;
   const state=data.state,now=performance.now();
   if(snapshot&&snapshot.run_id===state.run_id&&!data.replay&&!replay&&state.version<snapshot.version)return;
   const changed=!snapshot||snapshot.run_id!==state.run_id||snapshot.version!==state.version||replay!==data.replay;
-  if(!changed){$('scene-title').textContent=selected&&trainViews.has(selected)?trainViews.get(selected)!.train.name:'Railway network';return;}
+  if(!changed){updateHeading();return;}
   if(snapshot&&snapshot.run_id!==state.run_id){initialFocus=false;acknowledged=-1;}
   const discontinuity=!snapshot||snapshot.run_id!==state.run_id||replay!==data.replay||data.replay;
   snapshot=state;replay=data.replay;
@@ -201,11 +223,10 @@ async function main(){
    if(signature!==view.sampler?.signature){try{view.sampler=createRouteSampler(network,train.route);}catch{view.sampler=null;}}
    view.train=train;
    view.motion.push({...motionFrame,trains:[motionTrains.get(train.id)!]},now);
-   view.label.replaceChildren(document.createTextNode(train.name||train.id));const sub=document.createElement('small');sub.textContent=`${train.id} · ${train.speed_kmh.toFixed(0)} km/h · ${train.state.replaceAll('_',' ')}`;view.label.append(sub);
+   updateTrainLabel(view);
   }
   metrics.modelTrains=trainViews.size;
-  $('scene-title').textContent=selected&&trainViews.has(selected)?trainViews.get(selected)!.train.name:'Railway network';
-  $('scene-status').textContent=`${replay?'REPLAY':state.running?'LIVE':'PAUSED'} · ${trainViews.size} trains · ${sectionCount} track sections`;
+  updateHeading();
   updateSignals();updateAuthority();
   if(!initialFocus&&trainViews.size){focusTrain(activeId());initialFocus=true;}
  };
@@ -261,12 +282,12 @@ async function main(){
   renderer.render(scene,camera);
   metrics.frames=++frameCount;metrics.drawCalls=renderer.info.render.calls;metrics.triangles=renderer.info.render.triangles;
   if(snapshot&&snapshot.version!==acknowledged){acknowledged=snapshot.version;metrics.lastVersion=acknowledged;post({type:'map-rendered',version:acknowledged});}
-  $('scale').textContent=`${distance>10000?(distance/1000).toFixed(0)+' km':distance.toFixed(0)+' m'} view`;
+  updateScale();
  }
  $('loading').hidden=true;
- $('scene-status').textContent=`${network.stations.length.toLocaleString()} stations & stops · waiting for live state`;
+ updateHeading();
  if(pending)receive(pending);
  requestAnimationFrame(animate);post({type:'map-ready'});
 }
-function showError(message:string){$('loading').hidden=false;$('loading').replaceChildren();const title=document.createElement('strong');title.textContent='3D view unavailable';const text=document.createElement('span');text.textContent=message+' The 2D map and simulation remain available.';$('loading').append(title,text);post({type:'scene3d-error',message});}
-main().catch(error=>{console.error('Railflow 3D:',error);showError(error instanceof Error?error.message:String(error));});
+function showError(message:string){activeError=message;$('loading').hidden=false;$('loading').replaceChildren();const title=document.createElement('strong');title.textContent=t('3D view unavailable');const text=document.createElement('span');text.textContent=t(message)+' '+t('The 2D map and simulation remain available.');$('loading').append(title,text);post({type:'scene3d-error',message});}
+main().catch(error=>{console.error('Railflow 3D:',error);showError(error instanceof Error&&error.message==='Track geometry could not be loaded.'?error.message:'The 3D railway view could not be initialized.');});

@@ -1,5 +1,8 @@
 /* Separate overlay adapter. Does not mutate any original geometry, style or topology. */
 (() => {
+  const t=(source,params)=>window.RailI18n?.t(source,params)??source;
+  const message=source=>window.RailI18n?.message(source)??source;
+  try { if(parent!==window&&parent.RailI18n)window.RailI18n?.setLanguage(parent.RailI18n.language,false); } catch { /* Only a same-origin parent shares preferences. */ }
   const menu=document.getElementById('panel');
   menu.style.display='none';
   const layer=L.layerGroup().addTo(map);
@@ -18,7 +21,7 @@
       let m=markers.get(t.id);
       if(!m){m=L.marker(t.position,{icon:icon(t),zIndexOffset:1000}).addTo(map);m.on('click',()=>parent.postMessage({type:'select-train',id:t.id},location.origin));markers.set(t.id,m);}
       m.setLatLng(t.position).setIcon(icon(t));
-      m.bindTooltip(`${esc(t.name)} · ${t.speed_kmh.toFixed(1)} km/h<br>${esc(t.state)} · importance ${t.importance}<br>${esc(t.reason)}`);
+      m.bindTooltip(`${esc(t.name)} · ${t.speed_kmh.toFixed(1)} ${esc(message('km/h'))}<br>${esc(message(t.state.replaceAll('_',' ')))} · ${esc(message('importance'))} ${t.importance}<br>${esc(message(t.reason))}`);
       m.setOpacity(t.state==='completed'?.4:1);
     });
     const sig=JSON.stringify([selected,s.trains.map(t=>[t.id,t.reserved_blocks?.map(b=>b.resource)??t.reserved_edges,t.occupied_blocks?.map(b=>b.resource)??t.occupied_edges]),s.signals.map(x=>[x.id,x.aspect,x.failed,x.owner,x.occupied_by]),s.incidents.map(x=>[x.id,x.status]),s.switches]);
@@ -31,17 +34,17 @@
         for(const b of occupied){if(b.geometry)L.polyline(b.geometry,{weight:6,color:'#ef9b35',opacity:.65,interactive:false}).addTo(layer);}
       }
       for(const sgn of s.signals){
-        L.marker(sgn.position,{icon:L.divIcon({className:`signal-overlay signal-${sgn.aspect}`,iconSize:[9,9],iconAnchor:[4,4]}),zIndexOffset:500}).bindTooltip(`${esc(sgn.id)} · ${sgn.aspect}<br>${esc(sgn.reason)}<br>Reserved for: ${esc(sgn.owner||'none')}<br>Occupied by: ${esc(sgn.occupied_by||'none')}`).addTo(layer);
+        L.marker(sgn.position,{icon:L.divIcon({className:`signal-overlay signal-${sgn.aspect}`,iconSize:[9,9],iconAnchor:[4,4]}),zIndexOffset:500}).bindTooltip(`${esc(sgn.id)} · ${esc(t(sgn.aspect))}<br>${esc(message(sgn.reason))}<br>${esc(t('Reserved for:'))} ${esc(sgn.owner||t('none'))}<br>${esc(t('Occupied by:'))} ${esc(sgn.occupied_by||t('none'))}`).addTo(layer);
       }
       for(const sw of s.switches){
-        if(V[sw.vertex])L.circleMarker(V[sw.vertex],{radius:5,weight:2,color:'#8867c1',fillColor:'#fff',fillOpacity:1}).bindTooltip(`V${sw.vertex} locked · ${esc(sw.owner)}<br>Route ${sw.position.join(' → ')}`).addTo(layer);
+        if(V[sw.vertex])L.circleMarker(V[sw.vertex],{radius:5,weight:2,color:'#8867c1',fillColor:'#fff',fillOpacity:1}).bindTooltip(`V${sw.vertex} ${esc(t('locked'))} · ${esc(sw.owner)}<br>${esc(t('Route'))} ${sw.position.join(' → ')}`).addTo(layer);
       }
       for(const inc of s.incidents.filter(i=>i.status==='active')){
         let pos;
         if(inc.asset_type==='train')pos=s.trains.find(t=>t.id===inc.asset_id)?.position;
         else if(inc.asset_type==='station'||inc.asset_type==='switch')pos=V[+inc.asset_id];
         else{const eid=inc.asset_type==='signal'?+inc.asset_id.split('-')[1]:+inc.asset_id;const e=E[eid];if(e){pos=e.pts[Math.floor(e.pts.length/2)];L.polyline(e.pts,{weight:7,color:'#ce4141',opacity:.6,dashArray:'8 8',interactive:false}).addTo(layer);}}
-        if(pos)L.marker(pos,{icon:L.divIcon({className:'incident-overlay',html:'!',iconSize:[18,18],iconAnchor:[9,9]})}).bindTooltip(`${esc(inc.kind)} · ${esc(inc.id)}`).addTo(layer);
+        if(pos)L.marker(pos,{icon:L.divIcon({className:'incident-overlay',html:'!',iconSize:[18,18],iconAnchor:[9,9]})}).bindTooltip(`${esc(message(inc.kind.replaceAll('_',' ')))} · ${esc(inc.id)}`).addTo(layer);
       }
     }
     if(first&&s.trains.length){focus();first=false;}
@@ -53,6 +56,54 @@
     latest.trains.forEach(t=>t.route_edges.forEach(eid=>{if(E[eid])pts.push(...E[eid].pts);}));
     if(pts.length)map.fitBounds(L.latLngBounds(pts),{padding:[45,45],maxZoom:15});
   }
+  // Bind only UI text in the preserved original map. Keep names, option values,
+  // graph geometry and routing code untouched; remember English for switching back.
+  const textSources=new WeakMap(),attributeSources=new WeakMap();
+  const uiRoots=[menu,document.getElementById('info'),...document.querySelectorAll('.leaflet-tooltip-pane,.leaflet-control')].filter(Boolean);
+  function mapText(source){
+    let match=source.match(/^(.+) · ([\d.,]+) km segment$/);
+    if(match)return t('{category} · {distance} km segment',{category:t(match[1]),distance:match[2]});
+    match=source.match(/^(.* · )(station|halt|tram_stop|tram stop)$/);
+    if(match)return match[1]+t(match[2]);
+    match=source.match(/^([\d.,\s]+) (km|m)$/);
+    if(match)return `${match[1]} ${t(match[2])}`;
+    return message(source);
+  }
+  function translateOriginalMap(){
+    observer.disconnect();
+    document.title=t('Rail Network Map');
+    for(const root of uiRoots){
+      const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+      while(walker.nextNode()){
+        const node=walker.currentNode;
+        if(node.parentElement?.closest('script,style,#rFrom option:not([value=""]),#rTo option:not([value=""])'))continue;
+        const previous=textSources.get(node),current=node.nodeValue;
+        const source=previous&&current===previous.rendered?previous.source:current;
+        const rendered=source.replace(/\S(?:[\s\S]*\S)?/,value=>mapText(value));
+        if(current!==rendered)node.nodeValue=rendered;
+        textSources.set(node,{source,rendered});
+      }
+      for(const node of root.querySelectorAll('[placeholder],[title],[aria-label]')){
+        const saved=attributeSources.get(node)||{};
+        for(const attribute of ['placeholder','title','aria-label']){
+          if(!node.hasAttribute(attribute))continue;
+          const current=node.getAttribute(attribute),previous=saved[attribute];
+          const source=previous&&current===previous.rendered?previous.source:current,rendered=t(source);
+          if(current!==rendered)node.setAttribute(attribute,rendered);
+          saved[attribute]={source,rendered};
+        }
+        attributeSources.set(node,saved);
+      }
+    }
+    for(const root of uiRoots)observer.observe(root,{childList:true,subtree:true,characterData:true});
+  }
+  const observer=new MutationObserver(translateOriginalMap);
+  translateOriginalMap();
+  window.addEventListener('railflow:languagechange',()=>{
+    signature='';
+    if(latest)render(latest);
+    translateOriginalMap();
+  });
   window.addEventListener('message',ev=>{
     if(ev.origin!==location.origin||ev.source!==parent)return;
     const d=ev.data;

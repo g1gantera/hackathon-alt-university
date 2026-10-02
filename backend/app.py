@@ -396,7 +396,7 @@ async def live_map():
     # Original bytes on disk remain untouched. Runtime additions are overlays/menus only.
     html=(ROOT/'map.html').read_text()
     html=html.replace('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css','/static/vendor/leaflet.css').replace('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js','/static/vendor/leaflet.js')
-    return HTMLResponse(html.replace('</body>','<script src="/static/map-overlay.js"></script></body>'))
+    return HTMLResponse(html.replace('</body>','<script src="/static/i18n.js"></script><script src="/static/i18n-dynamic.js"></script><script src="/static/i18n-messages.js"></script><script src="/static/i18n-map.js"></script><script src="/static/map-overlay.js"></script></body>'))
 
 
 @app.get('/presentation',include_in_schema=False)
