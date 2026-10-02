@@ -6,15 +6,24 @@ A working FastAPI + Leaflet railway simulation around the original Kazakhstan OS
 
 ## Run
 
-The presentation now uses the teal liquid-glass design from `M_part` commit
-`63ea044`: capsule navigation, rounded panels, selected-train styling and matching
-2D/3D controls. `static/reference.css` adapts that design to era's existing UI.
-Simulation, dispatch, API calls, localization, map geometry and JavaScript remain
-unchanged. Reload the page to see it; no frontend build is required.
+The presentation uses the liquid-glass layout from `M_part` commit `63ea044`:
+quality index at the upper left, compact train list at the right, Map/Dispatcher/
+Analytics/History navigation, and separate simulation and map controls at the bottom.
+`static/reference.css` and `static/reference-layout.css` provide its appearance;
+`static/reference-ui.js` rearranges existing controls and forwards filter/speed
+shortcuts to their existing handlers. It also stores the visual theme preference.
+The original backend, application JavaScript, map data and API calls are unchanged.
+Reload the page to see it; no frontend build is required.
 
 Python 3.11+ is required; tested with Python 3.14.4. No Node build is needed for the application.
 
-The dashboard uses a fullscreen map with floating liquid-glass panels. Use **Simulation** at the bottom-left to choose a scenario, the train list to select a service, and **View driving advisory** for its details. The **•••** menu contains history, configuration, guides, and sign-out. On phones, panels become collapsible bottom sheets. The interface supports system dark mode, reduced motion, and keyboard navigation; Plus Jakarta Sans is bundled locally. This presentation layer preserves the original map assets, simulation, dispatch weights, and live/replay data.
+The dashboard uses a fullscreen map with floating liquid-glass panels. Use the
+scenario icon at the bottom-left to choose a scenario, and click a train for its
+driving advisory. **History** is in the header; the **•••** menu contains configuration,
+guides and sign-out. On phones the train list becomes a collapsible bottom sheet.
+The moon/sun button selects the visual theme. The interface supports reduced motion,
+keyboard navigation, and Kazakh/Russian/English. The original map assets, simulation,
+dispatch weights and live/replay data are preserved.
 
 ```bash
 ./run.sh
