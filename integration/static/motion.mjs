@@ -2,6 +2,27 @@
 // Never interpolate screen pixels: zoom and camera changes keep the rail binding.
 export function poseAt(topology, before, after, train, time) {
   if(time>=after.sim_time_s)return train;
+  if(train.execution_frames?.length){
+    const frames=train.execution_frames;
+    let a=frames[0],b=a;
+    for(const frame of frames){if(frame.time_s<=time)a=frame;if(frame.time_s>=time){b=frame;break;}b=frame;}
+    const f=Math.max(0,Math.min(1,(time-a.time_s)/(b.time_s-a.time_s||1)));
+    const p=a.moving?a:(f===1?b:a);
+    const move=p.move;
+    if(!p.moving||!move){
+      const station=train.route?.[p.leg]||train.station_id;
+      return {...train,on_network:p.admitted,station_id:station,station_track_id:p.track,section_id:null,speed_mps:0};
+    }
+    const section=topology.sections.find(s=>s.id===move.section_id);
+    const origin=topology.stations.find(s=>s.id===move.origin),dest=topology.stations.find(s=>s.id===move.destination);
+    if(!section||!origin||!dest)return train;
+    const end=(b.move?.section_id===move.section_id)?b.x:a.x;
+    const x=a.x+(end-a.x)*f;
+    return {...train,on_network:p.admitted,station_id:null,station_track_id:null,section_id:section.id,main_track_id:move.main_track_id,
+      departure_track_id:p.track,arrival_track_id:p.arrival_track,direction:section.from_station===move.origin?1:-1,
+      position_m:origin.position_m+(dest.position_m-origin.position_m)*x/section.length_m,
+      speed_mps:a.speed_mps+(b.speed_mps-a.speed_mps)*f};
+  }
   const old=before.trains.find(t=>t.id===train.id);
   if(!old)return {...train,on_network:false};
   const stops=(after.plan.stops||[]).filter(s=>s.train_id===train.id);

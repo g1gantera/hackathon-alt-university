@@ -15,3 +15,13 @@ test('all simulation speeds and arbitrarily large steps interpolate; archive and
  for(const speed of [1,5,15,30,60,1000]){const end={...after,sim_time_s:before.sim_time_s+speed};assert.equal(frameTime(before,end,1000,1250,500),before.sim_time_s+speed/2);assert.equal(frameTime(before,end,1000,1250,500,true),end.sim_time_s);}
  assert.equal(frameTime(before,{...after,active_plan_id:'new'},1000,1100,500),25);
 });
+
+test('unified telemetry overrides an obsolete timetable while braking',()=>{
+ const route={...topology,sections:[{id:'ab',from_station:'a',to_station:'b',length_m:100}]};
+ const actual={id:'t',route:['a','b'],execution_frames:[
+  {time_s:5,leg:0,x:20,speed_mps:4,moving:true,admitted:true,track:'side',arrival_track:'2',move:moves[0]},
+  {time_s:6,leg:0,x:23,speed_mps:2,moving:true,admitted:true,track:'side',arrival_track:'2',move:moves[0]}]};
+ const p=poseAt(route,before,{...after,sim_time_s:6},actual,5.5);
+ assert.equal(p.position_m,21.5);assert.equal(p.speed_mps,3);
+ assert.equal(p.main_track_id,'1');assert.equal(p.arrival_track_id,'2');
+});

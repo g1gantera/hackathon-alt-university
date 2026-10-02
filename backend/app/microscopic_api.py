@@ -44,6 +44,8 @@ def authorized(request, write=False):
     from . import main
 
     main.require(request, "dispatcher" if write else "viewer")
+    if main.sim.state.get("execution") is not None:
+        raise HTTPException(410, "Детальное движение теперь в основном движке; используйте /api/state и /api/simulation/*")
     return main
 
 

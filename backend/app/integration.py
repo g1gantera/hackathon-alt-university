@@ -101,6 +101,9 @@ def public_plan(plan):
 
 
 def build_plans(state):
+    if 'execution' in state:
+        from .execution_planning import build_execution_plans
+        return build_execution_plans(state)
     if state.get('engine') != 'logic':
         return demo_planning.build_plans(state)
     started = time.perf_counter()
@@ -133,6 +136,9 @@ def warm_worker(state):
 
 
 def validate_plan(state, plan):
+    if '_remaining_native' in plan:
+        from .execution_planning import validate_execution_plan
+        return validate_execution_plan(state, plan)
     if state.get('engine') != 'logic':
         return demo_validation.validate_plan(state, plan)
     if state['sim_time_s'] >= state['scenario']['horizon_s']:

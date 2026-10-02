@@ -23,6 +23,8 @@ from .domain import ROOT, movement_profile
 from .demo_metrics import DEFAULT_SETTINGS, metrics
 from .integration import build_plans, warm_worker, validate_plan, LogicSimulator, public_plan, compact_state, INCIDENTS
 from .simulator import Simulator
+from .execution import UnifiedSimulator
+from .plan_comparison import comparison
 from .storage import Store
 from .ingestion_client import IngestionClient
 
@@ -118,6 +120,12 @@ async def ticker():
         if now - deadline > 0.5:
             deadline = now
         publish()
+        store.heartbeat()
+        if isinstance(sim, UnifiedSimulator) and sim.state['awaiting_plan'] and sim.ready_to_plan() and sim.state.get('control_mode') == 'automatic' and not sim.replanning:
+            revision = (sim.state['epoch'], sim.state['constraint_version'], sim.state['execution']['revision'])
+            if getattr(sim, '_last_automatic_attempt', None) != revision:
+                sim._last_automatic_attempt = revision
+                queue_replan()
 
 
 async def calculate(job_id, snapshot):
@@ -149,11 +157,16 @@ async def calculate(job_id, snapshot):
             candidates=sorted(result['plans'], key=lambda p:p['metrics'].get('index') or 0, reverse=True)
             for candidate in candidates:
                 if not validate_plan(sim.state,candidate):
-                    sim.state['active_plan']=candidate
-                    sim.state['awaiting_plan']=False
-                    sim.state['state_version']+=1
-                    sim.state['route_clearances']=[]
-                    emit('plan.applied',{'plan_id':candidate['id'],'automatic':True})
+                    applied_comparison = comparison(sim.state, candidate)
+                    candidate['comparison'] = applied_comparison
+                    if isinstance(sim, UnifiedSimulator):
+                        sim.install_plan(candidate)
+                    else:
+                        sim.state['active_plan']=candidate
+                        sim.state['awaiting_plan']=False
+                        sim.state['state_version']+=1
+                        sim.state['route_clearances']=[]
+                    emit('plan.applied',{'plan_id':candidate['id'],'automatic':True,'comparison':applied_comparison})
                     break
         emit('replan.completed' if result['plans'] else 'replan.failed',{'job_id':job_id,**result,'plans':[public_plan(p) for p in result['plans']]})
     except Exception:
@@ -169,6 +182,9 @@ async def calculate(job_id, snapshot):
 
 def queue_replan():
     global job_task
+    if isinstance(sim, UnifiedSimulator) and not sim.ready_to_plan():
+        sim.state['awaiting_plan'] = True
+        return {'job_id':'draining','status':'waiting_for_entered_routes'}
     if job_task and not job_task.done():
         return {'job_id':'running','status':'running'}
     job_id=str(uuid.uuid4())
@@ -181,14 +197,14 @@ def queue_replan():
 @asynccontextmanager
 async def lifespan(app):
     global sim,store,pool,ingestion,last_saved_snapshot,job_task
-    sim=Simulator() if os.environ.get('DISPATCH_ENGINE','logic')=='demo' else LogicSimulator()
+    sim=Simulator() if os.environ.get('DISPATCH_ENGINE','logic')=='demo' else UnifiedSimulator()
     store=Store()
     last_saved_snapshot=None
     job_task=None
     performance_events.clear()
     paint_samples.clear()
     state_times.clear()
-    ingestion=IngestionClient(deliver_snapshot)
+    ingestion=IngestionClient(deliver_snapshot, lambda: (sim.state['epoch'], sim.state['state_version']))
     pool=ProcessPoolExecutor(max_workers=1)
     await asyncio.get_running_loop().run_in_executor(pool,warm_worker,sim.state)
     publish()
@@ -426,11 +442,16 @@ async def apply(plan_id:str,request:Request):
     errors=validate_plan(sim.state,plan)
     if errors:
         raise HTTPException(409,{'message':'Plan is no longer feasible; recalculate','violations':errors})
-    sim.state['active_plan']=plan
-    sim.state['awaiting_plan']=False
-    sim.state['state_version']+=1
+    applied_comparison = comparison(sim.state, plan)
+    plan['comparison'] = applied_comparison
+    if isinstance(sim, UnifiedSimulator):
+        sim.install_plan(plan)
+    else:
+        sim.state['active_plan']=plan
+        sim.state['awaiting_plan']=False
+        sim.state['state_version']+=1
     sim.plans.clear()
-    emit('plan.applied',{'plan_id':plan_id})
+    emit('plan.applied',{'plan_id':plan_id,'comparison':applied_comparison})
     publish()
     return sim.snapshot()
 
@@ -559,9 +580,15 @@ async def websocket(ws:WebSocket):
     await ws.accept()
     queue=asyncio.Queue(maxsize=6)
     clients.add(queue)
-    await ws.send_json({'type':'state.updated','seq':seq,'sim_time_s':sim.state['sim_time_s'],
-                        'state_version':sim.state['state_version'],'plan_id':sim.state['active_plan']['id'],
-                        'payload':sim.snapshot()})
+    try:
+        initial = await ingestion.current_snapshot() if ingestion else sim.snapshot()
+    except TimeoutError:
+        clients.discard(queue)
+        await ws.close(code=1013)
+        return
+    await ws.send_json({'type':'state.updated','seq':seq,'sim_time_s':initial['sim_time_s'],
+                        'state_version':initial['state_version'],'plan_id':initial['active_plan_id'],
+                        'payload':initial})
     async def receive():
         while True:
             data = await ws.receive_json()

@@ -81,7 +81,7 @@ async def integration_status(request: Request):
         "websocket": "/ws",
         "frontend_built": (ROOT / "frontend/dist/index.html").is_file(),
         "simulation_count": 1,
-        "simulation_count_scope": "primary logic state; optional execution trial is isolated",
+        "simulation_count_scope": "one canonical state: integrated scheduling, fixed-step execution, SI ingestion",
         "execution_trial": "/api/execution/state",
     }
 

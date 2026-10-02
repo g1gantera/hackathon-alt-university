@@ -87,19 +87,19 @@ async def authorize(body: Clearance, request: Request):
     if (
         main.sim.replanning
         or state["awaiting_plan"]
-        or main.validate_plan(state, state["active_plan"])
+        or (main.sim.plan_violations() if state.get('execution') else main.validate_plan(state, state['active_plan']))
     ):
         raise HTTPException(409, "Сначала примените проверенный план")
-    move = next(
-        (
-            m
-            for m in state["active_plan"]["movements"]
-            if m["train_id"] == body.train_id
-            and m["section_id"] == body.section_id
-            and m["start_s"] > state["sim_time_s"]
-        ),
-        None,
-    )
+    def pending(move):
+        execution = state.get('execution')
+        if execution:
+            train = execution['trains'][move['train_id']]
+            return not train['moving'] and not train['complete'] and train['leg'] == move['leg']
+        return move['start_s'] > state['sim_time_s']
+
+    move = next((m for m in state['active_plan']['movements']
+                 if m['train_id'] == body.train_id and m['section_id'] == body.section_id
+                 and pending(m)), None)
     if move is None:
         raise HTTPException(409, "Будущее отправление не найдено")
     key = clearance_key(body.plan_id, move)

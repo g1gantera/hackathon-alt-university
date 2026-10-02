@@ -39,6 +39,15 @@ def context(state):
 
 
 def diagnose(state):
+    if 'execution' in state:
+        forecast = copy.deepcopy(state['active_plan']['forecast'])
+        errors = list(state['execution']['conflicts'])
+        if state['awaiting_plan']:
+            errors.append({'code':'ACTUAL_REPLAN','message':'Нужен прогноз от фактических позиций'})
+            forecast.update(applicable=False,quality_index=None,energy_kwh=None,track_load=None)
+        return {'context':context(state),'scenario':state['scenario'],
+                'plan':state['active_plan']['_native'],'forecast':forecast,
+                'violations':errors,'needs_replan':bool(errors)}
     scenario = scenario_for(state)
     native = Plan.model_validate(state["active_plan"]["_native"])
     forecast = calculate_metrics(scenario, native, config_for(state), previous=native)
@@ -76,8 +85,9 @@ async def track_load(
     request: Request, start_s: int = Query(0, ge=0), end_s: int | None = Query(None, ge=1)
 ):
     state = compact_state(simulator(request).state)
-    scenario = scenario_for(state)
-    plan = Plan.model_validate(state["active_plan"]["_native"])
+    active = state['active_plan']
+    scenario = Scenario.model_validate(active['_remaining_scenario']) if '_remaining_scenario' in active else scenario_for(state)
+    plan = Plan.model_validate(active.get('_remaining_native', active['_native']))
     try:
         report = await asyncio.to_thread(
             calculate_track_load,

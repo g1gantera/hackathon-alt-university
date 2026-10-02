@@ -47,7 +47,7 @@ async def select(body: Selection, request: Request):
     import asyncio
 
     from . import main
-    from .integration import LogicSimulator
+    from .execution import UnifiedSimulator
 
     main.require(request)
     old = main.sim
@@ -58,7 +58,7 @@ async def select(body: Selection, request: Request):
     old.replanning = True
     try:
         candidate = await asyncio.to_thread(
-            LogicSimulator, body.corridor, body.traffic_profile, body.service_date.isoformat()
+            UnifiedSimulator, body.corridor, body.traffic_profile, body.service_date.isoformat()
         )
         if main.sim is not old or old.state["epoch"] != body.epoch:
             raise HTTPException(409, "Запуск изменился")

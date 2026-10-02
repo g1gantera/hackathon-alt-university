@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/g1gantera/hackathon-alt-university",
+  "sources": {
+    "era": "d0a56951f87e96b82d4e60721b9f3be2e5707048",
+    "M_part": "75c1f3e242e2ce8b5e27793c1cbe030617319eea",
+    "integrated_base": "dcc93a9d6305e7a6ea94eeffcbf3755daf3aa26c"
+  },
+  "primary_engine": "backend/app/execution.py:UnifiedSimulator",
+  "movement": "Shared era braking integrator; block, tail and throat permissions adapted to integrated model resources. CP-SAT plans receiving tracks for meets and overtakes. The original OSM loop search is retained in the regression kernel, not used to override SIM assignments.",
+  "ingestion": "M_part latest-revision and WebSocket freshness fixes adapted to existing single SI ingestion service.",
+  "history": "M_part compressed bodies, bounded retention and archive queries with integrated asynchronous writer.",
+  "planning": "Regional graph, native optimizer, speed profiles, Davis/grade/regen energy and finite resource roster preserved. Replan only unexecuted routes from actual station occupancy.",
+  "protected_source_sha256": {
+    "network.json": "0e2afbfdd6027e6ef0ec2ba38ce070affe8e11b82f8d2927c706d9fe197eaaeb",
+    "map.html": "7b4b2b1ff903e29d92ae1c0d1938a7517e06b62fc1e68998c2bef77a7d99bc58",
+    "map_data.js": "0fa8ff711435362b895b1b7bb178a97d28e92e362ddbd22b6a10755f98087e0a",
+    "build_network.py": "cb01cba1ac96a6649067c14fc3b9e3bb50c6fcd8fb3dee3d3d6b8db0f39a628d"
+  }
+}

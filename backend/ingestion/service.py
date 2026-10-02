@@ -58,7 +58,7 @@ class SnapshotTelemetry(Flexible):
     epoch: str
     state_version: int = Field(ge=0)
     sim_time_s: float = Field(ge=0)
-    trains: list[TrainTelemetry] = Field(min_length=1, max_length=40)
+    trains: list[TrainTelemetry] = Field(min_length=1, max_length=500)
     sections: list[SignalTelemetry]
     switches: list[SwitchTelemetry]
     plan: Timetable

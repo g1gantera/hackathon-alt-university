@@ -79,6 +79,9 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
             if move.destination != destination:
                 add("ROUTE", "Wrong movement destination", [train.id])
                 continue
+            if scenario.metadata.get('reserve_receiving_tracks'):
+                target = stops[train.id, destination]
+                reservations.append((f'track:{destination}:{target.track_id}', move.start_s, move.end_s, train.id))
             main_track = next((t for t in section.main_tracks if t.id == move.main_track_id), None)
             resource = f"main_track:{section.id}:{move.main_track_id}"
             if main_track is None:
@@ -183,6 +186,10 @@ def validate_plan(scenario: Scenario, plan: Plan, previous: Plan | None = None) 
                     [move.train_id, peer.train_id],
                     f"section:{move.section_id}",
                 )
+    for train in scenario.trains:
+        observed = scenario.metadata.get('execution_origin_arrivals', {}).get(train.id)
+        if observed is not None and stops[train.id, train.route[0]].arrival_s != observed:
+            add('ACTUAL_OCCUPANCY', 'An admitted train cannot be moved outside the station', [train.id])
     old_stops = {} if previous is None else {(s.train_id, s.station_id): s for s in previous.stops}
     old_moves = {} if previous is None else {(m.train_id, m.origin): m for m in previous.movements}
     for key, stop in stops.items():

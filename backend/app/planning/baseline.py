@@ -40,6 +40,7 @@ def build_baseline(
         return result(
             "INVALID", message="FCFS baseline is for initial planning; use solve_plan to replan"
         )
+    fixed_admissions = set(fixed_admissions or ()) | set(scenario.metadata.get("execution_origin_arrivals", {}))
     station_map = {s.id: s for s in scenario.stations}
     occupied = [
         (resource, start, end)
@@ -79,6 +80,7 @@ def build_baseline(
                             if resource == other and event < b and a < end:
                                 shift = max(shift, b - event)
                         pending.append((resource, event, end))
+                reservation_start = moves[-1].start_s if i > 0 and scenario.metadata.get("reserve_receiving_tracks") else arrival
                 options = []
                 for track in station.tracks:
                     if station_id in train.manual_station_tracks and train.manual_station_tracks[station_id] != track.id:
@@ -87,10 +89,10 @@ def build_baseline(
                         continue
                     resource = f"track:{station_id}:{track.id}"
                     conflicts = [
-                        end - arrival
+                        end - reservation_start
                         for r, start, end in occupied + pending
                         if r == resource
-                        and arrival < end
+                        and reservation_start < end
                         and start < departure + station.clearance_s
                     ]
                     options.append((max(conflicts, default=0), wear_cost(scenario, resource), track.id, resource))
@@ -105,7 +107,7 @@ def build_baseline(
                         departure_s=departure,
                     )
                 )
-                pending.append((resource, arrival, departure + station.clearance_s))
+                pending.append((resource, reservation_start, departure + station.clearance_s))
                 if i == len(train.route) - 1:
                     continue
                 destination = train.route[i + 1]

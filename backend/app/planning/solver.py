@@ -87,6 +87,8 @@ def solve_plan(
             time_budget_s=min(0.3, time_budget_s * 0.15),
             duration_multiplier=1.15 if strategy == "eco" else 1.0,
         ).plan
+    if seed is not None and fallback is None and not validate_plan(scenario, seed, previous):
+        fallback = seed
     seed_stops = {} if seed is None else {(s.train_id, s.station_id): s for s in seed.stops}
     seed_moves = {} if seed is None else {(m.train_id, m.origin): m for m in seed.movements}
     resources = defaultdict(list)
@@ -117,6 +119,9 @@ def solve_plan(
                 model.add(departure >= scenario.now_s)
             if index == 0:
                 model.add(arrival >= train.release_s)
+                observed = scenario.metadata.get('execution_origin_arrivals', {}).get(train.id)
+                if observed is not None:
+                    model.add(arrival == observed)
             if index == len(train.route) - 1:
                 # The train leaves the model after terminal dwell.
                 model.add(departure == arrival + train.min_dwell_s)
@@ -207,6 +212,11 @@ def solve_plan(
                         regimes.append(regime)
                     model.add_exactly_one(regimes)
                 model.add(end == start + duration)
+            if scenario.metadata.get('reserve_receiving_tracks'):
+                for track_id, chosen in stop_vars[train.id, destination][2].items():
+                    resources[f'track:{destination}:{track_id}'].append(
+                        model.new_optional_interval_var(start, duration, end, chosen,
+                                                       f'receiving_{key}_{track_id}'))
             resource_end = model.new_int_var(0, scenario.horizon_s, f"release_{key}")
             model.add(resource_end == end + clearance_s(train, section))
             # Pairwise constraints preserve parallel operation outside a whole-section recovery.

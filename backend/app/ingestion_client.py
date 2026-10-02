@@ -1,6 +1,7 @@
-"""Asynchronous producer; slow ingestion never blocks planning or HTTP requests."""
+"""Atomic latest-revision ingestion, adapted from M_part to the integrated SI API."""
 
 import asyncio
+import copy
 import os
 import time
 import uuid
@@ -11,10 +12,13 @@ from backend.ingestion.service import normalize
 
 
 class IngestionClient:
-    def __init__(self, deliver):
+    def __init__(self, deliver, current=None):
         self.deliver = deliver
+        self.current = current
         self.url = os.environ.get("INGEST_URL", "").rstrip("/")
-        self.queue = asyncio.Queue(maxsize=8)
+        self.queue = asyncio.Queue(maxsize=1)
+        self.latest = None
+        self.ready = asyncio.Event()
         self.status = {
             "mode": "service" if self.url else "embedded",
             "accepted": 0,
@@ -23,19 +27,45 @@ class IngestionClient:
         }
         self.task = asyncio.create_task(self.run()) if self.url else None
 
+    def accept(self, snapshot, observed_at):
+        if self.current and (snapshot["epoch"], snapshot["state_version"]) != self.current():
+            self.status["dropped"] += 1
+            return
+        self.latest = snapshot
+        self.status.update(
+            accepted=self.status["accepted"] + 1, last_success_at=time.monotonic(), error=None
+        )
+        self.deliver(snapshot, observed_at)
+        self.ready.set()
+
     def publish(self, snapshot, observed_at=None):
         observed_at = observed_at or time.perf_counter()
+        snapshot = normalize(snapshot)
         if not self.url:
-            self.deliver(normalize(snapshot), observed_at)
-            self.status["accepted"] += 1
+            self.accept(snapshot, observed_at)
             return
         if self.queue.full():
             self.queue.get_nowait()
             self.status["dropped"] += 1
         self.queue.put_nowait(({"event_id": str(uuid.uuid4()), "payload": snapshot}, observed_at))
 
+    async def current_snapshot(self):
+        async with asyncio.timeout(2):
+            while True:
+                self.ready.clear()
+                if (
+                    self.latest
+                    and (
+                        not self.current
+                        or (self.latest["epoch"], self.latest["state_version"]) == self.current()
+                    )
+                    and time.monotonic() - self.status.get("last_success_at", 0) < 5
+                ):
+                    return copy.deepcopy(self.latest)
+                await self.ready.wait()
+
     async def run(self):
-        async with httpx.AsyncClient(timeout=1) as client:
+        async with httpx.AsyncClient(timeout=1, trust_env=False) as client:
             while True:
                 packet, observed_at = await self.queue.get()
                 try:
@@ -45,10 +75,11 @@ class IngestionClient:
                         headers={"Authorization": "Bearer " + os.environ.get("INGEST_TOKEN", "")},
                     )
                     response.raise_for_status()
-                    self.deliver(response.json()["payload"], observed_at)
-                    self.status.update(accepted=self.status["accepted"] + 1, error=None)
+                    snapshot = normalize(response.json()["payload"])
+                    if snapshot != packet["payload"]:
+                        raise ValueError("Ingestion changed canonical telemetry")
+                    self.accept(snapshot, observed_at)
                 except (httpx.HTTPError, ValueError, KeyError) as error:
-                    # Retain last visible state; reconnection uses the next full snapshot.
                     self.status["error"] = type(error).__name__
 
     async def close(self):

@@ -6,6 +6,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from . import ato, blocks, dispatch, meets
+from .kinematics import integrate
 from .history import History
 from .models import IncidentSpec, Settings, TrainSpec
 from .quality import Quality
@@ -549,15 +550,9 @@ class Engine:
             # Keep enough room to brake after this step, including acceleration
             # during the step. A newly imposed, unreachable incident boundary
             # never causes an instantaneous speed change or position clamp.
-            brake=t.spec.braking_mps2*dt
-            safe_next=max(0,math.sqrt(max(0,(brake/2)**2+2*t.spec.braking_mps2*max(0,stop-t.x)-brake*old))-brake/2)
-            speed=max(0,old-brake,min(speed,safe_next))
-            # If rest is reached before the step ends, spend the balance stopped.
-            motion_dt=min(dt,old/t.spec.braking_mps2) if speed==0 and old>0 else dt
-            delta=(old+speed)/2*motion_dt
-            # The stop target is mandatory. Integration clips only the final sub-metre.
-            delta=min(delta,max(0,stop-t.x))
-            t.x+=delta; t.speed=speed
+            next_x,speed=integrate(t.x,old,target,stop,t.spec.acceleration_mps2,t.spec.braking_mps2,dt)
+            delta=next_x-t.x
+            t.x=next_x; t.speed=speed
             first_motion=t.energy==0 and delta>0
             t.energy+=ato.energy_kwh(t.spec.mass_t,delta,old,speed)
             idx,arc,_=self.network.locate(t.route,t.x)

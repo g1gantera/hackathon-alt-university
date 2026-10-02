@@ -52,6 +52,16 @@ def assign(sim, body):
         raise ValueError("Поезд не найден.")
     old = Plan.model_validate(sim.state["active_plan"]["_native"])
     _, _, locked_tracks, locked_moves = committed_fields(scenario, old)
+    if 'execution' in sim.state:
+        # A missed departure in an old timetable does not mean the train moved.
+        actual = sim.state['execution']['trains'][train.id]
+        locked_tracks = {(train.id, stop['station_id']):stop['track_id']
+                         for stop in actual['actual_stops']}
+        executed = list(actual['actual_moves'])
+        if actual['moving']:
+            executed.append(actual['move'])
+            locked_tracks[train.id, actual['move']['destination']] = actual['arrival_track']
+        locked_moves = {(train.id, move['origin']):move for move in executed}
     for sid, tid in body.station_tracks.items():
         if (train.id, sid) in locked_tracks and locked_tracks[train.id, sid] != tid:
             raise ValueError(

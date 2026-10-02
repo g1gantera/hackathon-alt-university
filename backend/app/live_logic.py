@@ -166,6 +166,8 @@ def resource_states(state):
 
 def observed_conflicts(state):
     """Count reservation overlaps already reached, without scoring future conflicts."""
+    if "execution" in state:
+        return len(state["execution"]["conflicts"])
     now, plan = state["sim_time_s"], state["active_plan"]
     reservations = {}
 
