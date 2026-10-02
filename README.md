@@ -178,7 +178,7 @@ score instead of claiming that trains have already arrived accurately.
 | Final-arrival accuracy | 10% | Percentage of assessed terminal arrivals within the configured ± tolerance |
 
 This is an explicit demo formula, not an industry-standard railway KPI.
-Version 4 supports runtime configuration under **Ещё → Настройки сценария**:
+Version 4 supports runtime configuration under **⋯ → Настройки сценария**:
 
 - All five relative weights are editable from 0 to 1000 and normalized to 100%.
   A zero weight excludes that component; at least one must be positive.
@@ -271,7 +271,7 @@ Checks: `python -m pytest backend/tests/test_quality.py backend/tests/test_quali
 
 ## Steps 7–8: history playback and report export
 
-Open **Ещё → История и отчёт CSV**. Choose a saved run and the last **5, 10 or
+Open **История** in the header. Choose a saved run and the last **5, 10 or
 15 minutes of model time**, then use the timeline, previous/next buttons or
 **Воспроизвести**. Close the drawer to watch the map with the archive player at
 the bottom. Playback advances through saved frames at 1, 2 or 4 frames/second.
@@ -318,7 +318,7 @@ To demonstrate the complete flow:
 1. Reset while paused, close **section-0** for 10 minutes and wait for automatic
    application. Inspect the quality change and the before/after schedule.
 2. Start at **30×** for roughly 10–20 seconds, then pause.
-3. Open **Ещё → История и отчёт CSV**, choose **15 minutes**, and click the incident
+3. Open **История** in the header, choose **15 minutes**, and click the incident
    and applied-plan events. Close the drawer and replay the map.
 4. Download CSV and filter `record_type` to `replan` to inspect the comparison,
    or `train` / `quality` for recorded results. Return to live mode afterward.
@@ -415,7 +415,7 @@ a fresh build. If the server was started before the first build, restart it.
    Turn off **Автоприменение проверенного плана** to compare variants and click
    **Применить** manually. Explicit **Рассчитать варианты** remains a manual preview.
    If no current valid plan is found, departures remain held and the UI offers retry.
-5. Open **Ещё → История и отчёт CSV** and replay the last 5–15 simulation minutes.
+5. Open **История** in the header and replay the last 5–15 simulation minutes.
    This is a read-only view; return to live mode to control the simulation.
 6. Download the window's CSV report, including incidents and applied replanning
    comparisons. Reset creates a new run; previous runs remain in the selector
@@ -453,11 +453,27 @@ a fresh build. If the server was started before the first build, restart it.
   Click **Качество движения** to inspect the breakdown. After reset, closing
   **section-1** for 10 minutes while paused gives **100 → 96** (one of five
   sections blocked); resolving it gives **96 → 100** if no delay has accrued.
-- The dashboard has **Карта**, **Диспетчер**, and **Аналитика** tabs. The map starts
-  on the simulated route; **Весь Казахстан** still shows the full rail network.
-  History, CSV export, scenario settings and the stage-3 demo are under **Ещё**.
-  Manual plan review/application is on **Диспетчер**; charts and detailed quality
-  metrics are on **Аналитика**. Incident controls remain visible on every tab.
+- The map fills the screen; floating panels sit on top of it. The header switches
+  between **Карта**, **Диспетчер**, **Аналитика** and **История** (archive and CSV).
+  The left column shows the quality index, section KPIs and replanning status; the
+  right column lists trains with search and status filters, and selecting a train
+  opens its card with route progress. The bottom bar starts/pauses, resets, sets the
+  time multiplier and adds incidents. The bottom-right dock switches **География** /
+  **Схема путей**, toggles **Весь Казахстан** and shows the legend. Scenario settings
+  and the stage-3 demo are under **⋯**. Manual plan review/application is on
+  **Диспетчер**; charts and detailed quality metrics are on **Аналитика**. Escape
+  closes the open panel.
+- The sun/moon button in the header switches light and dark themes; **⋯ → Тема →
+  Как в системе** follows the OS setting. The choice is stored per browser. Dark mode
+  shows the same map through a night filter on the map canvas; markers are unchanged.
+  Panels use a liquid-glass material; in Chromium the header and bottom bars also
+  refract what is behind them.
+- **3D-вид** in the map dock draws the same live trains on the real corridor geometry:
+  TE33A-style diesels (freight trains double-headed), coal gondolas and boxcars sized from
+  each train's simulated length, passenger coaches, stations with passing loops, ballast,
+  sleepers and overhead line. Two fixed cameras follow the selected train: **2D сверху**
+  (north-up plan) and **3D** (three-quarter view ahead of the locomotive); the mouse wheel
+  only zooms. Click a train label to select it. Models are approximate, not engineering data.
 - Geometry is real OSM linework; the operating model is synthetic: single-track
   sections, 90 km/h limit (72 for freight), 90-second intermediate dwell, two
   intermediate station tracks, eight terminal tracks. Station anchor coordinates

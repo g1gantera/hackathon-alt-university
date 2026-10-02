@@ -122,7 +122,7 @@ run. Reset restores default scenario settings.
    **Диспетчер → Сравнить график → Применить**.
 5. Reset. Select **№105** under **Аналитика → Скорость и энергия** and calculate
    an economy proposal. The baseline demonstrates about 52.27 kWh forecast saving.
-6. Start at 30x for 10–20 seconds, pause, then open **Ещё → История и отчёт CSV**.
+6. Start at 30x for 10–20 seconds, pause, then open **История** in the header.
    Replay saved frames, inspect an event, export the selected window, and return
    **В эфир**. Reset once more to confirm the previous run remains in history.
 

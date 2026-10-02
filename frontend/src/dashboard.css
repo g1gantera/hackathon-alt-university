@@ -1,50 +1,6 @@
-.clean-dashboard .workspace {margin-left:0}
-.clean-dashboard .topbar {height:64px;padding:0 32px;gap:16px}
-.clean-dashboard .wordmark {display:flex;align-items:center;gap:8px}
-.clean-dashboard .connection {margin-left:auto}
-.clean-dashboard main {max-width:1500px;margin:auto;padding:28px 32px 12px}
-.clean-dashboard .page-heading {margin-bottom:24px}
-.clean-dashboard h1 {font-size:28px;letter-spacing:-.8px}
-.clean-dashboard h2 {font-size:14px}
-.clean-dashboard .page-heading p {font-size:12px;margin-top:8px}
-.clean-dashboard .metrics-grid {margin-bottom:16px}
-.clean-dashboard .metric {text-align:left;font-family:inherit}
-.clean-dashboard button.metric {cursor:pointer;transition:border-color .15s}
-.clean-dashboard button.metric:hover {border-color:#398b72}
-.clean-dashboard .metric-label {font-size:12px}
-.clean-dashboard .metric-foot {font-size:11px;line-height:1.5}
-.clean-dashboard .metric.quality-warning {background:#fff9ed;border-color:#ebd8b0}
-.clean-dashboard .quality-warning .metric-value {color:#90681d}
-.clean-dashboard .quality-warning .meter i {background:#c89b3d}
-.clean-dashboard .metric.quality-poor {background:#fff1ed;border-color:#ecc4b9}
-.clean-dashboard .quality-poor .metric-value {color:#a54230}
-.clean-dashboard .quality-poor .meter i {background:#cb6650}
-.clean-dashboard .metric-alert .metric-value {color:#ad6c22}
-.clean-dashboard .control-bar {flex-wrap:wrap;gap:10px;margin-bottom:16px}
-.simulation-speed {display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-left:12px}
-.simulation-speed>span:first-child {font-size:12px;color:#627a72}
-.clean-dashboard .incident-button {margin-left:auto}
-.clean-dashboard .replan-panel {margin:0 0 14px}
-.clean-dashboard .replan-panel .panel-heading {min-height:48px;padding:12px 18px}
-.clean-dashboard .replan-options {padding:12px 18px;background:#fafcfb}
 .replan-description:empty {display:none}
-.clean-dashboard .replan-description {padding:0 18px}
-.clean-dashboard .replan-description p {margin:8px 0}
-.clean-dashboard .replan-comparison {padding:12px 18px;border-top:1px solid #e7eeeb}
 .replan-comparison summary,.quality-details summary,.telemetry-source summary {cursor:pointer;font-weight:600;color:#306f5c;line-height:1.7}
 .replan-comparison[open] summary {margin-bottom:16px}
-.clean-dashboard .primary-grid {grid-template-columns:minmax(0,1fr) 300px;gap:18px}
-.clean-dashboard .map-wrapper,.clean-dashboard .schematic {height:480px}
-.clean-dashboard .map-footer,.clean-dashboard .map-toolbar {font-size:11px}
-.clean-dashboard .train-ident strong,.clean-dashboard .train-speed strong {font-size:13px}
-.clean-dashboard .train-ident span,.clean-dashboard .train-speed span {font-size:11px}
-.clean-dashboard .train-row {padding:14px 9px}
-.clean-dashboard .telemetry {border:0;margin:0}
-.clean-dashboard .telemetry .detail-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
-.clean-dashboard .detail-grid span {font-size:11px}
-.clean-dashboard .dispatcher-panel {margin:0 0 18px}
-.clean-dashboard .diagram-panel {margin-top:18px}
-.clean-dashboard .plan-stats {margin-top:18px}
 .analytics-grid {display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:18px;align-items:start}
 .analytics-grid .panel:first-child {grid-column:1/-1;margin-top:0}
 .quality-details {padding:16px 0;font-size:12px;line-height:1.7}
@@ -59,33 +15,8 @@
 .quality-facts>div {display:flex;justify-content:space-between;gap:18px;padding:7px 0;border-bottom:1px solid #edf1ef}
 .quality-facts dt {color:#6b8076}
 .quality-facts dd {text-align:right;margin:0;font-weight:600}
-.clean-dashboard .footer {margin-top:24px;font-size:10px}
-@media(max-width:1000px){
- .clean-dashboard main {padding:22px 20px 12px}
- .clean-dashboard .metrics-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
- .clean-dashboard .primary-grid {grid-template-columns:minmax(0,1fr) 270px}
- .clean-dashboard .right-stack {display:flex}
- .clean-dashboard .telemetry .detail-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
- .clean-dashboard .incident-button {margin-left:0}
- .analytics-grid {grid-template-columns:1fr}
-}
-@media(max-width:720px){
- .clean-dashboard .topbar {padding:0 16px;gap:10px}
- .clean-dashboard main {padding:18px 12px}
- .clean-dashboard h1 {font-size:24px}
- .clean-dashboard .page-heading {flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px}
- .clean-dashboard .date-pill {margin-left:0}
- .clean-dashboard .primary-grid {grid-template-columns:1fr}
- .clean-dashboard .map-wrapper,.clean-dashboard .schematic {height:380px}
- .clean-dashboard .map-footer {flex-wrap:wrap}
- .simulation-speed {margin:0;width:100%}
- .clean-dashboard .metric {padding:14px}
- .clean-dashboard .metric-foot {font-size:10px}
- .clean-dashboard .panel-title {flex-wrap:wrap}
- .clean-dashboard .replan-panel .panel-heading {align-items:flex-start}
- .clean-dashboard .quality-facts>div {flex-wrap:wrap;gap:4px}
-}
-@media(prefers-reduced-motion:reduce){.clean-dashboard button.metric {transition:none}}
+@media(max-width:1000px){.analytics-grid {grid-template-columns:1fr}}
+@media(max-width:720px){.quality-facts>div {flex-wrap:wrap;gap:4px}}
 .speed-advice {padding:16px 20px;font-size:12px;line-height:1.7}
 .advice-heading {display:flex;align-items:center;flex-wrap:wrap;gap:6px;color:#6e817b;margin-bottom:12px}
 .advice-values {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -133,7 +64,6 @@
 .quality-weight-fields .ant-input-number {width:108px;flex-shrink:0}
 .settings-error {color:#a7352e;background:#fff2ee;padding:10px;border-radius:6px}
 .quality-total .ant-tag {vertical-align:middle;margin-left:6px}
-.clean-dashboard .metric-label .ant-tag {margin:0;font-size:10px}
 .replan-result {padding:16px 18px;border-top:1px solid #e4ece7;font-size:12px;line-height:1.6}
 .comparison-heading,.comparison-toolbar {display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .comparison-heading h3 {font-size:14px;margin:0;color:#254d3f}

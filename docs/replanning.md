@@ -41,7 +41,7 @@ expire while the model is paused.
    departures, intermediate arrivals and tail release. Slower economy movements
    remain visible even if their departure and terminal arrival do not change.
 6. Apply the candidate. **Результат применения плана** captures a fresh comparison
-   at application time. **Ещё → История и отчёт CSV** preserves this result after
+   at application time. **История** (header) preserves this result after
    settings changes and reset.
 
 Both forecasts use the same evaluation time, operating constraints and quality
