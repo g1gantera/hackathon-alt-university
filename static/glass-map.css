@@ -38,3 +38,18 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
 :root[data-theme="dark"] .leaflet-tile-pane{filter:saturate(.5);opacity:.8}
 :root[data-theme="dark"] .lbl{color:#d1dfed;text-shadow:0 0 3px #141c26,0 0 5px #141c26}
 @media(max-height:560px) and (min-width:601px){.leaflet-bottom.leaflet-right{right:342px}}
+
+/* M_part reference: map chrome only; operational rail/signal colors are preserved. */
+:root { --text:#11262d; --muted:#56686f; --accent:#0f7f6f; --line:rgba(20,52,60,.1); }
+#panel,#info { border-radius:22px; backdrop-filter:blur(20px) saturate(190%); }
+#panel input[type=checkbox] { accent-color:var(--accent); }
+#panel button.primary { background:linear-gradient(135deg,#0d7a6b,#26b89d); }
+.leaflet-control-zoom a:focus-visible { outline-color:var(--accent); }
+@media(min-width:1100px) {
+  #panel { top:80px; left:12px; width:304px; }
+  #info { top:80px; right:346px; }
+}
+@media(prefers-color-scheme:dark) {
+  :root { --text:#e9f1f1; --muted:#9aacb1; --accent:#35c2a8; }
+  #panel,#info { background:rgba(20,26,30,.72); }
+}

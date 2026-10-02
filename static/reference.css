@@ -1,0 +1,129 @@
+/* M_part 63ea044 design adapted to era's existing DOM. Presentation only. */
+:root {
+  --ink:#11262d; --muted:#56686f; --line:rgba(20,52,60,.10);
+  --accent:#0f7f6f; --teal:#26b89d; --green:#1c8a58; --green-dark:#0b6e5f;
+  --red:#c4402e; --pale:rgba(15,127,111,.11); --bg:#e9eeeb;
+  --glass:rgba(255,255,255,.46); --glass-border:rgba(255,255,255,.76);
+  --glass-shadow:0 1px 1px rgba(0,30,50,.04),0 8px 24px rgba(0,30,50,.10),0 26px 60px rgba(0,30,50,.12),inset 0 1px 1.5px rgba(255,255,255,.9),inset 0 -1px 1.5px rgba(255,255,255,.35);
+  --reference-gradient:linear-gradient(135deg,#0d7a6b,#26b89d);
+  --reference-fill:rgba(20,52,60,.06); --reference-hover:rgba(20,52,60,.10);
+  --reference-lens:rgba(255,255,255,.88); --reference-solid:#f7faf9;
+  --reference-filter:blur(20px) saturate(190%);
+  --reference-lens-shadow:0 1px 2px rgba(0,30,50,.12),0 4px 14px rgba(0,30,50,.10),inset 0 1px 0 #fff;
+}
+body { color:var(--ink); background:var(--bg); }
+button,input,select,textarea { accent-color:var(--accent); }
+.glass,.topbar,.control-bar,.panel:not(.map-panel),.map-footer,.workspace-menu,
+.map-tools>button,.scene3d-view-switch,.login-card,dialog {
+  background:var(--glass); border-color:var(--glass-border); box-shadow:var(--glass-shadow);
+  backdrop-filter:var(--reference-filter); -webkit-backdrop-filter:var(--reference-filter);
+}
+.panel:not(.map-panel),.network-widget,.workspace-menu { border-radius:22px; }
+.map-panel,.map-wrapper,.map-wrapper.is-3d { background:var(--bg); }
+button,.button { font-weight:600; }
+button:hover,.button:hover { background:var(--reference-hover); }
+.primary,.form-body .primary,.login-card .primary {
+  background:var(--reference-gradient); color:#fff;
+  border-color:rgba(255,255,255,.3);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 4px 12px rgba(15,127,111,.25);
+}
+.primary:hover,.form-body .primary:hover,.login-card .primary:hover {
+  background:var(--reference-gradient); filter:brightness(1.06);
+}
+.wordmark { color:var(--ink); font-size:23px; letter-spacing:-1px; }
+.wordmark>span { color:var(--ink); }
+.wordmark .brand-symbol {
+  width:38px; height:38px; border-radius:50%; background:var(--reference-gradient);
+  color:#fff; box-shadow:inset 0 1px 1px #ffffff88,0 4px 12px #0f7f6f40;
+}
+.brand-symbol svg { width:25px; height:25px; stroke:white; }
+.brand-dot { color:var(--accent); }
+.login-card .brandmark { border-radius:50%; background:var(--reference-gradient); }
+.topbar nav { padding:3px; background:var(--reference-fill); border-color:transparent; }
+.nav-button { font-size:12px; color:var(--muted); }
+.nav-button.active,.map-tools .scene3d-view-switch button[aria-pressed="true"] {
+  color:var(--ink); background:var(--reference-lens); box-shadow:var(--reference-lens-shadow);
+}
+.language-switcher select { border:1px solid var(--line); background:var(--reference-fill); }
+.sidebar-bottom .avatar { background:var(--pale); color:var(--accent); }
+.widget-heading h2,.panel-heading h2 { letter-spacing:-.4px; }
+.metric:first-child strong { background-image:var(--reference-gradient); }
+.metric>span,.metric p,.widget-region,.train-id small,.train-row td small,
+.panel-heading>div>span,.train-footer button { color:var(--muted); }
+.metric strong,.sim-time strong,.train-row td:nth-child(5) { font-variant-numeric:tabular-nums; }
+.train-panel .table-tools input,.train-panel .table-tools select {
+  background:var(--reference-fill); border-color:var(--line);
+}
+.train-row { border-radius:16px; }
+.train-row:hover { background:var(--reference-fill); }
+.train-row.selected {
+  background:var(--pale); border-color:color-mix(in srgb,var(--accent) 45%,transparent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+}
+.train-row.selected .train-icon { box-shadow:0 0 0 4px var(--pale); animation:none; }
+.train-id strong { font-size:13px; }
+.count-tag { background:var(--reference-fill); color:var(--muted); }
+.status-pill { background:rgba(36,168,106,.14); color:var(--green); }
+.status-pill.waiting,.status-pill.dwelling { background:rgba(240,158,32,.17); color:#a85f00; }
+.status-pill.incident_hold,.status-pill.braking { background:rgba(220,76,56,.13); color:var(--red); }
+.status-pill.completed,.status-pill.scheduled { background:var(--reference-fill); color:var(--muted); }
+.quality-gauge>div { background:var(--reference-solid); }
+.factor .bar div { background:var(--reference-gradient); }
+input,select,textarea,.selected-actions input {
+  background:var(--reference-fill); border-color:var(--line); color:var(--ink);
+}
+input:hover,select:hover,textarea:hover { border-color:var(--accent); }
+input:focus,select:focus,textarea:focus {
+  background:var(--reference-lens); border-color:var(--accent);
+  outline-color:color-mix(in srgb,var(--accent) 35%,transparent);
+}
+select option { background:var(--reference-solid); color:var(--ink); }
+.login-screen { background:radial-gradient(ellipse at 25% 20%,#d5eae0,transparent 60%),var(--bg); }
+.login-art .rail { border-color:rgba(15,127,111,.13); }
+.login-card { border-radius:26px; }
+dialog { color:var(--ink); }
+dialog::backdrop { background:rgba(17,38,45,.25); backdrop-filter:blur(5px); }
+.dialog-heading button:hover { background:var(--reference-hover); color:var(--ink); }
+.workspace-sheet .panel { background:var(--reference-fill); }
+.demo-banner { color:var(--muted); }
+@media(min-width:1100px) {
+  :root { --edge:12px; --header-top:12px; --panel-top:80px; --right-width:320px; }
+  .topbar { height:56px; padding:0 9px; gap:14px; }
+  .network-widget { width:304px; padding:20px; }
+  .quality-panel { width:304px; }
+  .control-bar { bottom:42px; }
+  .train-panel { max-height:calc(100dvh - 190px); }
+  .topbar nav { gap:2px; }
+  .nav-button { padding:7px 14px; }
+}
+@media(max-width:760px) {
+  .nav-button { font-size:10px; }
+  .wordmark { font-size:22px; }
+}
+@media(max-width:600px) {
+  .bottom-grid { background:var(--glass); }
+  .bottom-grid>.panel { background:transparent; box-shadow:none; }
+  .login-card input { font-size:16px; }
+}
+@media(prefers-color-scheme:dark) {
+  :root {
+    --ink:#e9f1f1; --muted:#9aacb1; --line:rgba(255,255,255,.09);
+    --accent:#35c2a8; --teal:#64e3c9; --green:#5ad89a; --green-dark:#58d6bd;
+    --red:#ff7f6a; --pale:rgba(53,194,168,.14); --bg:#1b2226;
+    --glass:rgba(20,26,30,.62); --glass-border:rgba(255,255,255,.16);
+    --glass-shadow:0 1px 1px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.34),0 30px 70px rgba(0,0,0,.24),inset 0 1px 1px rgba(255,255,255,.14);
+    --reference-gradient:linear-gradient(135deg,#17a58b,#64e3c9);
+    --reference-fill:rgba(255,255,255,.07); --reference-hover:rgba(255,255,255,.12);
+    --reference-lens:rgba(255,255,255,.15); --reference-solid:#1b2226;
+    --reference-filter:blur(20px) saturate(170%);
+    --reference-lens-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 2px 10px rgba(0,0,0,.35);
+  }
+  .primary,.form-body .primary,.login-card .primary { color:#082e25; }
+  .status-pill.waiting,.status-pill.dwelling { color:#f3b452; }
+  .login-screen { background:radial-gradient(ellipse at 25% 20%,#19382f,transparent 60%),var(--bg); }
+  .demo-banner { text-shadow:none; }
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+  .glass,.topbar,.control-bar,.panel:not(.map-panel),.map-footer,.workspace-menu,
+  .map-tools>button,.scene3d-view-switch,.login-card,dialog { background:var(--reference-solid); }
+}
